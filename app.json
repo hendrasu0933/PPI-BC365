@@ -1,0 +1,26 @@
+{
+  "id": "1a251b3c-bb88-4e77-8a86-06d15b17aad0",
+  "name": "PPI-BC365",
+  "publisher": "MSI",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "Add-On for PPI",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "18.0.0.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50149
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://PPI-BC365.com/help/",
+  "showMyCode": true,
+  "runtime": "7.0"
+}
