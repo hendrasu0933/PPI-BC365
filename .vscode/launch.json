@@ -6,12 +6,13 @@
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "sandboxAU",
-            "tenant": "hokkandeltapack.onmicrosoft.com",
+            "environmentName": "ppi-uat",
+            "tenant": "pelindoproperti.onmicrosoft.com",
             "startupObjectId": 22,
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,
+            "schemaUpdateMode": "Recreate",
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true
         }
