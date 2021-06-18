@@ -25,7 +25,7 @@ codeunit 63102 "Cash Bank Function"
         //        HideDialog := true;
         GetGeneralJournalBatch(GenJournalBatch, GenJournalLine);
         ModifyAmount(GenJournalLine, GenJournalBatch);
-        Commit();
+        //   Commit();
         /*
         IF WorkflowManagement.CanExecuteWorkflow(GenJournalBatch, WorkflowEventHandling.RunWorkflowOnSendGeneralJournalBatchForApprovalCode) THEN begin
             IF AppMgt.HasOpenApprovalEntries(GenJournalBatch.RECORDID) OR
@@ -70,6 +70,27 @@ codeunit 63102 "Cash Bank Function"
     begin
         IF NOT GenJournalBatch.GET(GenJournalLine."Journal Template Name", GenJournalLine."Journal Batch Name") THEN
             GenJournalBatch.GET(GenJournalLine.GETFILTER("Journal Template Name"), GenJournalLine.GETFILTER("Journal Batch Name"));
+    end;
+
+    [EventSubscriber(objectType::Codeunit, codeunit::"Gen. Jnl.-Post Line", 'OnAfterFinishPosting', '', true, true)]
+    local procedure CheckGLAcc(var GenJournalLine: Record "Gen. Journal Line"; var GlobalGLEntry: Record "G/L Entry"; var GLRegister: Record "G/L Register"; var IsTransactionConsistent: Boolean)
+    var
+
+        GLEntries: Record "G/L Entry";
+        GLAcc: Record "G/L Account";
+    begin
+
+        GLEntries.SetRange("Entry No.", GLRegister."From Entry No.", GLRegister."To Entry No.");
+        if GLEntries.FindSet() then
+            repeat
+                GLAcc.Get(GLEntries."G/L Account No.");
+                GLAcc.CalcFields(Balance);
+                if (GLAcc."Debit/Credit" = GLAcc."Debit/Credit"::Credit) and (GLAcc.Balance > 0) then
+                    Error('COA %1 nilainya tidak boleh positif', GLAcc."No.")
+                else
+                    if (GLAcc."Debit/Credit" = GLAcc."Debit/Credit"::Debit) and (GLAcc.Balance < 0) then
+                        Error('COA %1 nilainya tidak boleh negatif', GLAcc."No.");
+            until GLEntries.Next() = 0;
     end;
 
 
