@@ -56,12 +56,11 @@ codeunit 63103 "Workflow"
         end;
     end;
 
-    [EventSubscriber(objectType::Codeunit, codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsePredecessorsToLibrary', '', true, true)]
-    local procedure WFResponsePredecessorLibrary(ResponseFunctionName: Code[128])
+    [EventSubscriber(objectType::Codeunit, codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsesToLibrary', '', true, true)]
+    local procedure CreateWFResponseLibrary()
     var
-
     begin
-
+        WFResponseHandling.AddResponseToLibrary(SetBudgetStatusToPendingApprovalCode, 0, SetBudgetStatusToPendingApprovalTxt, 'GROUP 0');
     end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Workflow Response Handling", 'OnExecuteWorkflowResponse', '', true, true)]
@@ -74,8 +73,6 @@ codeunit 63103 "Workflow"
                         WFResponseHandling.SetStatusToPendingApproval(Variant);
                         ResponseExecuted := TRUE;
                     END;
-
-
             END;
     end;
 
@@ -90,6 +87,7 @@ codeunit 63103 "Workflow"
                     RecRef.SETTABLE(GLBudget);
                     GLBudget.VALIDATE(Status, GLBudget.Status::Released);
                     GLBudget.MODIFY(TRUE);
+                    Handled := true;
                 end;
         end;
     end;
@@ -105,6 +103,7 @@ codeunit 63103 "Workflow"
                     RecRef.SETTABLE(GLBudget);
                     GLBudget.VALIDATE(Status, GLBudget.Status::Open);
                     GLBudget.MODIFY(TRUE);
+                    Handled := true;
                 end;
         end;
     end;
@@ -121,6 +120,7 @@ codeunit 63103 "Workflow"
                     GLBudget.VALIDATE(Status, GLBudget.Status::"Pending Approval");
                     GLBudget.MODIFY(TRUE);
                     Variant := GLBudget;
+                    IsHandled := true;
                 END;
         end;
     end;
@@ -135,11 +135,13 @@ codeunit 63103 "Workflow"
         EXIT(UPPERCASE('RunWorkflowOnCancelBudgetApprovalRequest'));
     end;
 
+    [EventSubscriber(objectType::Codeunit, codeunit::Workflow, 'OnSendBudgetDocForApproval', '', true, true)]
     procedure RunWorkflowOnSendBudgetDocForApproval(VAR GLBudget: Record "G/L Budget Name")
     begin
         WorkflowManagement.HandleEvent(RunWorkflowOnSendBudgetDocForApprovalCode, GLBudget);
     end;
 
+    [EventSubscriber(objectType::Codeunit, codeunit::Workflow, 'OnCancelBudgetDocForApproval', '', true, true)]
     procedure RunWorkflowOnCancelBudgetApprovalRequest(VAR GLBudget: Record "G/L Budget Name")
     begin
         WorkflowManagement.HandleEvent(RunWorkflowOnCancelBudgetApprovalRequestCode, GLBudget);
@@ -160,8 +162,30 @@ codeunit 63103 "Workflow"
         EXIT(UPPERCASE('SetBudgetStatusToPendingApproval'));
     end;
 
+    procedure CheckBudgetApprovalPossible(VAR GLBudget: Record "G/L Budget Name"): Boolean
+    begin
+        IF NOT IsBudgetApprovalsWorkflowEnabled(GLBudget) THEN
+            ERROR(NoWorkflowEnabledErr);
 
+        EXIT(TRUE);
+    end;
 
+    procedure IsBudgetApprovalsWorkflowEnabled(VAR GLBudget: Record "G/L Budget Name"): Boolean
+    begin
+        EXIT(WorkflowManagement.CanExecuteWorkflow(GLBudget, RunWorkflowOnSendBudgetDocForApprovalCode));
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnSendBudgetDocForApproval(VAR GLBudget: Record "G/L Budget Name")
+    begin
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnCancelBudgetDocForApproval(VAR GLBudget: Record "G/L Budget Name")
+    begin
+
+    end;
 
     var
         WorkflowResponse: Record "Workflow Response";
@@ -171,6 +195,7 @@ codeunit 63103 "Workflow"
         BudgetDocSendForApprovalEventDescTxt: Label 'Approval of a budget document is requested.';
         BudgetDocApprReqCancelledEventDescTxt: Label 'An approval request for a budget document is canceled.';
         BudgetDocReleasedEventDescTxt: Label 'A budget document is released.';
-
+        SetBudgetStatusToPendingApprovalTxt: Label 'Set Budget document status to Pending Approval.';
+        NoWorkflowEnabledErr: Label 'No approval workflow for this record type is enabled.';
         myInt: Integer;
 }
