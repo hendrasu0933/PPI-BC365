@@ -97,6 +97,14 @@ codeunit 63102 "Cash Bank Function"
         Commit();
     end;
 
+    [EventSubscriber(objectType::Table, database::"Gen. Journal Line", 'OnAfterLookUpAppliesToDocVend', '', true, true)]
+    local procedure ApplyDoc(var GenJournalLine: Record "Gen. Journal Line"; VendLedgEntry: Record "Vendor Ledger Entry")
+    begin
+        CopyAttachment(GenJournalLine, VendLedgEntry."Document No.", VendLedgEntry."Posting Date");
+
+    end;
+    //[EventSubscriber(objectType::Table, database::"Gen. Journal Line", 'OnAfterLookUpAppliesToDocVend', '', true, true)]
+    //local procedure ApplyDoc()
     local procedure UpdateDim(var Rec: Record "Gen. Journal Line")
     var
         VendLedgEntry: Record "Vendor Ledger Entry";
@@ -143,6 +151,38 @@ codeunit 63102 "Cash Bank Function"
                             Rec.Modify();
                         end;
                     end;
+            end;
+        end;
+    end;
+
+    local procedure CopyAttachment(var GenJnlLine: Record "Gen. Journal Line"; DocNo: Code[20]; Tgl: Date)
+    var
+        IncDoc: Record "Incoming Document";
+        IncDocAtt: Record "Incoming Document Attachment";
+        NewIncDocAtt: Record "Incoming Document Attachment";
+        EntryNo: Integer;
+    //    VendLedgEntry: Record "Vendor Ledger Entry";
+    begin
+        IncDocAtt.SetRange("Document No.", DocNo);
+        IncDocAtt.SetRange("Posting Date", Tgl);
+        if IncDocAtt.FindFirst() then begin
+            IncDocAtt.SetRange("Incoming Document Entry No.", IncDocAtt."Incoming Document Entry No.");
+            if IncDocAtt.FindSet() then begin
+                if GenJnlLine."Incoming Document Entry No." = 0 then begin
+                    IncDoc.Insert(true);
+                    GenJnlLine.Validate("Incoming Document Entry No.", IncDoc."Entry No.");
+                end;
+                repeat
+                    IncDocAtt.CalcFields(Content);
+                    NewIncDocAtt := IncDocAtt;
+                    NewIncDocAtt."Incoming Document Entry No." := GenJnlLine."Incoming Document Entry No.";
+                    NewIncDocAtt."Document No." := DocNo;
+                    NewIncDocAtt."Posting Date" := Tgl;
+                    if not NewIncDocAtt.Insert(true) then;
+
+                until IncDocAtt.Next() = 0;
+
+                //    GenJnlLine.Modify();
             end;
         end;
     end;
