@@ -101,7 +101,6 @@ codeunit 63102 "Cash Bank Function"
     local procedure ApplyDoc(var GenJournalLine: Record "Gen. Journal Line"; VendLedgEntry: Record "Vendor Ledger Entry")
     begin
         CopyAttachment(GenJournalLine, VendLedgEntry."Document No.", VendLedgEntry."Posting Date");
-
     end;
     //[EventSubscriber(objectType::Table, database::"Gen. Journal Line", 'OnAfterLookUpAppliesToDocVend', '', true, true)]
     //local procedure ApplyDoc()
