@@ -94,6 +94,7 @@ codeunit 63104 "Budget Function"
                             BankAccStat."Bank Account No." := PurchLine."No.";
                             BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
                             BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                            BankAccStat.Insert();
                         end;
                     end else
 
@@ -104,6 +105,7 @@ codeunit 63104 "Budget Function"
                             BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
                             BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
                             BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                            BankAccStat.Insert();
                         end;
                 until PurchLine.Next() = 0;
             CommBudget.SetRange("Committed Budget", true);
@@ -157,6 +159,7 @@ codeunit 63104 "Budget Function"
                             BankAccStat."Bank Account No." := PurchLine."No.";
                             BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
                             BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                            BankAccStat.Insert();
                         end;
                     end else
 
@@ -167,6 +170,7 @@ codeunit 63104 "Budget Function"
                             BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
                             BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
                             BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                            BankAccStat.Insert();
                         end;
                 until PurchLine.Next() = 0;
             CommBudget.SetRange("Committed Budget", true);
