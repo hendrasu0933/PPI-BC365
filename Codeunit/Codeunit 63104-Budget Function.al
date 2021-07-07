@@ -14,26 +14,55 @@ codeunit 63104 "Budget Function"
         GLBudgetName.TestField(Status, GLBudgetName.Status::Open);
     end;
 
+    [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnBeforePostUpdateOrderLine', '', true, true)]
+    local procedure UpdateBudget1(PurchHeader: Record "Purchase Header"; PurchSetup: Record "Purchases & Payables Setup"; var TempPurchLineGlobal: Record "Purchase Line"; CommitIsSuppressed: Boolean)
+    begin
+        if PurchHeader.Invoice then
+            KurangiBudget(PurchHeader, TempPurchLineGlobal, TempPurchLineGlobal."Qty. to Invoice");
+    end;
+
     [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnPostUpdateInvoiceLineOnAfterPurchOrderLineModify', '', true, true)]
     local procedure UpdateBudget(var PurchaseLine: Record "Purchase Line"; var TempPurchaseLine: Record "Purchase Line")
     var
         PurchHeader: Record "Purchase Header";
+    begin
+        PurchHeader.get(PurchaseLine."Document No.");
+        KurangiBudget(PurchHeader, PurchaseLine, TempPurchaseLine."Qty. to Invoice");
+    end;
+
+    procedure KurangiBudget(PurchHeader: Record "Purchase Header"; PurchaseLine: Record "Purchase Line"; Qty: Decimal)
+    var
+
         CommBudget: Record "G/L Budget Name";
         CurFact: Decimal;
     begin
         CommBudget.SetRange("Committed Budget", true);
         CommBudget.FindFirst();
-        PurchHeader.get(PurchaseLine."Document No.");
+
         if PurchHeader."Currency Factor" = 0 then
             CurFact := 1
         else
             CurFact := PurchHeader."Currency Factor";
         if PurchaseLine.Type = PurchaseLine.Type::"G/L Account" then
             CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."No.",
-            PurchaseLine."Shortcut Dimension 1 Code", '', (TempPurchaseLine."Qty. to Invoice" * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+            PurchaseLine."Shortcut Dimension 1 Code", '', (Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
         else
             CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."G/L Acc. No.",
-            PurchaseLine."Shortcut Dimension 1 Code", '', -(TempPurchaseLine."Qty. to Invoice" * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+            PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+    end;
+
+    [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnBeforePurchLineDeleteAll', '', true, true)]
+    local procedure DeleteBudget(var PurchaseLine: Record "Purchase Line"; CommitIsSupressed: Boolean)
+    begin
+        if PurchaseLine."Document Type" = PurchaseLine."Document Type"::Order then
+            DeleteCommitBudget(PurchaseLine."Document No.", 0);
+    end;
+
+    [EventSubscriber(objectType::table, database::"Purchase Line", 'OnAfterDeleteEvent', '', true, true)]
+    local procedure DeleteLineBudget(var Rec: Record "Purchase Line"; RunTrigger: Boolean)
+    begin
+        if Rec."Document Type" = Rec."Document Type"::Order then
+            DeleteCommitBudget(Rec."Document No.", Rec."Line No.");
     end;
 
     [EventSubscriber(objectType::table, database::"Purchase Line", 'OnAfterValidateEvent', 'Direct Unit Cost', true, true)]
@@ -79,7 +108,7 @@ codeunit 63104 "Budget Function"
             PurchLine.SetRange("Document Type", PurchaseHeader."Document Type");
             PurchLine.SetRange("Document No.", PurchaseHeader."No.");
             PurchLine.SetFilter("Line Amount", '<>0');
-            Message('2');
+            //    Message('2');
             if PurchaseHeader."Currency Factor" = 0 then
                 CurFact := 1
             else
@@ -196,8 +225,8 @@ codeunit 63104 "Budget Function"
     [EventSubscriber(objectType::Codeunit, codeunit::"Release Purchase Document", 'OnAfterReopenPurchaseDoc', '', true, true)]
     local procedure ReopenPurc(var PurchaseHeader: Record "Purchase Header"; PreviewMode: Boolean)
     begin
-        Message('reopen');
-        DeleteCommitBudget(PurchaseHeader."No.");
+        //    Message('reopen');
+        DeleteCommitBudget(PurchaseHeader."No.", 0);
     end;
 
     procedure CreateCommitBudget(Tgl: date; BudgetName: Code[10]; Description: text[100]; GLAccNo: Code[20]; GlobalDim1: Code[20]; GlobalDim2: Code[20]; Amount: Decimal)
@@ -214,13 +243,18 @@ codeunit 63104 "Budget Function"
         GLBudgetEntry.Insert(true);
     end;
 
-    procedure DeleteCommitBudget(Description: Text[100])
+    procedure DeleteCommitBudget(Description: Text[100]; LineNo: Integer)
     var
         GLBudgetEntry: Record "G/L Budget Entry";
     begin
         if Description <> '' then begin
-            GLBudgetEntry.SetFilter(Description, Description + '*');
-            GLBudgetEntry.DeleteAll(true);
+            if LineNo = 0 then begin
+                GLBudgetEntry.SetFilter(Description, Description + '*');
+                GLBudgetEntry.DeleteAll(true);
+            end else begin
+                GLBudgetEntry.SetRange(Description, Description + ';' + Format(LineNo));
+                GLBudgetEntry.DeleteAll(true);
+            end;
         end;
     end;
 
