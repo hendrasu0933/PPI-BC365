@@ -36,7 +36,7 @@ codeunit 63101 "Fixed Asset Function"
         end;
     end;
 
-    [EventSubscriber(objectType::table, database::"FA Depreciation Book", 'OnAfterValidateEvent', 'Depreciation Ending Date', true, true)]
+    [EventSubscriber(objectType::table, database::"FA Depreciation Book", 'OnBeforeValidateEvent', 'Depreciation Ending Date', true, true)]
     local procedure ValidateEndDate(CurrFieldNo: Integer; var Rec: Record "FA Depreciation Book"; var xRec: Record "FA Depreciation Book")
     var
         FASubClass: Record "FA Subclass";

@@ -9,6 +9,14 @@ pageextension 63104 "GL Budget Name-Ext" extends "G/L Budget Names"
             {
                 ApplicationArea = all;
             }
+            field("Committed Budget"; rec."Committed Budget")
+            {
+                ApplicationArea = all;
+            }
+            field("Default Budget"; rec."Default Budget")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 
