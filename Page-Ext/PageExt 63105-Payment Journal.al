@@ -12,6 +12,7 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
         {
             action("BKK <= 200")
             {
+                Caption = 'BKK';
                 Image = PrintForm;
                 Promoted = true;
                 PromotedOnly = true;
