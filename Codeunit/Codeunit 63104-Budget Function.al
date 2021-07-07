@@ -196,6 +196,7 @@ codeunit 63104 "Budget Function"
     [EventSubscriber(objectType::Codeunit, codeunit::"Release Purchase Document", 'OnAfterReopenPurchaseDoc', '', true, true)]
     local procedure ReopenPurc(var PurchaseHeader: Record "Purchase Header"; PreviewMode: Boolean)
     begin
+        Message('reopen');
         DeleteCommitBudget(PurchaseHeader."No.");
     end;
 
@@ -218,7 +219,7 @@ codeunit 63104 "Budget Function"
         GLBudgetEntry: Record "G/L Budget Entry";
     begin
         if Description <> '' then begin
-            GLBudgetEntry.SetFilter(Description, Description + '%1', '*');
+            GLBudgetEntry.SetFilter(Description, Description + '*');
             GLBudgetEntry.DeleteAll(true);
         end;
     end;
