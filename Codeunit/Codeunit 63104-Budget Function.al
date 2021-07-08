@@ -45,7 +45,7 @@ codeunit 63104 "Budget Function"
             CurFact := PurchHeader."Currency Factor";
         if PurchaseLine.Type = PurchaseLine.Type::"G/L Account" then
             CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."No.",
-            PurchaseLine."Shortcut Dimension 1 Code", '', (Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+            PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
         else
             CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."G/L Acc. No.",
             PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
@@ -229,6 +229,12 @@ codeunit 63104 "Budget Function"
         DeleteCommitBudget(PurchaseHeader."No.", 0);
     end;
 
+    [EventSubscriber(objectType::Page, page::"G/L Budget Names", 'OnOpenPageEvent', '', true, true)]
+    local procedure OpenPage(var Rec: Record "G/L Budget Name")
+    begin
+        rec.SetRange("Committed Budget", false);
+    end;
+
     procedure CreateCommitBudget(Tgl: date; BudgetName: Code[10]; Description: text[100]; GLAccNo: Code[20]; GlobalDim1: Code[20]; GlobalDim2: Code[20]; Amount: Decimal)
     var
         GLBudgetEntry: Record "G/L Budget Entry";
@@ -300,6 +306,19 @@ codeunit 63104 "Budget Function"
         if UserId <> Budget."Released by" then
             Error('Only %1 can reopen this budget', Budget."Released by");
         Budget.Validate(Status, Budget.Status::Open);
+    end;
+
+    procedure MakeDefault(var Budget: Record "G/L Budget Name")
+    var
+        GLBudgetNames: Record "G/L Budget Name";
+    begin
+        if Budget."Default Budget" then
+            exit
+        else begin
+            GLBudgetNames.SetRange("Default Budget", true);
+            GLBudgetNames.ModifyAll("Default Budget", false);
+            Budget."Default Budget" := true;
+        end;
     end;
 
     var
