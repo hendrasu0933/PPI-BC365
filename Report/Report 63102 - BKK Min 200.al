@@ -58,7 +58,7 @@ report 63102 "BKK Min 200"
                         rec_PosPurchLine.SetRange("Document No.", "Gen. Journal Line"."Applies-to Doc. No.");
                         if rec_PosPurchLine.FindFirst() then begin
                             // repeat
-                            d_DetailAmountLine := "Purch. Inv. Line".Amount;
+                            d_DetailAmountLine := "Purch. Inv. Line"."Amount Including VAT";
                             t_DetailDescriptionLine := "Purch. Inv. Line".Description;
                             // until rec_PosPurchLine.Next = 0
                             i_rows := rec_PosPurchLine.Count + 1;
