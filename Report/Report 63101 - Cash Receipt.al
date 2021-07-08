@@ -75,12 +75,6 @@ report 63101 "Cash Receipt"
                 rec_ApprovelEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
                 if rec_ApprovelEntry.FindFirst() then
                     t_Approve := 'APPROVED';
-
-            end;
-
-            trigger OnPreDataItem()
-            begin
-                SetRange("Journal Template Name", 'CASHRCPT');
             end;
         }
     }
