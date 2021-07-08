@@ -9,7 +9,7 @@ page 63103 "Sales PPI"
     {
         area(Content)
         {
-            group(GroupName)
+            repeater(Transaction)
             {
                 field("Line No."; rec."Line No.")
                 {
