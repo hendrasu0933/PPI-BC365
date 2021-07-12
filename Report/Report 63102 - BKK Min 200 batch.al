@@ -1,9 +1,9 @@
-report 63102 "BKK Min 200"
+report 63105 "BKK Min 200 Batch"
 {
-    Caption = 'BKK';
+    Caption = 'BKK Batch';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-    RDLCLayout = './Report/Report 63102 - BKK Min 200.rdlc';
+    RDLCLayout = './Report/Report 63102 - BKK Min 200 batch.rdlc';
     DefaultLayout = RDLC;
     PreviewMode = PrintLayout;
 
@@ -21,12 +21,15 @@ report 63102 "BKK Min 200"
             column(Debit_Amount; "Debit Amount") { }
             column(Amount; Amount) { }
             column(Amount__LCY_; "Amount (LCY)") { }
+            column(Bal__Account_Type; "Bal. Account Type") { }
+            column(Bal__Account_No_; "Bal. Account No.") { }
             column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
             column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
             column(Applies_to_Doc__No_; "Applies-to Doc. No.") { }
             column(Document_No_; "Document No.") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(Description; Description) { }
+            column(t_NameBank; t_NameBank) { }
             column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
             column(d_ApproveDate1; d_ApproveDate[1]) { }
             column(d_ApproveDate2; d_ApproveDate[2]) { }
@@ -39,36 +42,6 @@ report 63102 "BKK Min 200"
             column(t_ApproveText4; t_ApproveText[4]) { }
             column(t_ApproveText5; t_ApproveText[5]) { }
             column(i_rows; i_rows) { }
-            column(t_NameBank; t_NameBank) { }
-            dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
-            {
-                DataItemLink = "Document No." = field("Applies-to Doc. No.");
-                column(Document_No_Line; "Document No.") { }
-                column(d_DetailAmountLine; d_DetailAmountLine) { }
-                column(t_DetailDescriptionLine; t_DetailDescriptionLine) { }
-                trigger OnAfterGetRecord()
-                var
-                    rec_PosPurchLine: Record "Purch. Inv. Line";
-                begin
-                    // get data invoice
-                    if "Gen. Journal Line"."Applies-to Doc. No." = '' then begin
-                        d_DetailAmountLine := "Gen. Journal Line"."Amount (LCY)";
-                        t_DetailDescriptionLine := "Gen. Journal Line".Description;
-                    end else begin
-                        rec_PosPurchLine.SetRange("Document No.", "Gen. Journal Line"."Applies-to Doc. No.");
-                        if rec_PosPurchLine.FindFirst() then begin
-                            // repeat
-                            d_DetailAmountLine := "Purch. Inv. Line"."Amount Including VAT";
-                            t_DetailDescriptionLine := "Purch. Inv. Line".Description;
-                            // until rec_PosPurchLine.Next = 0
-                            i_rows := rec_PosPurchLine.Count + 1;
-                        end else begin
-                            d_DetailAmountLine := "Gen. Journal Line"."Amount (LCY)";
-                            t_DetailDescriptionLine := "Gen. Journal Line".Description;
-                        end;
-                    end;
-                end;
-            }
             trigger OnAfterGetRecord()
             var
                 rec_Customer: Record Customer;
@@ -79,17 +52,14 @@ report 63102 "BKK Min 200"
                 t_approve: array[10] of Code[20];
                 rec_PosPurchLine2: Record "Purch. Inv. Line";
                 rec_BankAccount: Record "Bank Account";
+                rec_GenJournalLine: Record "Gen. Journal Line";
+                d_totalAmount: Decimal;
             begin
                 // get name bank account
                 rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
                 if rec_BankAccount.FindFirst() then
                     t_NameBank := rec_BankAccount.Name;
-                // number row
-                rec_PosPurchLine2.SetRange("Document No.", "Gen. Journal Line"."Applies-to Doc. No.");
-                if rec_PosPurchLine2.FindFirst() then
-                    i_rows := rec_PosPurchLine2.Count + 1
-                else
-                    i_rows := "Gen. Journal Line".Count + 1;
+
                 // get vendor or customer 
                 rec_Customer.SetRange("No.", "Gen. Journal Line"."Account No.");
                 if rec_Customer.FindFirst() then begin
@@ -101,9 +71,19 @@ report 63102 "BKK Min 200"
                     t_NameCustomer := rec_Vendor.Name;
                     t_AddressCustomer := rec_Vendor.Address + rec_Vendor."Address 2";
                 end;
+
                 // get terbilang words dalam bahasa indonesia
-                RepCheck.FormatNoText(arrray, "Gen. Journal Line"."Amount (LCY)", '');
-                AmountInWords := arrray[1] + ' Rupiah';
+                d_totalAmount := 0;
+                rec_GenJournalLine.SetRange("Journal Template Name", "Gen. Journal Line"."Journal Template Name");
+                rec_GenJournalLine.SetRange("Journal Batch Name", "Gen. Journal Line"."Journal Batch Name");
+                if rec_GenJournalLine.FindFirst() then begin
+                    repeat
+                        d_totalAmount += rec_GenJournalLine."Amount (LCY)";
+                        RepCheck.FormatNoText(arrray, d_totalAmount, '');
+                        AmountInWords := arrray[1] + ' Rupiah';
+                    until rec_GenJournalLine.Next = 0;
+                end;
+
                 // geta approval
                 rec_ApproveEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
                 rec_ApproveEntry.SetRange(Status, rec_ApproveEntry.Status::Approved);
