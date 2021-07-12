@@ -4,7 +4,7 @@ table 63101 "Sales PPI"
 
     fields
     {
-        field(1; "Document No."; Integer)
+        field(1; "Document No."; Code[20])
         {
             DataClassification = ToBeClassified;
         }
@@ -28,11 +28,21 @@ table 63101 "Sales PPI"
         { }
         field(11; "Line No."; Integer)
         { }
+        field(12; "Cust. No. BC"; Code[20])
+        {
+            TableRelation = Customer;
+        }
+        field(13; "Item No. BC"; Code[20])
+        {
+            TableRelation = Item;
+        }
+        field(14; Processed; Boolean)
+        { }
     }
 
     keys
     {
-        key(Key1; "Document No.")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }
