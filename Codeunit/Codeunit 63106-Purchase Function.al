@@ -8,7 +8,8 @@ codeunit 63106 "Purchase Function"
     [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post (Yes/No)", 'OnBeforeConfirmPost', '', true, true)]
     local procedure onbeforeConfirm(var PurchaseHeader: Record "Purchase Header"; var IsHandled: Boolean; var HideDialog: Boolean; var DefaultOption: Integer)
     begin
-        CheckAttachment(PurchaseHeader);
+        if PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Invoice then
+            CheckAttachment(PurchaseHeader);
     end;
 
     local procedure CheckAttachment(PurchHeader: Record "Purchase Header")
