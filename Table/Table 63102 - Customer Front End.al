@@ -34,6 +34,12 @@ table 63102 "Customer Front End"
         { }
         field(14; Email; Text[80])
         { }
+        field(15; "Customer No. BC"; Code[20])
+        {
+            TableRelation = Customer;
+        }
+        field(16; "Config Template BC"; Code[10])
+        { }
     }
 
     keys

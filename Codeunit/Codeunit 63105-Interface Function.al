@@ -56,6 +56,61 @@ codeunit 63105 "Interface Function"
         SalesInvLine.Insert();
     end;
 
+    procedure CreateCustomer(var CustFrontEnd: Record "Customer Front End")
+    var
+        Customer: Record Customer;
+        ConfigTemplateHeader: Record "Config. Template Header";
+        DimensionsTemplate: Record "Dimensions Template";
+        CustomerRecRef: RecordRef;
+        ConfigTemplateManagement: Codeunit "Config. Template Management";
+
+    begin
+        if CustFrontEnd."Customer No. BC" <> '' then
+            exit;
+        Customer.Init();
+        Customer."No." := CustFrontEnd.Kode;
+        Customer.Name := CustFrontEnd.Nama;
+        Customer.Address := CustFrontEnd.Alamat;
+        Customer."E-Mail" := CustFrontEnd.Email;
+        Customer."Fax No." := CustFrontEnd.Fax;
+        Customer.City := CustFrontEnd.Kota;
+        Customer."VAT Registration No." := CustFrontEnd.NPWP;
+        Customer."Phone No." := CustFrontEnd."Telp 1";
+        Customer."Mobile Phone No." := CustFrontEnd."Telp 2";
+        Customer.Contact := CustFrontEnd."Kontak Person";
+        Customer.Insert();
+        ConfigTemplateHeader.Get(CustFrontEnd."Config Template BC");
+        CustomerRecRef.GETTABLE(Customer);
+        ConfigTemplateManagement.UpdateRecord(ConfigTemplateHeader, CustomerRecRef);
+        DimensionsTemplate.InsertDimensionsFromTemplates(ConfigTemplateHeader, Customer."No.", DATABASE::Customer);
+        CustFrontEnd."Customer No. BC" := Customer."No.";
+        CustFrontEnd.Modify();
+    end;
+
+    procedure CreateItem(var ItemFrontEnd: Record "Item Front End")
+    var
+        Item: Record Item;
+        ConfigTemplateHeader: Record "Config. Template Header";
+        DimensionsTemplate: Record "Dimensions Template";
+        ItemRecRef: RecordRef;
+        ConfigTemplateManagement: Codeunit "Config. Template Management";
+
+    begin
+        if ItemFrontEnd."Item No. BC" <> '' then
+            exit;
+        Item.Init();
+        Item."No." := ItemFrontEnd.Kode;
+        Item.Description := ItemFrontEnd.Deskripsi;
+        Item.validate("Base Unit of Measure", ItemFrontEnd."Unit of Measure");
+        Item.Insert();
+        ConfigTemplateHeader.Get(ItemFrontEnd."Config Template BC");
+        ItemRecRef.GETTABLE(Item);
+        ConfigTemplateManagement.UpdateRecord(ConfigTemplateHeader, ItemRecRef);
+        DimensionsTemplate.InsertDimensionsFromTemplates(ConfigTemplateHeader, Item."No.", DATABASE::Item);
+        ItemFrontEnd."Item No. BC" := Item."No.";
+        ItemFrontEnd.Modify();
+    end;
+
     var
         myInt: Integer;
 }

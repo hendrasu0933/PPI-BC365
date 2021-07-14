@@ -2,26 +2,59 @@ codeunit 63102 "Cash Bank Function"
 {
     trigger OnRun()
     begin
-
     end;
+
+    [EventSubscriber(objectType::Page, page::"Payment Journal", 'OnModifyRecordEvent', '', true, true)]
+    local procedure ModifPayJnl(var Rec: Record "Gen. Journal Line"; var xRec: Record "Gen. Journal Line"; var AllowModify: Boolean)
+    var
+
+    begin
+        if CekStatusGenJnl(Rec) <> 0 then
+            Error('Status harus open');
+    end;
+
+    [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnModifyRecordEvent', '', true, true)]
+    local procedure ModifcASHJnl(var Rec: Record "Gen. Journal Line"; var xRec: Record "Gen. Journal Line"; var AllowModify: Boolean)
+    var
+
+    begin
+        if CekStatusGenJnl(Rec) <> 0 then
+            Error('Status harus open');
+    end;
+
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Gen. Jnl.-Post", 'OnBeforeCode', '', true, true)]
     local procedure ModifyGenJnl(var GenJournalLine: Record "Gen. Journal Line"; var HideDialog: Boolean)
     var
-        AppMgt: Codeunit "Approvals Mgmt.";
         GenJournalBatch: Record "Gen. Journal Batch";
-        WorkflowManagement: Codeunit "Workflow Management";
-        WorkflowEventHandling: Codeunit "Workflow Event Handling";
+        GenLedgSetup: Record "General Ledger Setup";
+        GenJournalLine1: Record "Gen. Journal Line";
+        DocNo: Code[20];
     begin
-
         GetGeneralJournalBatch(GenJournalBatch, GenJournalLine);
-        ModifyAmount(GenJournalLine, GenJournalBatch);
-
+        GenLedgSetup.Get();
+        if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Batch then begin
+            ModifyAmount(GenJournalLine, GenJournalBatch);
+        end else
+            if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Line then begin
+                GenJournalLine1.SetRange("Journal Template Name", GenJournalLine."Journal Template Name");
+                GenJournalLine1.SetRange("Journal Batch Name", GenJournalLine."Journal Batch Name");
+                GenJournalLine1.SetCurrentKey("Document No.", "Line No.");
+                if GenJournalLine1.FindSet() then
+                    repeat
+                        if DocNo <> GenJournalLine1."Document No." then begin
+                            DocNo := GenJournalLine1."Document No.";
+                            ModifyAmount1(GenJournalLine1);
+                        end else
+                            DocNo := GenJournalLine1."Document No.";
+                    until GenJournalLine1.Next() = 0;
+            end;
     end;
 
     local procedure ModifyAmount(GenJournalLine1: Record "Gen. Journal Line"; var GenJnlBatch: Record "Gen. Journal Batch")
     var
         GenJnlLine: Record "Gen. Journal Line";
+        JnlLineDoc: Record "Journal Line Document";
         RecRestrict: Codeunit "Record Restriction Mgt.";
         Amt: Decimal;
     begin
@@ -41,7 +74,6 @@ codeunit 63102 "Cash Bank Function"
             GenJnlBatch.Modify();
             RecRestrict.RestrictRecordUsage(GenJnlBatch, 'Payment Journal ini perlu Approval');
         end;
-
     end;
 
     Local procedure GetGeneralJournalBatch(VAR GenJournalBatch: Record "Gen. Journal Batch"; VAR GenJournalLine: Record "Gen. Journal Line")
@@ -184,6 +216,62 @@ codeunit 63102 "Cash Bank Function"
                 //    GenJnlLine.Modify();
             end;
         end;
+    end;
+
+    procedure ModifyAmount1(GenJournalLine1: Record "Gen. Journal Line")
+    var
+        GenJnlLine: Record "Gen. Journal Line";
+        JnlLineDoc: Record "Journal Line Document";
+        RecRestrict: Codeunit "Record Restriction Mgt.";
+        Amt: Decimal;
+    begin
+        GenJnlLine.Reset();
+        GenJnlLine.SetRange("Journal Template Name", GenJournalLine1."Journal Template Name");
+        GenJnlLine.SetRange("Journal Batch Name", GenJournalLine1."Journal Batch Name");
+        GenJnlLine.SetRange("Document No.", GenJournalLine1."Document No.");
+        if GenJnlLine.FindSet() then begin
+            repeat
+                if (GenJnlLine."Account Type" = GenJnlLine."Account Type"::"Bank Account") and (GenJnlLine."Account No." <> '') then
+                    Amt := Amt - GenJnlLine."Amount (LCY)"
+                else
+                    if (GenJnlLine."Bal. Account Type" = GenJnlLine."Bal. Account Type"::"Bank Account") and (GenJnlLine."Bal. Account No." <> '') then
+                        Amt := Amt + GenJnlLine."Amount (LCY)"
+            until GenJnlLine.Next() = 0;
+            if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then begin
+                if Amt <> JnlLineDoc.Amount then begin
+                    JnlLineDoc.Amount := Amt;
+                    JnlLineDoc.Modify();
+                end;
+            end else begin
+                JnlLineDoc."Journal Template" := GenJnlLine."Journal Template Name";
+                JnlLineDoc."Journal Batch" := GenJnlLine."Journal Batch Name";
+                JnlLineDoc."Document No." := GenJnlLine."Document No.";
+                JnlLineDoc.Amount := Amt;
+                JnlLineDoc.Insert();
+            end;
+            RecRestrict.RestrictRecordUsage(JnlLineDoc, 'Payment Journal No ' + JnlLineDoc."Document No." + ' perlu Approval');
+        end;
+    end;
+
+    procedure CekStatusGenJnl(GenJnlLine: Record "Gen. Journal Line"): Option
+    var
+        JnlLineDoc: Record "Journal Line Document";
+    begin
+        if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then
+            exit(JnlLineDoc.Status)
+        else
+            exit(JnlLineDoc.Status::Open);
+    end;
+
+    procedure MunculkanTombol(): Boolean
+    var
+        GLSetup: Record "General Ledger Setup";
+    begin
+        GLSetup.Get();
+        if GLSetup."Approval Type" = GLSetup."Approval Type"::Line then
+            exit(true)
+        else
+            exit(false)
     end;
 
     var

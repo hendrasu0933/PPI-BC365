@@ -1,58 +1,74 @@
-page 63103 "Sales PPI"
+page 63104 "Customer Front End"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = "Sales PPI";
+    SourceTable = "Customer Front End";
 
     layout
     {
         area(Content)
         {
-            repeater(Transaction)
+            repeater("Master Data")
             {
-                field("Line No."; rec."Line No.")
+                field(Nama; rec.Nama)
                 {
                     ApplicationArea = all;
                 }
-                field("Document No."; rec."Document No.")
+                field(Alamat; Rec.Alamat)
                 {
                     ApplicationArea = All;
 
                 }
-                field("Customer No."; rec."Customer No.")
+                field("Badan Usaha"; rec."Badan Usaha")
                 {
                     ApplicationArea = all;
                 }
-                field("Item No."; rec."Item No.")
+                field("Jenis Usaha"; rec."Jenis Usaha")
                 {
                     ApplicationArea = all;
                 }
-                field("Payment Method"; rec."Payment Method")
+                field(Email; rec.Email)
                 {
                     ApplicationArea = all;
                 }
-                field(Currency; rec.Currency)
+                field(Fax; rec.Fax)
                 {
                     ApplicationArea = all;
                 }
-                field("Posting Date"; rec."Posting Date")
+                field("Jenis Identitas"; rec."Jenis Identitas")
                 {
                     ApplicationArea = all;
                 }
-                field(Quantity; rec.Quantity)
+                field("Kontak Person"; rec."Kontak Person")
                 {
                     ApplicationArea = all;
                 }
-                field("Unit of Measure"; rec."Unit of Measure")
+                field("Nomor Identitas"; rec."Nomor Identitas")
                 {
                     ApplicationArea = all;
                 }
-                field("Unit Price"; rec."Unit Price")
+                field(Kota; rec.Kota)
                 {
                     ApplicationArea = all;
                 }
-                field("Unit Bisnis"; rec."Unit Bisnis")
+                field(NPWP; rec.NPWP)
+                {
+                    ApplicationArea = all;
+                }
+                field("Telp 1"; rec."Telp 1")
+                {
+                    ApplicationArea = all;
+                }
+                field("Telp 2"; rec."Telp 2")
+                {
+                    ApplicationArea = all;
+                }
+                field("Customer No. BC"; rec."Customer No. BC")
+                {
+                    ApplicationArea = all;
+                }
+                field("Config Template BC"; rec."Config Template BC")
                 {
                     ApplicationArea = all;
                 }
@@ -67,13 +83,13 @@ page 63103 "Sales PPI"
             action(ActionName)
             {
                 ApplicationArea = All;
+
                 trigger OnAction()
                 var
                     InterfaceFunc: Codeunit "Interface Function";
                 begin
-                    InterfaceFunc.CreateSalesInv(Rec);
+                    InterfaceFunc.CreateCustomer(Rec);
                 end;
-
             }
         }
     }
