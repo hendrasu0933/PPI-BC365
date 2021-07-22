@@ -7,6 +7,13 @@ table 63104 "Item Front End"
         field(1; Kode; Code[20])
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                //    if StrLen(Kode) <= 20 then
+                //        "Item No. BC" := Kode
+                //    else
+                //        "Item No. BC" := CopyStr(Kode, 1, 20);
+            end;
         }
         field(2; Deskripsi; Text[100])
         { }
@@ -17,7 +24,9 @@ table 63104 "Item Front End"
             TableRelation = Item;
         }
         field(6; "Config Template BC"; Code[10])
-        { }
+        {
+            TableRelation = "Config. Template Header" where("Table ID" = const(27));
+        }
     }
 
     keys

@@ -11,6 +11,10 @@ page 63104 "Customer Front End"
         {
             repeater("Master Data")
             {
+                field(Kode; rec.Kode)
+                {
+                    ApplicationArea = all;
+                }
                 field(Nama; rec.Nama)
                 {
                     ApplicationArea = all;

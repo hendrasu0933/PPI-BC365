@@ -12,7 +12,7 @@ codeunit 63105 "Interface Function"
     begin
         if PostSalesInv.get(SalesPPI."Document No.") then
             Error('Dokumen ini sudah terposting');
-        if not SalesInv.Get(SalesInv."Document Type", SalesPPI."Document No.") then
+        if not SalesInv.Get(SalesInv."Document Type"::Invoice, SalesPPI."Document No.") then
             CreateHeader(SalesPPI);
         CreateLine(SalesPPI);
     end;
@@ -24,7 +24,7 @@ codeunit 63105 "Interface Function"
         SalesInv."Document Type" := SalesInv."Document Type"::Invoice;
         SalesInv."No." := SalesPPI."Document No.";
         SalesInv.Insert(true);
-        SalesInv.Validate("Sell-to Customer No.", SalesPPI."Customer No.");
+        SalesInv.Validate("Sell-to Customer No.", SalesPPI."Cust. No. BC");
         if SalesPPI.Currency <> SalesInv."Currency Code" then
             SalesInv.Validate("Currency Code", SalesPPI.Currency);
         SalesInv.Validate("Shortcut Dimension 1 Code", SalesPPI."Unit Bisnis");

@@ -7,6 +7,13 @@ table 63102 "Customer Front End"
         field(1; Kode; Code[20])
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                //    if StrLen(Kode) <= 20 then
+                //        "Customer No. BC" := Kode
+                //    else
+                //        "Customer No. BC" := CopyStr(Kode, 1, 20);
+            end;
         }
         field(2; Nama; Text[100])
         { }
@@ -39,7 +46,9 @@ table 63102 "Customer Front End"
             TableRelation = Customer;
         }
         field(16; "Config Template BC"; Code[10])
-        { }
+        {
+            TableRelation = "Config. Template Header" where("Table ID" = const(18));
+        }
     }
 
     keys

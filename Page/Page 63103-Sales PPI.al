@@ -56,6 +56,14 @@ page 63103 "Sales PPI"
                 {
                     ApplicationArea = all;
                 }
+                field("Cust. No. BC"; rec."Cust. No. BC")
+                {
+                    ApplicationArea = all;
+                }
+                field("Item No. BC"; rec."Item No. BC")
+                {
+                    ApplicationArea = all;
+                }
             }
         }
     }

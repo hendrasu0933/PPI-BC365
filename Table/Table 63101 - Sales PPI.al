@@ -9,11 +9,27 @@ table 63101 "Sales PPI"
             DataClassification = ToBeClassified;
         }
         field(2; "Customer No."; code[20])
-        { }
+        {
+            trigger OnValidate()
+            var
+                CustFront: Record "Customer Front End";
+            begin
+                if ("Customer No." <> '') and CustFront.Get("Customer No.") then
+                    "Cust. No. BC" := CustFront."Customer No. BC";
+            end;
+        }
         field(3; "Posting Date"; Date)
         { }
         field(4; "Item No."; Code[20])
-        { }
+        {
+            trigger OnValidate()
+            var
+                ItemFront: Record "Item Front End";
+            begin
+                if ("Item No." <> '') and ItemFront.Get("Item No.") then
+                    "Item No. BC" := ItemFront."Item No. BC";
+            end;
+        }
         field(5; Quantity; Decimal)
         { }
         field(6; "Unit of Measure"; Code[10])
@@ -31,6 +47,7 @@ table 63101 "Sales PPI"
         field(12; "Cust. No. BC"; Code[20])
         {
             TableRelation = Customer;
+
         }
         field(13; "Item No. BC"; Code[20])
         {

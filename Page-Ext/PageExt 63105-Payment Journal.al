@@ -52,7 +52,7 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
         {
             group("Request Approval Ext")
             {
-                Caption = 'Request Approval';
+                Caption = 'Request Approval Custom';
                 Image = SendApprovalRequest;
                 //Visible = CashBankFunc.MunculkanTombol();
                 action(SendApprovalRequestExt)
