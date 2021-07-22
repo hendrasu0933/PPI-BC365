@@ -274,6 +274,15 @@ codeunit 63102 "Cash Bank Function"
             exit(false)
     end;
 
+    procedure Reopen(var Budget: Record "Journal Line Document")
+    begin
+        if Budget.Status = Budget.Status::Open then
+            exit;
+        if UserId <> Budget."Released by" then
+            Error('Only %1 can reopen this budget', Budget."Released by");
+        Budget.Validate(Status, Budget.Status::Open);
+    end;
+
     var
         myInt: Integer;
 }

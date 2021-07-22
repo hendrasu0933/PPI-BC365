@@ -4,6 +4,7 @@ page 63106 "Journal Line Document"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Journal Line Document";
+    Editable = false;
 
     layout
     {
@@ -40,10 +41,17 @@ page 63106 "Journal Line Document"
     {
         area(Processing)
         {
-            action(ActionName)
+            action(Reopen)
             {
-
+                trigger OnAction()
+                var
+                    BudgetFunc: Codeunit "Cash Bank Function";
+                begin
+                    BudgetFunc.Reopen(Rec);
+                    CurrPage.Update();
+                end;
             }
+
         }
     }
 
