@@ -12,7 +12,7 @@
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,
-            "schemaUpdateMode": "Synchronize",
+            "schemaUpdateMode": "ForceSync",
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true
         }
