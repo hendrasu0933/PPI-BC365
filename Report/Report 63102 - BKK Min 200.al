@@ -71,14 +71,23 @@ report 63102 "BKK Min 200"
             }
             trigger OnAfterGetRecord()
             var
-                rec_Customer: Record Customer;
-                rec_Vendor: Record Vendor;
+                // rec_Customer: Record Customer;
+                // rec_Vendor: Record Vendor;
                 rec_PosPurchLine: Record "Purch. Inv. Line";
                 rec_ApproveEntry: Record "Approval Entry";
                 rec_User: Record User;
                 t_approve: array[10] of Code[20];
                 rec_PosPurchLine2: Record "Purch. Inv. Line";
+                // rec_BankAccount: Record "Bank Account";
+                // get description 
+                rec_JournalLine: Record "Gen. Journal Line";
+                rec_Customer: Record Customer;
+                rec_Vendor: Record Vendor;
+                rec_GlAccount: Record "G/L Account";
                 rec_BankAccount: Record "Bank Account";
+                rec_FixedAsset: Record "Fixed Asset";
+                rec_Employee: Record Employee;
+                rec_ApprovelEntry: Record "Approval Entry";
             begin
                 // get name bank account
                 rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
@@ -100,6 +109,16 @@ report 63102 "BKK Min 200"
                 if rec_Vendor.FindFirst() then begin
                     t_NameCustomer := rec_Vendor.Name;
                     t_AddressCustomer := rec_Vendor.Address + rec_Vendor."Address 2";
+                end;
+                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
+                if rec_BankAccount.FindFirst() then begin
+                    t_NameCustomer := rec_BankAccount.Name;
+                    t_AddressCustomer := rec_BankAccount.Address + rec_BankAccount."Address 2";
+                end;
+                rec_GlAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
+                if rec_GlAccount.FindFirst() then begin
+                    t_NameCustomer := rec_GlAccount.Name;
+                    t_AddressCustomer := '';
                 end;
                 // get terbilang words dalam bahasa indonesia
                 RepCheck.FormatNoText(arrray, "Gen. Journal Line"."Amount (LCY)", '');

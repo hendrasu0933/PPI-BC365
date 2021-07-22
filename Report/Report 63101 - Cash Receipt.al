@@ -13,6 +13,7 @@ report 63101 "Cash Receipt"
             column(Journal_Batch_Name; "Journal Batch Name") { }
             column(Line_No_; "Line No.") { }
             column(CompanyInformasi; CompanyInformasi.City) { }
+            column(CompanyInformasiName; CompanyInformasi.Name) { }
             column(Posting_Date; "Posting Date") { }
             column(Account_No_; "Account No.") { }
             column(Journal_Template_Name; "Journal Template Name") { }

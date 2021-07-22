@@ -370,7 +370,15 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>An.Direksi PT Pelindo Properti Indonesia Finance Manager</Value>
+                                  <Value>An.Direksi </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!CompanyInformasiName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value> Finance Manager</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -718,6 +726,9 @@ End Function
         </Field>
         <Field Name="CompanyInformasi">
           <DataField>CompanyInformasi</DataField>
+        </Field>
+        <Field Name="CompanyInformasiName">
+          <DataField>CompanyInformasiName</DataField>
         </Field>
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>

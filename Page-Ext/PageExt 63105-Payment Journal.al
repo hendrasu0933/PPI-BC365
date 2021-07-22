@@ -32,6 +32,7 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                 Image = PrintForm;
                 Promoted = true;
                 PromotedOnly = true;
+                Visible = false;
                 PromotedCategory = Report;
                 ApplicationArea = all;
                 trigger OnAction()
