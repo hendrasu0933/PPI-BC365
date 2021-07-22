@@ -1,5 +1,7 @@
 table 63103 "Journal Line Document"
 {
+    LookupPageId = "Journal Line Document";
+
     DataClassification = ToBeClassified;
 
     fields

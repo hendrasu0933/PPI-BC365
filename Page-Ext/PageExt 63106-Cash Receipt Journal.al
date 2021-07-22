@@ -36,7 +36,7 @@ pageextension 63106 "Cash Receipt Journal-Ext" extends "Cash Receipt Journal"
         {
             group("Request Approval Ext")
             {
-                Caption = 'Request Approval';
+                Caption = 'Request Approval Custom';
                 Image = SendApprovalRequest;
                 //Visible = CashBankFunc.MunculkanTombol();
                 action(SendApprovalRequestExt)
