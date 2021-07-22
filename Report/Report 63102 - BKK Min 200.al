@@ -78,7 +78,7 @@ report 63102 "BKK Min 200"
                 rec_User: Record User;
                 t_approve: array[10] of Code[20];
                 rec_PosPurchLine2: Record "Purch. Inv. Line";
-                // rec_BankAccount: Record "Bank Account";
+                rec_BankAccount2: Record "Bank Account";
                 // get description 
                 rec_JournalLine: Record "Gen. Journal Line";
                 rec_Customer: Record Customer;
@@ -90,15 +90,15 @@ report 63102 "BKK Min 200"
                 rec_ApprovelEntry: Record "Approval Entry";
             begin
                 // get name bank account
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
-                if rec_BankAccount.FindFirst() then
-                    t_NameBank := rec_BankAccount.Name;
+                rec_BankAccount2.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                if rec_BankAccount2.FindFirst() then
+                    t_NameBank := rec_BankAccount2.Name;
                 // number row
-                rec_PosPurchLine2.SetRange("Document No.", "Gen. Journal Line"."Applies-to Doc. No.");
-                if rec_PosPurchLine2.FindFirst() then
-                    i_rows := rec_PosPurchLine2.Count + 1
-                else
-                    i_rows := "Gen. Journal Line".Count + 1;
+                // rec_PosPurchLine2.SetRange("Document No.", "Gen. Journal Line"."Applies-to Doc. No.");
+                // if rec_PosPurchLine2.FindFirst() then
+                //     i_rows := rec_PosPurchLine2.Count + 1
+                // else
+                //     i_rows := "Gen. Journal Line".Count + 1;
                 // get vendor or customer 
                 rec_Customer.SetRange("No.", "Gen. Journal Line"."Account No.");
                 if rec_Customer.FindFirst() then begin
