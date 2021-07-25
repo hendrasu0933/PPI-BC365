@@ -10,76 +10,6 @@
       <rd:DataSourceID>196cfd8c-7f69-4e64-b545-e1e3f5f12082</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="Journal_Batch_Name">
-          <DataField>Journal_Batch_Name</DataField>
-        </Field>
-        <Field Name="Line_No_">
-          <DataField>Line_No_</DataField>
-        </Field>
-        <Field Name="CompanyInformasi">
-          <DataField>CompanyInformasi</DataField>
-        </Field>
-        <Field Name="CompanyInformasiName">
-          <DataField>CompanyInformasiName</DataField>
-        </Field>
-        <Field Name="Posting_Date">
-          <DataField>Posting_Date</DataField>
-        </Field>
-        <Field Name="Account_No_">
-          <DataField>Account_No_</DataField>
-        </Field>
-        <Field Name="Journal_Template_Name">
-          <DataField>Journal_Template_Name</DataField>
-        </Field>
-        <Field Name="Document_No_">
-          <DataField>Document_No_</DataField>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-        </Field>
-        <Field Name="VAT_Amount">
-          <DataField>VAT_Amount</DataField>
-        </Field>
-        <Field Name="VAT_AmountFormat">
-          <DataField>VAT_AmountFormat</DataField>
-        </Field>
-        <Field Name="d_totalAmount">
-          <DataField>d_totalAmount</DataField>
-        </Field>
-        <Field Name="d_totalAmountFormat">
-          <DataField>d_totalAmountFormat</DataField>
-        </Field>
-        <Field Name="Amount__LCY_">
-          <DataField>Amount__LCY_</DataField>
-        </Field>
-        <Field Name="Amount__LCY_Format">
-          <DataField>Amount__LCY_Format</DataField>
-        </Field>
-        <Field Name="t_NameCustomer">
-          <DataField>t_NameCustomer</DataField>
-        </Field>
-        <Field Name="t_Approve">
-          <DataField>t_Approve</DataField>
-        </Field>
-        <Field Name="t_R_Finance">
-          <DataField>t_R_Finance</DataField>
-        </Field>
-        <Field Name="t_Department">
-          <DataField>t_Department</DataField>
-        </Field>
-        <Field Name="AmountInWords">
-          <DataField>AmountInWords</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -750,12 +680,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -795,4 +719,74 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Journal_Batch_Name">
+          <DataField>Journal_Batch_Name</DataField>
+        </Field>
+        <Field Name="Line_No_">
+          <DataField>Line_No_</DataField>
+        </Field>
+        <Field Name="CompanyInformasi">
+          <DataField>CompanyInformasi</DataField>
+        </Field>
+        <Field Name="CompanyInformasiName">
+          <DataField>CompanyInformasiName</DataField>
+        </Field>
+        <Field Name="Posting_Date">
+          <DataField>Posting_Date</DataField>
+        </Field>
+        <Field Name="Account_No_">
+          <DataField>Account_No_</DataField>
+        </Field>
+        <Field Name="Journal_Template_Name">
+          <DataField>Journal_Template_Name</DataField>
+        </Field>
+        <Field Name="Document_No_">
+          <DataField>Document_No_</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="VAT_Amount">
+          <DataField>VAT_Amount</DataField>
+        </Field>
+        <Field Name="VAT_AmountFormat">
+          <DataField>VAT_AmountFormat</DataField>
+        </Field>
+        <Field Name="d_totalAmount">
+          <DataField>d_totalAmount</DataField>
+        </Field>
+        <Field Name="d_totalAmountFormat">
+          <DataField>d_totalAmountFormat</DataField>
+        </Field>
+        <Field Name="Amount__LCY_">
+          <DataField>Amount__LCY_</DataField>
+        </Field>
+        <Field Name="Amount__LCY_Format">
+          <DataField>Amount__LCY_Format</DataField>
+        </Field>
+        <Field Name="t_NameCustomer">
+          <DataField>t_NameCustomer</DataField>
+        </Field>
+        <Field Name="t_Approve">
+          <DataField>t_Approve</DataField>
+        </Field>
+        <Field Name="t_R_Finance">
+          <DataField>t_R_Finance</DataField>
+        </Field>
+        <Field Name="t_Department">
+          <DataField>t_Department</DataField>
+        </Field>
+        <Field Name="AmountInWords">
+          <DataField>AmountInWords</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
