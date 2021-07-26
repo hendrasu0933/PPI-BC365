@@ -382,7 +382,11 @@
                                   <Style />
                                 </TextRun>
                                 <TextRun>
-                                  <Value> Finance Manager</Value>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!t_R_Finance.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
