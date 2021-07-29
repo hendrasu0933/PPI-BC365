@@ -22,6 +22,7 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                 Promoted = true;
                 PromotedOnly = true;
                 PromotedCategory = Report;
+                // Visible = false;/d
                 ApplicationArea = all;
                 trigger OnAction()
                 var
@@ -31,9 +32,9 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                     Report.Run(Report::"BKK Min 200", true, true, rec_genJournal);
                 end;
             }
-            action("BKK Batch")
+            action("BKK")
             {
-                Caption = 'BKK Per-Batch';
+                Caption = 'BKK';
                 Image = PrintForm;
                 Promoted = true;
                 PromotedOnly = true;

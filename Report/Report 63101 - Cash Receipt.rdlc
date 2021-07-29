@@ -370,7 +370,23 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>An.Direksi PT Pelindo Properti Indonesia Finance Manager</Value>
+                                  <Value>=Fields!t_Department.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!CompanyInformasiName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!t_R_Finance.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -719,6 +735,9 @@ End Function
         <Field Name="CompanyInformasi">
           <DataField>CompanyInformasi</DataField>
         </Field>
+        <Field Name="CompanyInformasiName">
+          <DataField>CompanyInformasiName</DataField>
+        </Field>
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>
         </Field>
@@ -757,6 +776,12 @@ End Function
         </Field>
         <Field Name="t_Approve">
           <DataField>t_Approve</DataField>
+        </Field>
+        <Field Name="t_R_Finance">
+          <DataField>t_R_Finance</DataField>
+        </Field>
+        <Field Name="t_Department">
+          <DataField>t_Department</DataField>
         </Field>
         <Field Name="AmountInWords">
           <DataField>AmountInWords</DataField>

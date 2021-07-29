@@ -1,8 +1,9 @@
-report 63101 "Cash Receipt"
+report 63105 "Realisasi Penda & Biaya Pusat"
 {
+    Caption = 'Realisasi Anggaran Pendapatan dan Biaya Per Pusat';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-    RDLCLayout = './Report/Report 63101 - Cash Receipt.rdlc';
+    RDLCLayout = './Report/Report 63105 - Realisasi Penda & Biaya Pusat.rdlc';
     DefaultLayout = RDLC;
     PreviewMode = PrintLayout;
 
@@ -24,8 +25,6 @@ report 63101 "Cash Receipt"
             column(Amount__LCY_; "Amount (LCY)") { }
             column(t_NameCustomer; t_NameCustomer) { }
             column(t_Approve; t_Approve) { }
-            column(t_R_Finance; t_R_Finance) { }
-            column(t_Department; t_Department) { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             trigger OnAfterGetRecord()
             var
@@ -107,20 +106,9 @@ report 63101 "Cash Receipt"
         }
     }
     trigger OnInitReport()
-    var
-        rec_ResponsibilityCenter: Record "Responsibility Center";
     begin
         CompanyInformasi.get;
-        CompanyInformasi.CalcFields(Picture);
-        // GET RESPONSIBILITY CENTER
-        rec_ResponsibilityCenter.SetRange(Code, 'PPU');
-        if rec_ResponsibilityCenter.FindFirst() then begin
-            t_Department := rec_ResponsibilityCenter.Department2;
-            t_R_Finance := rec_ResponsibilityCenter."Responsibility Finance";
-        end else begin
-            t_Department := 'An.Direksi';
-            t_R_Finance := 'Finance Manager';
-        end;
+        CompanyInformasi.CalcFields(Picture)
     end;
 
     var
@@ -134,7 +122,4 @@ report 63101 "Cash Receipt"
         d_totalAmount: Decimal;
         t_NameCustomer: Text;
         t_Approve: Text;
-        // responsibility center
-        t_Department: Text;
-        t_R_Finance: Text;
 }
