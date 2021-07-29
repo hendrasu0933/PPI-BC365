@@ -283,6 +283,20 @@ codeunit 63102 "Cash Bank Function"
         Budget.Validate(Status, Budget.Status::Open);
     end;
 
+    procedure ReopenStatusGenJnl(GenJnlLine: Record "Gen. Journal Line"): Option
+    var
+        JnlLineDoc: Record "Journal Line Document";
+    begin
+        if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then begin
+            JnlLineDoc.TestField(Status, JnlLineDoc.Status::Released);
+            if JnlLineDoc."Released by" <> UserId then
+                Error('This document can only reopen by %1', JnlLineDoc."Released by");
+            JnlLineDoc.Validate(Status, JnlLineDoc.Status::Open);
+            JnlLineDoc.Modify();
+        end;
+
+    end;
+
     var
         myInt: Integer;
 }

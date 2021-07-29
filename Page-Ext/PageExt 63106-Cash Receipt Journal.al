@@ -86,6 +86,21 @@ pageextension 63106 "Cash Receipt Journal-Ext" extends "Cash Receipt Journal"
                         end;
                     end;
                 }
+                action(Reopen)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Reopen';
+
+                    Promoted = true;
+                    PromotedCategory = Category9;
+
+                    trigger OnAction()
+                    var
+                        CashBankFunc: Codeunit "Cash Bank Function";
+                    begin
+                        CashBankFunc.ReopenStatusGenJnl(Rec);
+                    end;
+                }
             }
         }
 
