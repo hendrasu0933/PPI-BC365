@@ -10,11 +10,20 @@ codeunit 63102 "Cash Bank Function"
 
     begin
         if CekStatusGenJnl(Rec) <> 'Open' then
+            //    Message(CekStatusGenJnl(Rec));
             Error('Status harus open');
     end;
 
+    [EventSubscriber(objectType::Page, page::"Payment Journal", 'OnDeleteRecordEvent', '', true, true)]
+    local procedure DelPayJnl(var Rec: Record "Gen. Journal Line"; var AllowDelete: Boolean)
+    var
+
+    begin
+        DelGenJnl(Rec);
+    end;
+
     [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnModifyRecordEvent', '', true, true)]
-    local procedure ModifcASHJnl(var Rec: Record "Gen. Journal Line"; var xRec: Record "Gen. Journal Line"; var AllowModify: Boolean)
+    local procedure ModifCashJnl(var Rec: Record "Gen. Journal Line"; var xRec: Record "Gen. Journal Line"; var AllowModify: Boolean)
     var
 
     begin
@@ -22,6 +31,13 @@ codeunit 63102 "Cash Bank Function"
             Error('Status harus open');
     end;
 
+    [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnDeleteRecordEvent', '', true, true)]
+    local procedure DelCashJnl(var Rec: Record "Gen. Journal Line"; var AllowDelete: Boolean)
+    var
+
+    begin
+        DelGenJnl(Rec);
+    end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Gen. Jnl.-Post", 'OnBeforeCode', '', true, true)]
     local procedure ModifyGenJnl(var GenJournalLine: Record "Gen. Journal Line"; var HideDialog: Boolean)
@@ -260,7 +276,21 @@ codeunit 63102 "Cash Bank Function"
         if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then
             exit(format(JnlLineDoc.Status))
         else
-            exit(Format(JnlLineDoc.Status::Open));
+            exit(Format('Open'));
+    end;
+
+    procedure DelGenJnl(GenJnlLine: Record "Gen. Journal Line")
+    var
+        JnlLineDoc: Record "Journal Line Document";
+    begin
+        if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then
+            if JnlLineDoc.Status <> JnlLineDoc.Status::Open then
+                Error('Status must be Open')
+            else begin
+                JnlLineDoc.CalcFields("No. of Lines");
+                if JnlLineDoc."No. of Lines" <= 1 then
+                    JnlLineDoc.Delete();
+            end;
     end;
 
     procedure MunculkanTombol(): Boolean
