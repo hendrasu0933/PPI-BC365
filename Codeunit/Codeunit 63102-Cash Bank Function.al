@@ -9,7 +9,7 @@ codeunit 63102 "Cash Bank Function"
     var
 
     begin
-        if CekStatusGenJnl(Rec) <> 0 then
+        if CekStatusGenJnl(Rec) <> 'Open' then
             Error('Status harus open');
     end;
 
@@ -18,7 +18,7 @@ codeunit 63102 "Cash Bank Function"
     var
 
     begin
-        if CekStatusGenJnl(Rec) <> 0 then
+        if CekStatusGenJnl(Rec) <> 'Open' then
             Error('Status harus open');
     end;
 
@@ -253,14 +253,14 @@ codeunit 63102 "Cash Bank Function"
         end;
     end;
 
-    procedure CekStatusGenJnl(GenJnlLine: Record "Gen. Journal Line"): Option
+    procedure CekStatusGenJnl(GenJnlLine: Record "Gen. Journal Line"): Text
     var
         JnlLineDoc: Record "Journal Line Document";
     begin
         if JnlLineDoc.Get(GenJnlLine."Journal Template Name", GenJnlLine."Journal Batch Name", GenJnlLine."Document No.") then
-            exit(JnlLineDoc.Status)
+            exit(format(JnlLineDoc.Status))
         else
-            exit(JnlLineDoc.Status::Open);
+            exit(Format(JnlLineDoc.Status::Open));
     end;
 
     procedure MunculkanTombol(): Boolean
