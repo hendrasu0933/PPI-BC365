@@ -103,6 +103,21 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                         end;
                     end;
                 }
+                action(Reopen)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Reopen';
+
+                    Promoted = true;
+                    PromotedCategory = Category9;
+
+                    trigger OnAction()
+                    var
+                        CashBankFunc: Codeunit "Cash Bank Function";
+                    begin
+                        CashBankFunc.ReopenStatusGenJnl(Rec);
+                    end;
+                }
             }
         }
 

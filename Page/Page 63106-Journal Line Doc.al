@@ -43,6 +43,7 @@ page 63106 "Journal Line Document"
         {
             action(Reopen)
             {
+                ApplicationArea = all;
                 trigger OnAction()
                 var
                     BudgetFunc: Codeunit "Cash Bank Function";

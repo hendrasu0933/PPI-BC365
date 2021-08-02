@@ -37,6 +37,11 @@ table 63103 "Journal Line Document"
             ValidateTableRelation = false;
 
         }
+        field(8; "No. of Lines"; Integer)
+        {
+            FieldClass = FlowField;
+            CalcFormula = count("Gen. Journal Line" where("Journal Batch Name" = field("Journal Batch"), "Journal Template Name" = field("Journal Template"), "Document No." = field("Document No.")));
+        }
     }
 
     keys
