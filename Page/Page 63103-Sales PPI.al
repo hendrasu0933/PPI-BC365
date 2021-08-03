@@ -79,6 +79,7 @@ page 63103 "Sales PPI"
                 var
                     InterfaceFunc: Codeunit "Interface Function";
                 begin
+                    CurrPage.SetSelectionFilter(Rec);
                     InterfaceFunc.CreateSalesInv(Rec);
                 end;
 

@@ -10,11 +10,18 @@ codeunit 63105 "Interface Function"
         SalesInv: Record "Sales Header";
         PostSalesInv: Record "Sales Invoice Header";
     begin
-        if PostSalesInv.get(SalesPPI."Document No.") then
-            Error('Dokumen ini sudah terposting');
-        if not SalesInv.Get(SalesInv."Document Type"::Invoice, SalesPPI."Document No.") then
-            CreateHeader(SalesPPI);
-        CreateLine(SalesPPI);
+        if SalesPPI.FindSet() then
+            repeat
+                if not SalesPPI.Processed then begin
+                    if PostSalesInv.get(SalesPPI."Document No.") then
+                        Error('Dokumen ini sudah terposting');
+                    if not SalesInv.Get(SalesInv."Document Type"::Invoice, SalesPPI."Document No.") then
+                        CreateHeader(SalesPPI);
+                    SalesPPI.Processed := true;
+                    SalesPPI.Modify();
+                    CreateLine(SalesPPI);
+                end;
+            until SalesPPI.Next() = 0;
     end;
 
     local procedure CreateHeader(var SalesPPI: Record "Sales PPI")
