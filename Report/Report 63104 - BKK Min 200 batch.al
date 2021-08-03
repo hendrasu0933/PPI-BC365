@@ -40,19 +40,21 @@ report 63104 "BKK Min 200 Batch"
                     rec_JourLineDoc: Record "Journal Line Document";
                 begin
                     // geta approval
-                    // rec_ApproveEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
-                    rec_ApproveEntry.SetRange(Status, rec_ApproveEntry.Status::Approved);
-                    rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                    if rec_ApproveEntry.FindFirst() then begin
-                        repeat
-                            i += 1;
-                            t_approve[i] := rec_ApproveEntry."Approver ID";
-                            d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
-                            t_ApproveText[i] := 'APPROVED';
-                            rec_User.SetRange("User Name", t_approve[i]);
-                            if rec_User.FindFirst() then
-                                t_ApproveName[i] := rec_User."Full Name";
-                        until rec_ApproveEntry.Next = 0;
+                    if Status <> Status::Open then begin
+                        // rec_ApproveEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
+                        rec_ApproveEntry.SetRange(Status, rec_ApproveEntry.Status::Approved);
+                        rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
+                        if rec_ApproveEntry.FindFirst() then begin
+                            repeat
+                                i += 1;
+                                t_approve[i] := rec_ApproveEntry."Approver ID";
+                                d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                                t_ApproveText[i] := 'APPROVED';
+                                rec_User.SetRange("User Name", t_approve[i]);
+                                if rec_User.FindFirst() then
+                                    t_ApproveName[i] := rec_User."Full Name";
+                            until rec_ApproveEntry.Next = 0;
+                        end;
                     end;
 
                 end;
