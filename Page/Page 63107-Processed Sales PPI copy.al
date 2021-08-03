@@ -1,11 +1,11 @@
-page 63103 "Sales PPI"
+page 63107 "Processed Sales PPI"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Sales PPI";
-    SourceTableView = where(Processed = const(false));
-
+    SourceTableView = where(Processed = const(true));
+    Editable = false;
     layout
     {
         area(Content)
@@ -73,18 +73,7 @@ page 63103 "Sales PPI"
     {
         area(Processing)
         {
-            action("Create Sales Invoice")
-            {
-                ApplicationArea = All;
-                trigger OnAction()
-                var
-                    InterfaceFunc: Codeunit "Interface Function";
-                begin
-                    CurrPage.SetSelectionFilter(Rec);
-                    InterfaceFunc.CreateSalesInv(Rec);
-                end;
 
-            }
         }
     }
 
