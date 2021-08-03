@@ -1532,6 +1532,9 @@
                                     <TablixMembers>
                                       <TablixMember />
                                     </TablixMembers>
+                                    <Visibility>
+                                      <Hidden>=fields!Account_No_.Value = ""</Hidden>
+                                    </Visibility>
                                   </TablixMember>
                                 </TablixMembers>
                               </TablixRowHierarchy>
@@ -3477,7 +3480,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Document_No_.Value</Value>
+                              <Value>=Fields!Document_No_Header.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -3557,10 +3560,8 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Posting_Date.Value</Value>
-                              <Style>
-                                <Format>dd-MMMM-yyyy</Format>
-                              </Style>
+                              <Value>=Fields!Posting_Date_HEader.Value</Value>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3740,10 +3741,8 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Posting_Date.Value</Value>
-                              <Style>
-                                <Format>dd-MMMM-yyyy</Format>
-                              </Style>
+                              <Value>=Fields!Posting_Date_HEader.Value</Value>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3892,6 +3891,9 @@ End Function
         <Field Name="Document_No_Header">
           <DataField>Document_No_Header</DataField>
         </Field>
+        <Field Name="Posting_Date_HEader">
+          <DataField>Posting_Date_HEader</DataField>
+        </Field>
         <Field Name="Journal_Template_Name_header">
           <DataField>Journal_Template_Name_header</DataField>
         </Field>
@@ -3904,47 +3906,14 @@ End Function
         <Field Name="d_totalAmountFormat">
           <DataField>d_totalAmountFormat</DataField>
         </Field>
-        <Field Name="dd">
-          <DataField>dd</DataField>
-        </Field>
-        <Field Name="d_ApproveDate1">
-          <DataField>d_ApproveDate1</DataField>
-        </Field>
-        <Field Name="d_ApproveDate2">
-          <DataField>d_ApproveDate2</DataField>
-        </Field>
-        <Field Name="d_ApproveDate3">
-          <DataField>d_ApproveDate3</DataField>
-        </Field>
-        <Field Name="d_ApproveDate4">
-          <DataField>d_ApproveDate4</DataField>
-        </Field>
-        <Field Name="d_ApproveDate5">
-          <DataField>d_ApproveDate5</DataField>
-        </Field>
-        <Field Name="t_ApproveText1">
-          <DataField>t_ApproveText1</DataField>
-        </Field>
-        <Field Name="t_ApproveText2">
-          <DataField>t_ApproveText2</DataField>
-        </Field>
-        <Field Name="t_ApproveText3">
-          <DataField>t_ApproveText3</DataField>
-        </Field>
-        <Field Name="t_ApproveText4">
-          <DataField>t_ApproveText4</DataField>
-        </Field>
-        <Field Name="t_ApproveText5">
-          <DataField>t_ApproveText5</DataField>
-        </Field>
-        <Field Name="Document_No_LineDoc">
-          <DataField>Document_No_LineDoc</DataField>
-        </Field>
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
         </Field>
         <Field Name="Journal_Batch_Name">
           <DataField>Journal_Batch_Name</DataField>
+        </Field>
+        <Field Name="Account_No_">
+          <DataField>Account_No_</DataField>
         </Field>
         <Field Name="Journal_Template_Name">
           <DataField>Journal_Template_Name</DataField>
@@ -4011,6 +3980,42 @@ End Function
         </Field>
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
+        </Field>
+        <Field Name="dd">
+          <DataField>dd</DataField>
+        </Field>
+        <Field Name="d_ApproveDate1">
+          <DataField>d_ApproveDate1</DataField>
+        </Field>
+        <Field Name="d_ApproveDate2">
+          <DataField>d_ApproveDate2</DataField>
+        </Field>
+        <Field Name="d_ApproveDate3">
+          <DataField>d_ApproveDate3</DataField>
+        </Field>
+        <Field Name="d_ApproveDate4">
+          <DataField>d_ApproveDate4</DataField>
+        </Field>
+        <Field Name="d_ApproveDate5">
+          <DataField>d_ApproveDate5</DataField>
+        </Field>
+        <Field Name="t_ApproveText1">
+          <DataField>t_ApproveText1</DataField>
+        </Field>
+        <Field Name="t_ApproveText2">
+          <DataField>t_ApproveText2</DataField>
+        </Field>
+        <Field Name="t_ApproveText3">
+          <DataField>t_ApproveText3</DataField>
+        </Field>
+        <Field Name="t_ApproveText4">
+          <DataField>t_ApproveText4</DataField>
+        </Field>
+        <Field Name="t_ApproveText5">
+          <DataField>t_ApproveText5</DataField>
+        </Field>
+        <Field Name="Document_No_LineDoc">
+          <DataField>Document_No_LineDoc</DataField>
         </Field>
       </Fields>
       <Query>
