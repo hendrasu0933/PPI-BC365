@@ -72,7 +72,7 @@ page 63103 "Sales PPI"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Create Sales Invoice")
             {
                 ApplicationArea = All;
                 trigger OnAction()

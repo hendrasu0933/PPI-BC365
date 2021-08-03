@@ -84,7 +84,7 @@ page 63104 "Customer Front End"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Create Customer")
             {
                 ApplicationArea = All;
 
