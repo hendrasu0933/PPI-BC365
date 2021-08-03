@@ -22,7 +22,7 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                 Promoted = true;
                 PromotedOnly = true;
                 PromotedCategory = Report;
-                // Visible = false;/d
+                Visible = false;
                 ApplicationArea = all;
                 trigger OnAction()
                 var
