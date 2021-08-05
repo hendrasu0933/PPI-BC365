@@ -51,6 +51,7 @@ report 63104 "BKK Min 200 Batch"
                         rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
                         // rec_ApproveEntry.SetRange("Sequence No.", 1, i_MaxNumSequence);
                         if rec_ApproveEntry.FindLast() then begin
+                            i_MaxNumSequence := rec_ApproveEntry."Sequence No.";
                             repeat
                                 i += 1;
                                 if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
@@ -63,7 +64,7 @@ report 63104 "BKK Min 200 Batch"
                                 end else begin
                                     t_ApproveText[i] := '';
                                 end;
-                            until rec_ApproveEntry.Next = 0;
+                            until rec_ApproveEntry.Next = i_MaxNumSequence;
                             if rec_ApproveEntry.Count = 4 then begin
                                 t_ApproveText[1] := '';
                                 t_ApproveText[2] := t_ApproveText[1];
