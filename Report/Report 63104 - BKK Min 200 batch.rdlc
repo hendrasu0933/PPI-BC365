@@ -2078,8 +2078,7 @@ Fields!d_ApproveDate4.Value,fields!d_ApproveDate5.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!t_ApproveText3.Value,fields!t_ApproveText4.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2114,8 +2113,7 @@ Fields!t_ApproveText3.Value,fields!t_ApproveText4.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2480,7 +2478,8 @@ Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText3.Value,fields!t_ApproveText4.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2515,7 +2514,8 @@ Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -3341,12 +3341,11 @@ Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -3438,7 +3437,8 @@ fields!t_ApproveText1.Value,fields!t_ApproveText1.Value)</Value>
                                             <Color>Black</Color>
                                           </TopBorder>
                                           <BottomBorder>
-                                            <Style>None</Style>
+                                            <Color>Black</Color>
+                                            <Width>1pt</Width>
                                           </BottomBorder>
                                           <LeftBorder>
                                             <Style>None</Style>
@@ -3503,12 +3503,16 @@ fields!t_ApproveText1.Value,fields!t_ApproveText1.Value)</Value>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
