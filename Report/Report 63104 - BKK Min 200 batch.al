@@ -36,25 +36,47 @@ report 63104 "BKK Min 200 Batch"
                 trigger OnAfterGetRecord()
                 var
                     rec_ApproveEntry: Record "Approval Entry";
+                    rec_ApproveEntryTemporary: Record "Approval Entry";
                     t_approve: array[10] of Code[20];
                     rec_User: Record User;
+                    i_MaxNumSequence: Integer;
                     rec_JourLineDoc: Record "Journal Line Document";
                 begin
                     // geta approval
                     if Status <> Status::Open then begin
-                        // rec_ApproveEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
-                        rec_ApproveEntry.SetRange(Status, rec_ApproveEntry.Status::Approved);
+                        rec_ApproveEntryTemporary.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
+                        if rec_ApproveEntryTemporary.FindLast() then begin
+                            i_MaxNumSequence := rec_ApproveEntryTemporary."Sequence No.";
+                        end;
                         rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        if rec_ApproveEntry.FindFirst() then begin
+                        rec_ApproveEntry.SetRange("Sequence No.", 1, i_MaxNumSequence);
+                        if rec_ApproveEntry.FindLast() then begin
                             repeat
                                 i += 1;
-                                t_approve[i] := rec_ApproveEntry."Approver ID";
-                                d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
-                                t_ApproveText[i] := 'APPROVED';
-                                rec_User.SetRange("User Name", t_approve[i]);
-                                if rec_User.FindFirst() then
-                                    t_ApproveName[i] := rec_User."Full Name";
+                                if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
+                                    t_approve[i] := rec_ApproveEntry."Approver ID";
+                                    d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                                    t_ApproveText[i] := 'APPROVED';
+                                    rec_User.SetRange("User Name", t_approve[i]);
+                                    if rec_User.FindFirst() then
+                                        t_ApproveName[i] := rec_User."Full Name";
+                                end else begin
+                                    t_ApproveText[i] := '';
+                                end;
                             until rec_ApproveEntry.Next = 0;
+                            if rec_ApproveEntry.Count = 4 then begin
+                                t_ApproveText[1] := '';
+                                t_ApproveText[2] := t_ApproveText[1];
+                                t_ApproveText[3] := t_ApproveText[2];
+                                t_ApproveText[4] := t_ApproveText[3];
+                                t_ApproveText[5] := t_ApproveText[4];
+
+                                d_ApproveDate[1] := 0DT;
+                                d_ApproveDate[2] := d_ApproveDate[1];
+                                d_ApproveDate[3] := d_ApproveDate[2];
+                                d_ApproveDate[4] := d_ApproveDate[3];
+                                d_ApproveDate[5] := d_ApproveDate[4];
+                            end;
                         end;
                     end;
 
@@ -124,6 +146,7 @@ report 63104 "BKK Min 200 Batch"
                     t_NameCustomer := rec_BankAccount.Name;
                     t_AddressCustomer := rec_BankAccount.Address + rec_BankAccount."Address 2";
                 end;
+
                 // get terbilang words dalam bahasa indonesia
                 d_totalAmount := 0;
                 d_ifAmountMin := 0;
@@ -145,24 +168,6 @@ report 63104 "BKK Min 200 Batch"
             end;
         }
     }
-    // requestpage
-    // {
-    //     layout
-    //     {
-    //         area(Content)
-    //         {
-    //             group("Document Number")
-    //             {
-    //                 field()
-    //                 {
-    //                     ApplicationArea = all;
-    //                     // TableRelation = "Gen. Journal Line"."Document No.";
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     trigger OnInitReport()
     begin
         CompanyInformasi.get;
