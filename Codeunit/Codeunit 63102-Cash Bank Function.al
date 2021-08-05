@@ -67,6 +67,62 @@ codeunit 63102 "Cash Bank Function"
             end;
     end;
 
+    [EventSubscriber(objectType::Page, page::"Payment Journal", 'OnBeforeActionEvent', 'SendApprovalRequestExt', true, true)]
+    local procedure ModifyPayJnl(var Rec: Record "Gen. Journal Line")
+    var
+        GenJournalBatch: Record "Gen. Journal Batch";
+        GenLedgSetup: Record "General Ledger Setup";
+        GenJournalLine1: Record "Gen. Journal Line";
+        DocNo: Code[20];
+    begin
+        GetGeneralJournalBatch(GenJournalBatch, Rec);
+        GenLedgSetup.Get();
+        if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Batch then begin
+            ModifyAmount(Rec, GenJournalBatch);
+        end else
+            if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Line then begin
+                GenJournalLine1.SetRange("Journal Template Name", Rec."Journal Template Name");
+                GenJournalLine1.SetRange("Journal Batch Name", Rec."Journal Batch Name");
+                GenJournalLine1.SetCurrentKey("Document No.", "Line No.");
+                if GenJournalLine1.FindSet() then
+                    repeat
+                        if DocNo <> GenJournalLine1."Document No." then begin
+                            DocNo := GenJournalLine1."Document No.";
+                            ModifyAmount1(GenJournalLine1);
+                        end else
+                            DocNo := GenJournalLine1."Document No.";
+                    until GenJournalLine1.Next() = 0;
+            end;
+    end;
+
+    [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnBeforeActionEvent', 'SendApprovalRequestExt', true, true)]
+    local procedure ModifyCashJnl(var Rec: Record "Gen. Journal Line")
+    var
+        GenJournalBatch: Record "Gen. Journal Batch";
+        GenLedgSetup: Record "General Ledger Setup";
+        GenJournalLine1: Record "Gen. Journal Line";
+        DocNo: Code[20];
+    begin
+        GetGeneralJournalBatch(GenJournalBatch, Rec);
+        GenLedgSetup.Get();
+        if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Batch then begin
+            ModifyAmount(Rec, GenJournalBatch);
+        end else
+            if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Line then begin
+                GenJournalLine1.SetRange("Journal Template Name", Rec."Journal Template Name");
+                GenJournalLine1.SetRange("Journal Batch Name", Rec."Journal Batch Name");
+                GenJournalLine1.SetCurrentKey("Document No.", "Line No.");
+                if GenJournalLine1.FindSet() then
+                    repeat
+                        if DocNo <> GenJournalLine1."Document No." then begin
+                            DocNo := GenJournalLine1."Document No.";
+                            ModifyAmount1(GenJournalLine1);
+                        end else
+                            DocNo := GenJournalLine1."Document No.";
+                    until GenJournalLine1.Next() = 0;
+            end;
+    end;
+
     local procedure ModifyAmount(GenJournalLine1: Record "Gen. Journal Line"; var GenJnlBatch: Record "Gen. Journal Batch")
     var
         GenJnlLine: Record "Gen. Journal Line";
