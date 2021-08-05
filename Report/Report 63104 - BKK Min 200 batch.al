@@ -36,7 +36,6 @@ report 63104 "BKK Min 200 Batch"
                 trigger OnAfterGetRecord()
                 var
                     rec_ApproveEntry: Record "Approval Entry";
-                    rec_ApproveEntryTemporary: Record "Approval Entry";
                     t_approve: array[10] of Code[20];
                     rec_User: Record User;
                     i_MaxNumSequence: Integer;
@@ -44,12 +43,7 @@ report 63104 "BKK Min 200 Batch"
                 begin
                     // geta approval
                     if Status <> Status::Open then begin
-                        // rec_ApproveEntryTemporary.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        // if rec_ApproveEntryTemporary.FindLast() then begin
-                        //     i_MaxNumSequence := rec_ApproveEntryTemporary."Sequence No.";
-                        // end;
                         rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        // rec_ApproveEntry.SetRange("Sequence No.", 1, i_MaxNumSequence);
                         if rec_ApproveEntry.FindLast() then begin
                             i_MaxNumSequence := rec_ApproveEntry."Sequence No.";
                             repeat
@@ -64,8 +58,8 @@ report 63104 "BKK Min 200 Batch"
                                 end else begin
                                     t_ApproveText[i] := '';
                                 end;
-                            until rec_ApproveEntry.Next = i_MaxNumSequence;
-                            if rec_ApproveEntry.Count = 4 then begin
+                            until rec_ApproveEntry.Next(-1) = 0;
+                            if i_MaxNumSequence = 4 then begin
                                 t_ApproveText[1] := '';
                                 t_ApproveText[2] := t_ApproveText[1];
                                 t_ApproveText[3] := t_ApproveText[2];
@@ -127,22 +121,22 @@ report 63104 "BKK Min 200 Batch"
             begin
 
                 // get name bank account
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                rec_BankAccount.SetRange("No.", "Gen. Journal Line2"."Bal. Account No.");
                 if rec_BankAccount.FindFirst() then
                     t_NameBank := rec_BankAccount.Name;
 
                 // get vendor or customer 
-                rec_Customer.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_Customer.SetRange("No.", "Gen. Journal Line2"."Account No.");
                 if rec_Customer.FindFirst() then begin
                     t_NameCustomer := rec_Customer.Name;
                     t_AddressCustomer := rec_Customer.Address + rec_Customer."Address 2";
                 end;
-                rec_Vendor.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_Vendor.SetRange("No.", "Gen. Journal Line2"."Account No.");
                 if rec_Vendor.FindFirst() then begin
                     t_NameCustomer := rec_Vendor.Name;
                     t_AddressCustomer := rec_Vendor.Address + rec_Vendor."Address 2";
                 end;
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_BankAccount.SetRange("No.", "Gen. Journal Line2"."Account No.");
                 if rec_BankAccount.FindFirst() then begin
                     t_NameCustomer := rec_BankAccount.Name;
                     t_AddressCustomer := rec_BankAccount.Address + rec_BankAccount."Address 2";
@@ -151,9 +145,9 @@ report 63104 "BKK Min 200 Batch"
                 // get terbilang words dalam bahasa indonesia
                 d_totalAmount := 0;
                 d_ifAmountMin := 0;
-                rec_GenJournalLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
-                rec_GenJournalLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
-                rec_GenJournalLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
+                rec_GenJournalLine.SetRange("Journal Template Name", "Journal Template Name");
+                rec_GenJournalLine.SetRange("Journal Batch Name", "Journal Batch Name");
+                rec_GenJournalLine.SetRange("Document No.", "Document No.");
                 if rec_GenJournalLine.FindFirst() then begin
                     repeat
                         if rec_GenJournalLine."Amount (LCY)" < 0 then begin
