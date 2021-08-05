@@ -75,6 +75,8 @@ codeunit 63102 "Cash Bank Function"
         GenJournalLine1: Record "Gen. Journal Line";
         DocNo: Code[20];
     begin
+        if CekStatusGenJnl(Rec) <> 'Open' then
+            Error('You can only send approval the Document that still Open');
         GetGeneralJournalBatch(GenJournalBatch, Rec);
         GenLedgSetup.Get();
         if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Batch then begin
@@ -95,6 +97,14 @@ codeunit 63102 "Cash Bank Function"
             end;
     end;
 
+    [EventSubscriber(objectType::Page, page::"Payment Journal", 'OnBeforeActionEvent', 'CancelApprovalRequestExt', true, true)]
+    local procedure CancelPayJnl(var Rec: Record "Gen. Journal Line")
+    begin
+        if CekStatusGenJnl(Rec) <> 'Pending Approval' then
+            Error('You can only cancel approval the Document that still Pending');
+    end;
+
+
     [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnBeforeActionEvent', 'SendApprovalRequestExt', true, true)]
     local procedure ModifyCashJnl(var Rec: Record "Gen. Journal Line")
     var
@@ -103,6 +113,8 @@ codeunit 63102 "Cash Bank Function"
         GenJournalLine1: Record "Gen. Journal Line";
         DocNo: Code[20];
     begin
+        if CekStatusGenJnl(Rec) <> 'Open' then
+            Error('You can only send approval the Document that still Open');
         GetGeneralJournalBatch(GenJournalBatch, Rec);
         GenLedgSetup.Get();
         if GenLedgSetup."Approval Type" = GenLedgSetup."Approval Type"::Batch then begin
@@ -121,6 +133,13 @@ codeunit 63102 "Cash Bank Function"
                             DocNo := GenJournalLine1."Document No.";
                     until GenJournalLine1.Next() = 0;
             end;
+    end;
+
+    [EventSubscriber(objectType::Page, page::"Cash Receipt Journal", 'OnBeforeActionEvent', 'CancelApprovalRequestExt', true, true)]
+    local procedure CancelCashJnl(var Rec: Record "Gen. Journal Line")
+    begin
+        if CekStatusGenJnl(Rec) <> 'Pending Approval' then
+            Error('You can only cancel approval the Document that still Pending');
     end;
 
     local procedure ModifyAmount(GenJournalLine1: Record "Gen. Journal Line"; var GenJnlBatch: Record "Gen. Journal Batch")
