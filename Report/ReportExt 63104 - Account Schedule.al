@@ -8,6 +8,6 @@ reportextension 63104 AccountScheduleExt extends "Account Schedule"
 
     requestpage
     {
-        // Add changes to the requestpage here
+        // Add changes to the requestpage hereasss
     }
 }

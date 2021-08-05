@@ -4082,11 +4082,6 @@ End Function
         <Field Name="d_totalAmountFormat">
           <DataField>d_totalAmountFormat</DataField>
         </Field>
-<<<<<<< HEAD
-        <Field Name="dd">
-          <DataField>dd</DataField>
-        </Field>
-=======
         <Field Name="DescriptionUpperCase">
           <DataField>DescriptionUpperCase</DataField>
         </Field>
@@ -4105,7 +4100,6 @@ End Function
         <Field Name="i_MaxNumSequence">
           <DataField>i_MaxNumSequence</DataField>
         </Field>
->>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="d_ApproveDate1">
           <DataField>d_ApproveDate1</DataField>
         </Field>
@@ -4160,12 +4154,6 @@ End Function
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>
         </Field>
-<<<<<<< HEAD
-        <Field Name="External_Document_No_">
-          <DataField>External_Document_No_</DataField>
-        </Field>
-=======
->>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="Credit_Amount">
           <DataField>Credit_Amount</DataField>
         </Field>
@@ -4196,15 +4184,6 @@ End Function
         <Field Name="Bal__Account_No_">
           <DataField>Bal__Account_No_</DataField>
         </Field>
-<<<<<<< HEAD
-        <Field Name="t_AddressCustomer">
-          <DataField>t_AddressCustomer</DataField>
-        </Field>
-        <Field Name="t_NameCustomer">
-          <DataField>t_NameCustomer</DataField>
-        </Field>
-=======
->>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="Applies_to_Doc__No_">
           <DataField>Applies_to_Doc__No_</DataField>
         </Field>
@@ -4217,12 +4196,6 @@ End Function
         <Field Name="t_NameBank">
           <DataField>t_NameBank</DataField>
         </Field>
-<<<<<<< HEAD
-        <Field Name="DescriptionUpperCase">
-          <DataField>DescriptionUpperCase</DataField>
-        </Field>
-=======
->>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
         </Field>
