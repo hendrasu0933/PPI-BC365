@@ -932,27 +932,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox50">
+                        <Textbox Name="Posting_Date_HEader">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tanggal, </Value>
+                                  <Value>=Fields!Posting_Date_HEader.Value</Value>
                                   <Style />
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!Posting_Date.Value</Value>
-                                  <Style>
-                                    <Format>d MMMM, yyyy</Format>
-                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox50</rd:DefaultName>
+                          <rd:DefaultName>Posting_Date_HEader</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1924,41 +1918,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="d_ApproveDate5">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!d_ApproveDate5.Value</Value>
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>d_ApproveDate5</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="t_ApproveText5">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1966,9 +1925,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText5.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText4.Value,fields!t_ApproveText5.Value)</Value>
                                   <Style>
-                                    <Format>d MMM yyyy</Format>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1993,6 +1954,41 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="d_ApproveDate51">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate4.Value,fields!d_ApproveDate5.Value)</Value>
+                                  <Style>
+                                    <Format>d MMM yyyy</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>d_ApproveDate51</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="t_ApproveText11">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2000,11 +1996,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText1.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+"",fields!t_ApproveText2.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>d MMMM, yyyy</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2075,14 +2071,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="d_ApproveDate41">
+                        <Textbox Name="t_ApproveText41">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!d_ApproveDate4.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2094,7 +2090,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>d_ApproveDate41</rd:DefaultName>
+                          <rd:DefaultName>t_ApproveText41</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2110,14 +2106,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="t_ApproveText4">
+                        <Textbox Name="d_ApproveDate4">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText4.Value</Value>
+                                  <Value />
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2128,7 +2124,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>t_ApproveText4</rd:DefaultName>
+                          <rd:DefaultName>d_ApproveDate4</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2330,7 +2326,7 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox138">
+                                      <Textbox Name="i_MaxNumSequence">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
@@ -2338,7 +2334,9 @@
                                             <TextRuns>
                                               <TextRun>
                                                 <Value />
-                                                <Style />
+                                                <Style>
+                                                  <Format>f</Format>
+                                                </Style>
                                               </TextRun>
                                             </TextRuns>
                                             <Style>
@@ -2346,7 +2344,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox138</rd:DefaultName>
+                                        <rd:DefaultName>i_MaxNumSequence</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -2422,6 +2420,7 @@
                               <TablixMember />
                             </TablixMembers>
                           </TablixRowHierarchy>
+                          <DataSetName>DataSet_Result</DataSetName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2479,7 +2478,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText3.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText3.Value,fields!t_ApproveText4.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2507,14 +2507,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="t_ApproveText31">
+                        <Textbox Name="d_ApproveDate3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText3.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2525,7 +2526,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>t_ApproveText31</rd:DefaultName>
+                          <rd:DefaultName>d_ApproveDate3</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2626,7 +2627,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText2.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText2.Value,fields!t_ApproveText3.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2654,14 +2656,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="t_ApproveText2">
+                        <Textbox Name="d_ApproveDate2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText2.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2672,7 +2675,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>t_ApproveText2</rd:DefaultName>
+                          <rd:DefaultName>d_ApproveDate2</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -3336,14 +3339,13 @@
                           <rd:DefaultName>dd</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -3351,12 +3353,175 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Tablix Name="Tablix4">
+                          <TablixBody>
+                            <TablixColumns>
+                              <TablixColumn>
+                                <Width>5.93098cm</Width>
+                              </TablixColumn>
+                            </TablixColumns>
+                            <TablixRows>
+                              <TablixRow>
+                                <Height>0.82875cm</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox5">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+fields!t_ApproveText1.Value,fields!t_ApproveText1.Value)</Value>
+                                                <Style>
+                                                  <FontStyle>Italic</FontStyle>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox5</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                              <TablixRow>
+                                <Height>0.82875cm</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox6">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>KASIR</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox6</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Width>1pt</Width>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                            </TablixRows>
+                          </TablixBody>
+                          <TablixColumnHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixColumnHierarchy>
+                          <TablixRowHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixRowHierarchy>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Tablix>
+                        <ColSpan>2</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
@@ -3917,9 +4082,30 @@ End Function
         <Field Name="d_totalAmountFormat">
           <DataField>d_totalAmountFormat</DataField>
         </Field>
+<<<<<<< HEAD
         <Field Name="dd">
           <DataField>dd</DataField>
         </Field>
+=======
+        <Field Name="DescriptionUpperCase">
+          <DataField>DescriptionUpperCase</DataField>
+        </Field>
+        <Field Name="t_AddressCustomer">
+          <DataField>t_AddressCustomer</DataField>
+        </Field>
+        <Field Name="t_NameCustomer">
+          <DataField>t_NameCustomer</DataField>
+        </Field>
+        <Field Name="External_Document_No_">
+          <DataField>External_Document_No_</DataField>
+        </Field>
+        <Field Name="dd">
+          <DataField>dd</DataField>
+        </Field>
+        <Field Name="i_MaxNumSequence">
+          <DataField>i_MaxNumSequence</DataField>
+        </Field>
+>>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="d_ApproveDate1">
           <DataField>d_ApproveDate1</DataField>
         </Field>
@@ -3974,9 +4160,12 @@ End Function
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>
         </Field>
+<<<<<<< HEAD
         <Field Name="External_Document_No_">
           <DataField>External_Document_No_</DataField>
         </Field>
+=======
+>>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="Credit_Amount">
           <DataField>Credit_Amount</DataField>
         </Field>
@@ -4007,12 +4196,15 @@ End Function
         <Field Name="Bal__Account_No_">
           <DataField>Bal__Account_No_</DataField>
         </Field>
+<<<<<<< HEAD
         <Field Name="t_AddressCustomer">
           <DataField>t_AddressCustomer</DataField>
         </Field>
         <Field Name="t_NameCustomer">
           <DataField>t_NameCustomer</DataField>
         </Field>
+=======
+>>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="Applies_to_Doc__No_">
           <DataField>Applies_to_Doc__No_</DataField>
         </Field>
@@ -4025,9 +4217,12 @@ End Function
         <Field Name="t_NameBank">
           <DataField>t_NameBank</DataField>
         </Field>
+<<<<<<< HEAD
         <Field Name="DescriptionUpperCase">
           <DataField>DescriptionUpperCase</DataField>
         </Field>
+=======
+>>>>>>> f40969595cda57f3ea3f4693d4a78592857d3ca2
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
         </Field>

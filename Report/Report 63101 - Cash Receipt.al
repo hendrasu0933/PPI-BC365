@@ -15,6 +15,7 @@ report 63101 "Cash Receipt"
             column(CompanyInformasi; CompanyInformasi.City) { }
             column(CompanyInformasiName; CompanyInformasi.Name) { }
             column(Posting_Date; "Posting Date") { }
+            column(Bal__Account_No_; "Bal. Account No.") { }
             column(Account_No_; "Account No.") { }
             column(Journal_Template_Name; "Journal Template Name") { }
             column(Document_No_; "Document No.") { }
@@ -26,6 +27,7 @@ report 63101 "Cash Receipt"
             column(t_Approve; t_Approve) { }
             column(t_R_Finance; t_R_Finance) { }
             column(t_Department; t_Department) { }
+            column(Comment; Comment) { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             trigger OnAfterGetRecord()
             var
@@ -37,13 +39,16 @@ report 63101 "Cash Receipt"
                 rec_FixedAsset: Record "Fixed Asset";
                 rec_Employee: Record Employee;
                 rec_ApprovelEntry: Record "Approval Entry";
+
+                rec_JournalLine2: Record "Gen. Journal Line";
+                rec_Customer2: Record Customer;
+                rec_Vendor2: Record Vendor;
+                rec_GlAccount2: Record "G/L Account";
+                rec_BankAccount2: Record "Bank Account";
+                rec_FixedAsset2: Record "Fixed Asset";
+                rec_Employee2: Record Employee;
+                rec_ApprovelEntry2: Record "Approval Entry";
             begin
-                // amount in words
-                // d_totalAmount := 0;
-                // rec_JournalLine.SetRange("Journal Template Name", 'CASHRCPT');
-                // rec_JournalLine.SetRange("Journal Batch Name", "Gen. Journal Line"."Journal Batch Name");
-                // if rec_JournalLine.FindFirst() then
-                //     repeat
                 d_totalAmount := "Gen. Journal Line"."Amount (LCY)";
                 TotalCost := d_totalAmount;
                 Nilai := Round(TotalCost, 0.01, '=');
@@ -53,26 +58,41 @@ report 63101 "Cash Receipt"
                 RepCheck.FormatNoText(NoText, AmountVendor, 'USD');
 
                 AmountInWords := DelStr(NoText[1], 1, 5);
-                // until rec_JournalLine.Next = 0;
-                // get data vendor
-                rec_Customer.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_Customer.FindFirst() then
-                    t_NameCustomer := rec_Customer.Name;
-                rec_GlAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_GlAccount.FindFirst() then
-                    t_NameCustomer := rec_GlAccount.Name;
-                rec_Vendor.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_Vendor.FindFirst() then
-                    t_NameCustomer := rec_Vendor.Name;
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_BankAccount.FindFirst() then
-                    t_NameCustomer := rec_BankAccount.Name;
-                rec_FixedAsset.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_FixedAsset.FindFirst() then
-                    t_NameCustomer := rec_FixedAsset.Description;
-                rec_Employee.SetRange("No.", "Gen. Journal Line"."Account No.");
-                if rec_Employee.FindFirst() then
-                    t_NameCustomer := rec_Employee.FullName();
+                if "Bal. Account Type" = "Bal. Account Type"::Customer then begin
+                    rec_Customer.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_Customer.FindFirst() then
+                        t_NameCustomer := rec_Customer.Name;
+                end;
+
+                if "Bal. Account Type" = "Bal. Account Type"::"G/L Account" then begin
+                    rec_GlAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_GlAccount.FindFirst() then
+                        t_NameCustomer := rec_GlAccount.Name;
+                end;
+
+                if "Bal. Account Type" = "Bal. Account Type"::"G/L Account" then begin
+                    rec_Vendor.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_Vendor.FindFirst() then
+                        t_NameCustomer := rec_Vendor.Name;
+                end;
+
+                if "Bal. Account Type" = "Bal. Account Type"::"Bank Account" then begin
+                    rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_BankAccount.FindFirst() then
+                        t_NameCustomer := rec_BankAccount.Name;
+                end;
+
+                if "Bal. Account Type" = "Bal. Account Type"::"Fixed Asset" then begin
+                    rec_FixedAsset.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_FixedAsset.FindFirst() then
+                        t_NameCustomer := rec_FixedAsset.Description;
+                end;
+
+                if "Bal. Account Type" = "Bal. Account Type"::Employee then begin
+                    rec_Employee.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                    if rec_Employee.FindFirst() then
+                        t_NameCustomer := rec_Employee.FullName();
+                end;
 
                 // approvel Data
                 rec_ApprovelEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");

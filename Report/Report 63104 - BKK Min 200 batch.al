@@ -18,10 +18,15 @@ report 63104 "BKK Min 200 Batch"
             column(Journal_Template_Name_header; "Journal Template Name") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(d_totalAmount; d_totalAmount) { }
+            column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
+            column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
+            column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
+            column(External_Document_No_; "External Document No.") { }
             dataitem("Journal Line Document"; "Journal Line Document")
             {
                 DataItemLink = "Document No." = field("Document No.");
                 column(dd; "Journal Line Document".RecordId) { }
+                column(i_MaxNumSequence; i_MaxNumSequence) { }
                 column(d_ApproveDate1; d_ApproveDate[1]) { }
                 column(d_ApproveDate2; d_ApproveDate[2]) { }
                 column(d_ApproveDate3; d_ApproveDate[3]) { }
@@ -36,21 +41,15 @@ report 63104 "BKK Min 200 Batch"
                 trigger OnAfterGetRecord()
                 var
                     rec_ApproveEntry: Record "Approval Entry";
-                    rec_ApproveEntryTemporary: Record "Approval Entry";
                     t_approve: array[10] of Code[20];
                     rec_User: Record User;
-                    i_MaxNumSequence: Integer;
                     rec_JourLineDoc: Record "Journal Line Document";
                 begin
                     // geta approval
                     if Status <> Status::Open then begin
-                        rec_ApproveEntryTemporary.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        if rec_ApproveEntryTemporary.FindLast() then begin
-                            i_MaxNumSequence := rec_ApproveEntryTemporary."Sequence No.";
-                        end;
                         rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        rec_ApproveEntry.SetRange("Sequence No.", 1, i_MaxNumSequence);
                         if rec_ApproveEntry.FindLast() then begin
+                            i_MaxNumSequence := rec_ApproveEntry."Sequence No.";
                             repeat
                                 i += 1;
                                 if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
@@ -63,20 +62,7 @@ report 63104 "BKK Min 200 Batch"
                                 end else begin
                                     t_ApproveText[i] := '';
                                 end;
-                            until rec_ApproveEntry.Next = 0;
-                            if rec_ApproveEntry.Count = 4 then begin
-                                t_ApproveText[1] := '';
-                                t_ApproveText[2] := t_ApproveText[1];
-                                t_ApproveText[3] := t_ApproveText[2];
-                                t_ApproveText[4] := t_ApproveText[3];
-                                t_ApproveText[5] := t_ApproveText[4];
-
-                                d_ApproveDate[1] := 0DT;
-                                d_ApproveDate[2] := d_ApproveDate[1];
-                                d_ApproveDate[3] := d_ApproveDate[2];
-                                d_ApproveDate[4] := d_ApproveDate[3];
-                                d_ApproveDate[5] := d_ApproveDate[4];
-                            end;
+                            until rec_ApproveEntry.Next(-1) = 0;
                         end;
                     end;
 
@@ -93,20 +79,16 @@ report 63104 "BKK Min 200 Batch"
                 column(Journal_Template_Name; "Journal Template Name") { }
                 column(CompanyInformasi; CompanyInformasi.City) { }
                 column(Posting_Date; "Posting Date") { }
-                column(External_Document_No_; "External Document No.") { }
                 column(Credit_Amount; "Credit Amount") { }
                 column(Debit_Amount; "Debit Amount") { }
                 column(Amount; Amount) { }
                 column(Amount__LCY_; "Amount (LCY)") { }
                 column(Bal__Account_Type; "Bal. Account Type") { }
                 column(Bal__Account_No_; "Bal. Account No.") { }
-                column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
-                column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
                 column(Applies_to_Doc__No_; "Applies-to Doc. No.") { }
                 column(Document_No_; "Document No.") { }
                 column(Description; Description) { }
                 column(t_NameBank; t_NameBank) { }
-                column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
                 column(i_rows; i_rows) { }
                 trigger OnAfterGetRecord()
                 begin
@@ -126,22 +108,22 @@ report 63104 "BKK Min 200 Batch"
             begin
 
                 // get name bank account
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Bal. Account No.");
+                rec_BankAccount.SetRange("No.", "Bal. Account No.");
                 if rec_BankAccount.FindFirst() then
                     t_NameBank := rec_BankAccount.Name;
 
                 // get vendor or customer 
-                rec_Customer.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_Customer.SetRange("No.", "Account No.");
                 if rec_Customer.FindFirst() then begin
                     t_NameCustomer := rec_Customer.Name;
                     t_AddressCustomer := rec_Customer.Address + rec_Customer."Address 2";
                 end;
-                rec_Vendor.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_Vendor.SetRange("No.", "Account No.");
                 if rec_Vendor.FindFirst() then begin
                     t_NameCustomer := rec_Vendor.Name;
                     t_AddressCustomer := rec_Vendor.Address + rec_Vendor."Address 2";
                 end;
-                rec_BankAccount.SetRange("No.", "Gen. Journal Line"."Account No.");
+                rec_BankAccount.SetRange("No.", "Account No.");
                 if rec_BankAccount.FindFirst() then begin
                     t_NameCustomer := rec_BankAccount.Name;
                     t_AddressCustomer := rec_BankAccount.Address + rec_BankAccount."Address 2";
@@ -150,9 +132,9 @@ report 63104 "BKK Min 200 Batch"
                 // get terbilang words dalam bahasa indonesia
                 d_totalAmount := 0;
                 d_ifAmountMin := 0;
-                rec_GenJournalLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
-                rec_GenJournalLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
-                rec_GenJournalLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
+                rec_GenJournalLine.SetRange("Journal Template Name", "Journal Template Name");
+                rec_GenJournalLine.SetRange("Journal Batch Name", "Journal Batch Name");
+                rec_GenJournalLine.SetRange("Document No.", "Document No.");
                 if rec_GenJournalLine.FindFirst() then begin
                     repeat
                         if rec_GenJournalLine."Amount (LCY)" < 0 then begin
@@ -199,4 +181,5 @@ report 63104 "BKK Min 200 Batch"
         t_NameBank: Text;
         dd: RecordId;
         no_urut: Integer;
+        i_MaxNumSequence: Integer;
 }
