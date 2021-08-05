@@ -9,7 +9,7 @@ page 63102 "List Budget All"
     {
         area(Content)
         {
-            group(GroupName)
+            repeater(GroupName)
             {
                 field(Name; rec.Name)
                 {

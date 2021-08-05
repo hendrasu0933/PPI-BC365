@@ -40,7 +40,7 @@ page 63105 "Item Front End"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Create Item")
             {
                 ApplicationArea = All;
 
