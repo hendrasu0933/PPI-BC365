@@ -255,7 +255,7 @@
                                   <Style />
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!Description.Value</Value>
+                                  <Value>=Fields!Comment.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -741,6 +741,9 @@ End Function
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>
         </Field>
+        <Field Name="Bal__Account_No_">
+          <DataField>Bal__Account_No_</DataField>
+        </Field>
         <Field Name="Account_No_">
           <DataField>Account_No_</DataField>
         </Field>
@@ -782,6 +785,9 @@ End Function
         </Field>
         <Field Name="t_Department">
           <DataField>t_Department</DataField>
+        </Field>
+        <Field Name="Comment">
+          <DataField>Comment</DataField>
         </Field>
         <Field Name="AmountInWords">
           <DataField>AmountInWords</DataField>
