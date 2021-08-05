@@ -1997,7 +1997,7 @@ Fields!d_ApproveDate4.Value,fields!d_ApproveDate5.Value)</Value>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-"",fields!t_ApproveText1.Value)</Value>
+"",fields!t_ApproveText2.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2480,8 +2480,7 @@ Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!t_ApproveText2.Value,fields!t_ApproveText3.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2516,8 +2515,7 @@ Fields!t_ApproveText2.Value,fields!t_ApproveText3.Value)</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2630,7 +2628,7 @@ Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!t_ApproveText1.Value,fields!t_ApproveText2.Value)</Value>
+Fields!t_ApproveText2.Value,fields!t_ApproveText3.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2666,7 +2664,7 @@ Fields!t_ApproveText1.Value,fields!t_ApproveText2.Value)</Value>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
-Fields!d_ApproveDate1.Value,fields!d_ApproveDate2.Value)</Value>
+Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -3341,7 +3339,7 @@ Fields!d_ApproveDate1.Value,fields!d_ApproveDate2.Value)</Value>
                           <rd:DefaultName>dd</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
                             <TopBorder>
                               <Style>None</Style>
@@ -3356,12 +3354,170 @@ Fields!d_ApproveDate1.Value,fields!d_ApproveDate2.Value)</Value>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Tablix Name="Tablix4">
+                          <TablixBody>
+                            <TablixColumns>
+                              <TablixColumn>
+                                <Width>5.93098cm</Width>
+                              </TablixColumn>
+                            </TablixColumns>
+                            <TablixRows>
+                              <TablixRow>
+                                <Height>0.82875cm</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox5">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+fields!t_ApproveText1.Value,fields!t_ApproveText1.Value)</Value>
+                                                <Style>
+                                                  <FontStyle>Italic</FontStyle>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox5</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                              <TablixRow>
+                                <Height>0.82875cm</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox6">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>KASIR</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox6</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Style>None</Style>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                            </TablixRows>
+                          </TablixBody>
+                          <TablixColumnHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixColumnHierarchy>
+                          <TablixRowHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixRowHierarchy>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Tablix>
+                        <ColSpan>2</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>None</Style>
+                            </TopBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
