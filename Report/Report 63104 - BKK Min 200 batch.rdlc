@@ -932,27 +932,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox50">
+                        <Textbox Name="Posting_Date_HEader">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tanggal, </Value>
+                                  <Value>=Fields!Posting_Date_HEader.Value</Value>
                                   <Style />
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!Posting_Date.Value</Value>
-                                  <Style>
-                                    <Format>d MMMM, yyyy</Format>
-                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox50</rd:DefaultName>
+                          <rd:DefaultName>Posting_Date_HEader</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1931,7 +1925,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText5.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText4.Value,fields!t_ApproveText5.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -1966,7 +1961,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!d_ApproveDate5.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate4.Value,fields!d_ApproveDate5.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2000,11 +1996,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText1.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+"",fields!t_ApproveText1.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>d MMMM, yyyy</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2082,7 +2078,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText4.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText3.Value,fields!t_ApproveText4.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2117,7 +2114,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!d_ApproveDate4.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate3.Value,fields!d_ApproveDate4.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2330,7 +2328,7 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="d_ApproveDate1">
+                                      <Textbox Name="i_MaxNumSequence">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
@@ -2348,7 +2346,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>d_ApproveDate1</rd:DefaultName>
+                                        <rd:DefaultName>i_MaxNumSequence</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -2482,7 +2480,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText3.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText2.Value,fields!t_ApproveText3.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2517,7 +2516,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!d_ApproveDate3.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate2.Value,fields!d_ApproveDate3.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -2629,7 +2629,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!t_ApproveText2.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!t_ApproveText1.Value,fields!t_ApproveText2.Value)</Value>
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontWeight>Bold</FontWeight>
@@ -2664,7 +2665,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!d_ApproveDate2.Value</Value>
+                                  <Value>=IIf(fields!i_MaxNumSequence.Value = 4, 
+Fields!d_ApproveDate1.Value,fields!d_ApproveDate2.Value)</Value>
                                   <Style>
                                     <Format>d MMM yyyy</Format>
                                   </Style>
@@ -3920,8 +3922,23 @@ End Function
         <Field Name="d_totalAmountFormat">
           <DataField>d_totalAmountFormat</DataField>
         </Field>
+        <Field Name="DescriptionUpperCase">
+          <DataField>DescriptionUpperCase</DataField>
+        </Field>
+        <Field Name="t_AddressCustomer">
+          <DataField>t_AddressCustomer</DataField>
+        </Field>
+        <Field Name="t_NameCustomer">
+          <DataField>t_NameCustomer</DataField>
+        </Field>
+        <Field Name="External_Document_No_">
+          <DataField>External_Document_No_</DataField>
+        </Field>
         <Field Name="dd">
           <DataField>dd</DataField>
+        </Field>
+        <Field Name="i_MaxNumSequence">
+          <DataField>i_MaxNumSequence</DataField>
         </Field>
         <Field Name="d_ApproveDate1">
           <DataField>d_ApproveDate1</DataField>
@@ -3977,9 +3994,6 @@ End Function
         <Field Name="Posting_Date">
           <DataField>Posting_Date</DataField>
         </Field>
-        <Field Name="External_Document_No_">
-          <DataField>External_Document_No_</DataField>
-        </Field>
         <Field Name="Credit_Amount">
           <DataField>Credit_Amount</DataField>
         </Field>
@@ -4010,12 +4024,6 @@ End Function
         <Field Name="Bal__Account_No_">
           <DataField>Bal__Account_No_</DataField>
         </Field>
-        <Field Name="t_AddressCustomer">
-          <DataField>t_AddressCustomer</DataField>
-        </Field>
-        <Field Name="t_NameCustomer">
-          <DataField>t_NameCustomer</DataField>
-        </Field>
         <Field Name="Applies_to_Doc__No_">
           <DataField>Applies_to_Doc__No_</DataField>
         </Field>
@@ -4027,9 +4035,6 @@ End Function
         </Field>
         <Field Name="t_NameBank">
           <DataField>t_NameBank</DataField>
-        </Field>
-        <Field Name="DescriptionUpperCase">
-          <DataField>DescriptionUpperCase</DataField>
         </Field>
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
