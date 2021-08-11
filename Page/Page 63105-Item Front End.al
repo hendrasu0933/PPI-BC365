@@ -40,17 +40,16 @@ page 63105 "Item Front End"
     {
         area(Processing)
         {
-            action("Create Item")
-            {
-                ApplicationArea = All;
-
-                trigger OnAction()
-                var
-                    InterfaceFunc: Codeunit "Interface Function";
-                begin
-                    InterfaceFunc.CreateItem(Rec);
-                end;
-            }
+            //    action("Create Item")
+            //    {
+            //        ApplicationArea = All;
+            //        trigger OnAction()
+            //        var
+            //            InterfaceFunc: Codeunit "Interface Function";
+            //        begin
+            //            InterfaceFunc.CreateItem(Rec);
+            //        end;
+            //    }
         }
     }
 

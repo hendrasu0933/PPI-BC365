@@ -4,7 +4,7 @@ page 63104 "Customer Front End"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Customer Front End";
-
+    SourceTableView = where("Customer No. BC" = filter(''));
     layout
     {
         area(Content)
