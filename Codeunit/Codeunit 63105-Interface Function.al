@@ -74,7 +74,8 @@ codeunit 63105 "Interface Function"
     begin
         if CustFrontEnd."Customer No. BC" <> '' then
             exit;
-        CheckNPWP(CustFrontEnd.NPWP, CustFrontEnd.Kode, CustFrontEnd."Unit Bisnis");
+        if CustFrontEnd.NPWP <> '' then
+            CheckNPWP(CustFrontEnd.NPWP, CustFrontEnd.Kode, CustFrontEnd."Unit Bisnis");
         Customer.Init();
         Customer."No." := CustFrontEnd.Kode;
         Customer.Name := CustFrontEnd.Nama;
