@@ -1,34 +1,37 @@
-page 63105 "Item Front End"
+page 63108 "Customer Read Only"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = "Item Front End";
-
+    SourceTable = Customer;
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    Editable = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
         {
             repeater("Master Data")
             {
-                field(Kode; rec.Kode)
+                field("No."; rec."No.")
                 {
                     ApplicationArea = all;
                 }
-                field(Deskripsi; rec.Deskripsi)
+                field(Name; rec.Name)
                 {
                     ApplicationArea = All;
 
                 }
-                field("Unit of Measure"; rec."Unit of Measure")
+                field(Address; rec.Address)
                 {
                     ApplicationArea = all;
                 }
-                field("Item No. BC"; rec."Item No. BC")
+                field("E-Mail"; rec."E-Mail")
                 {
                     ApplicationArea = all;
                 }
-                field("Config Template BC"; rec."Config Template BC")
+                field("Global Dimension 1 Code"; rec."Global Dimension 1 Code")
                 {
                     ApplicationArea = all;
                 }
