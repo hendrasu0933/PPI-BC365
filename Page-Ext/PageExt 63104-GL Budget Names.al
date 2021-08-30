@@ -25,6 +25,7 @@ pageextension 63104 "GL Budget Name-Ext" extends "G/L Budget Names"
         {
             action(Reopen)
             {
+                ApplicationArea = all;
                 trigger OnAction()
                 var
                     BudgetFunc: Codeunit "Budget Function";
@@ -35,6 +36,7 @@ pageextension 63104 "GL Budget Name-Ext" extends "G/L Budget Names"
             }
             action("Make Default")
             {
+                ApplicationArea = all;
                 trigger OnAction()
                 var
                     BudgetFunc: Codeunit "Budget Function";
