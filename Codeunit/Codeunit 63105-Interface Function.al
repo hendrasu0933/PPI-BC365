@@ -74,6 +74,8 @@ codeunit 63105 "Interface Function"
     begin
         if CustFrontEnd."Customer No. BC" <> '' then
             exit;
+        if CustFrontEnd.NPWP <> '' then
+            CheckNPWP(CustFrontEnd.NPWP, CustFrontEnd.Kode, CustFrontEnd."Unit Bisnis");
         Customer.Init();
         Customer."No." := CustFrontEnd.Kode;
         Customer.Name := CustFrontEnd.Nama;
@@ -85,13 +87,60 @@ codeunit 63105 "Interface Function"
         Customer."Phone No." := CustFrontEnd."Telp 1";
         Customer."Mobile Phone No." := CustFrontEnd."Telp 2";
         Customer.Contact := CustFrontEnd."Kontak Person";
+        Customer."No. Series" := CustFrontEnd."Unit Bisnis";
         Customer.Insert();
+        Customer.Validate("Global Dimension 1 Code", CustFrontEnd."Unit Bisnis");
+        Customer.Modify();
         ConfigTemplateHeader.Get(CustFrontEnd."Config Template BC");
         CustomerRecRef.GETTABLE(Customer);
         ConfigTemplateManagement.UpdateRecord(ConfigTemplateHeader, CustomerRecRef);
         DimensionsTemplate.InsertDimensionsFromTemplates(ConfigTemplateHeader, Customer."No.", DATABASE::Customer);
         CustFrontEnd."Customer No. BC" := Customer."No.";
         CustFrontEnd.Modify();
+    end;
+
+    local procedure CheckNPWP(VATRegNo: Text[20]; Number: Code[20]; UnitBisnis: Code[20])
+    var
+        Check: Boolean;
+        Finish: Boolean;
+        TextString: Text;
+        CustomerIdentification: Text;
+        Cust: Record Customer;
+        Text002: Label 'No NPWP ini sudah teregister atas customer berikut:\ %1. \Apakah Anda ingin tetap melanjutkan membuat master data customer ini?';
+    begin
+        Check := TRUE;
+        TextString := '';
+        Cust.SETCURRENTKEY("VAT Registration No.");
+        Cust.SETRANGE("VAT Registration No.", VATRegNo);
+        Cust.SetRange("Global Dimension 1 Code", UnitBisnis);
+        Cust.SETFILTER("No.", '<>%1', Number);
+        IF Cust.FINDSET THEN BEGIN
+            Check := FALSE;
+            Finish := FALSE;
+            REPEAT
+                CustomerIdentification := Cust."No.";
+                AppendString(TextString, Finish, CustomerIdentification);
+            UNTIL (Cust.NEXT = 0) OR Finish;
+        END;
+        IF NOT Check THEN
+            if not Confirm(STRSUBSTNO(Text002, TextString)) then
+                Error('');
+    end;
+
+    LOCAL procedure AppendString(VAR String: Text; VAR Finish: Boolean; AppendText: Text)
+    begin
+        CASE TRUE OF
+            Finish:
+                EXIT;
+            String = '':
+                String := AppendText;
+            STRLEN(String) + STRLEN(AppendText) + 5 <= 250:
+                String += ', ' + AppendText;
+            ELSE BEGIN
+                    String += '...';
+                    Finish := TRUE;
+                END;
+        END;
     end;
 
     procedure CreateItem(var ItemFrontEnd: Record "Item Front End")

@@ -29,7 +29,7 @@ table 63102 "Customer Front End"
         { }
         field(8; "Nomor Identitas"; Text[30])
         { }
-        field(9; "NPWP"; Text[30])
+        field(9; "NPWP"; Text[20])
         { }
         field(10; "Kontak Person"; Text[100])
         { }
@@ -48,6 +48,17 @@ table 63102 "Customer Front End"
         field(16; "Config Template BC"; Code[10])
         {
             TableRelation = "Config. Template Header" where("Table ID" = const(18));
+        }
+        field(17; "Unit Bisnis"; Code[20])
+        {
+            trigger OnValidate()
+            var
+                NoSerMgt: Codeunit NoSeriesManagement;
+            begin
+                if Kode = '' then begin
+                    Kode := NoSerMgt.GetNextNo("Unit Bisnis", WorkDate(), true);
+                end;
+            end;
         }
     }
 
