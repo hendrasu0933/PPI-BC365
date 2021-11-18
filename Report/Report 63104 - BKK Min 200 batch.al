@@ -45,17 +45,22 @@ report 63104 "BKK Min 200 Batch"
                     t_approve: array[10] of Code[20];
                     rec_User: Record User;
                     rec_JourLineDoc: Record "Journal Line Document";
+                    awalApproveEntry: Integer;
                 begin
                     // geta approval
+                    awalApproveEntry := 0;
+                    i_MaxNumSequence := 0;
                     if Status <> Status::Open then begin
                         rec_ApproveEntryLast.Reset();
                         rec_ApproveEntryLast.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
                         if rec_ApproveEntryLast.FindLast() then begin
+
                             i_MaxNumSequence := rec_ApproveEntryLast."Sequence No.";
+                            awalApproveEntry := rec_ApproveEntryLast."Entry No." - (i_MaxNumSequence - 1);
 
                             rec_ApproveEntry.Reset();
                             rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                            rec_ApproveEntry.SetRange("Date-Time Sent for Approval", rec_ApproveEntryLast."Date-Time Sent for Approval");
+                            rec_ApproveEntry.SetRange("Entry No.", awalApproveEntry, rec_ApproveEntryLast."Entry No.");
                             if rec_ApproveEntry.FindFirst() then begin
                                 repeat
                                     i += 1;
