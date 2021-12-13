@@ -125,6 +125,7 @@ report 63102 "BKK Min 200"
                 AmountInWords := arrray[1] + ' Rupiah';
                 // geta approval
                 // rec_ApproveEntry.SetRange("Document No.", "Gen. Journal Line"."Document No.");
+                rec_ApproveEntry.Reset();
                 rec_ApproveEntry.SetRange(Status, rec_ApproveEntry.Status::Approved);
                 rec_ApproveEntry.SetRange("Record ID to Approve", "Gen. Journal Line".RecordId);
                 if rec_ApproveEntry.FindFirst() then begin

@@ -41,29 +41,61 @@ report 63104 "BKK Min 200 Batch"
                 trigger OnAfterGetRecord()
                 var
                     rec_ApproveEntry: Record "Approval Entry";
+                    rec_ApproveEntryLast: Record "Approval Entry";
                     t_approve: array[10] of Code[20];
                     rec_User: Record User;
                     rec_JourLineDoc: Record "Journal Line Document";
+                    awalApproveEntry: Integer;
                 begin
                     // geta approval
+                    awalApproveEntry := 0;
+                    i_MaxNumSequence := 0;
                     if Status <> Status::Open then begin
-                        rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
-                        if rec_ApproveEntry.FindLast() then begin
-                            i_MaxNumSequence := rec_ApproveEntry."Sequence No.";
-                            repeat
-                                i += 1;
-                                if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
-                                    t_approve[i] := rec_ApproveEntry."Approver ID";
-                                    d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
-                                    t_ApproveText[i] := 'APPROVED';
-                                    rec_User.SetRange("User Name", t_approve[i]);
-                                    if rec_User.FindFirst() then
-                                        t_ApproveName[i] := rec_User."Full Name";
-                                end else begin
-                                    t_ApproveText[i] := '';
-                                end;
-                            until rec_ApproveEntry.Next(-1) = 0;
+                        rec_ApproveEntryLast.Reset();
+                        rec_ApproveEntryLast.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
+                        if rec_ApproveEntryLast.FindLast() then begin
+
+                            i_MaxNumSequence := rec_ApproveEntryLast."Sequence No.";
+                            awalApproveEntry := rec_ApproveEntryLast."Entry No." - (i_MaxNumSequence - 1);
+
+                            rec_ApproveEntry.Reset();
+                            rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
+                            rec_ApproveEntry.SetRange("Entry No.", awalApproveEntry, rec_ApproveEntryLast."Entry No.");
+                            if rec_ApproveEntry.FindFirst() then begin
+                                repeat
+                                    i += 1;
+                                    if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
+                                        t_approve[i] := rec_ApproveEntry."Approver ID";
+                                        d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                                        t_ApproveText[i] := 'APPROVED';
+                                        rec_User.SetRange("User Name", t_approve[i]);
+                                        if rec_User.FindFirst() then
+                                            t_ApproveName[i] := rec_User."Full Name";
+                                    end else begin
+                                        t_ApproveText[i] := '';
+                                    end;
+                                until rec_ApproveEntry.Next() = 0;
+                            end;
+
                         end;
+                        // rec_ApproveEntry.Reset();
+                        // rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
+                        // if rec_ApproveEntry.FindLast() then begin
+                        //     i_MaxNumSequence := rec_ApproveEntry."Sequence No.";
+                        //     repeat
+                        //         i += 1;
+                        //         if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
+                        //             t_approve[i] := rec_ApproveEntry."Approver ID";
+                        //             d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                        //             t_ApproveText[i] := 'APPROVED';
+                        //             rec_User.SetRange("User Name", t_approve[i]);
+                        //             if rec_User.FindFirst() then
+                        //                 t_ApproveName[i] := rec_User."Full Name";
+                        //         end else begin
+                        //             t_ApproveText[i] := '';
+                        //         end;
+                        //     until rec_ApproveEntry.Next(-1) = 0;
+                        // end;
                     end;
 
                 end;
