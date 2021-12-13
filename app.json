@@ -2,7 +2,7 @@
   "id": "1a251b3c-bb88-4e77-8a86-06d15b17aad0",
   "name": "PPI-Fin",
   "publisher": "MSI",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "brief": "",
   "description": "Add-On for PPI",
   "privacyStatement": "",
@@ -13,7 +13,7 @@
   "dependencies": [],
   "screenshots": [],
   "platform": "1.0.0.0",
-  "application": "18.0.0.0",
+  "application": "19.0.0.0",
   "idRanges": [
     {
       "from": 63101,
@@ -21,6 +21,11 @@
     }
   ],
   "contextSensitiveHelpUrl": "https://PPI-BC365.com/help/",
-  "showMyCode": false,
-  "runtime": "7.0"
+  
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "8.0"
 }
