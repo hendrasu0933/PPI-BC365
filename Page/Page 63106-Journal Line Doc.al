@@ -52,6 +52,18 @@ page 63106 "Journal Line Document"
                     CurrPage.Update();
                 end;
             }
+            action("Edit Journal")
+            {
+                ApplicationArea = all;
+                trigger OnAction()
+                var
+                    GenJnlBatch: Record "Gen. Journal Batch";
+                    GenJnlMgt: Codeunit GenJnlManagement;
+                begin
+                    GenJnlBatch.Get(Rec."Journal Template", Rec."Journal Batch");
+                    GenJnlMgt.TemplateSelectionFromBatch(GenJnlBatch);
+                end;
+            }
 
         }
     }
