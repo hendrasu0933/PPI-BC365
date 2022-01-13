@@ -7,6 +7,7 @@ report 63130 "Bukti Pengeluaran KasBank"
     DefaultLayout = RDLC;
     PreviewMode = PrintLayout;
 
+
     dataset
     {
         dataitem("Gen. Journal Line2"; "Gen. Journal Line")
@@ -100,6 +101,23 @@ report 63130 "Bukti Pengeluaran KasBank"
 
                 end;
             }
+            dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
+            {
+                DataItemLink = "Document No." = field("Applies-to Doc. No.");
+                column(PIVDescription; Description)
+                {
+
+                }
+                column(PIVAmount_Including_VAT; "Amount Including VAT")
+                {
+
+                }
+                column(ShowAccountNo; ShowAccountNo)
+                {
+
+                }
+
+            }
             dataitem("Gen. Journal Line"; "Gen. Journal Line")
             {
                 DataItemLink = "Document No." = field("Document No."), "Journal Batch Name" = field("Journal Batch Name"),
@@ -182,6 +200,7 @@ report 63130 "Bukti Pengeluaran KasBank"
             end;
         }
     }
+
     trigger OnInitReport()
     var
         GLJournal: Record "Gen. Journal Line";
