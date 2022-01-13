@@ -48,6 +48,22 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
                     Report.Run(Report::"BKK Min 200 Batch", true, true, rec_genJournal);
                 end;
             }
+            action("Bukti Pengeluaran KasBank")
+            {
+                Caption = 'Bukti Pengeluaran Kas Bank';
+                Image = PrintForm;
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                ApplicationArea = all;
+                trigger OnAction()
+                var
+                    rec_genJournal: Record "Gen. Journal Line";
+                begin
+                    CurrPage.SetSelectionFilter(rec_genJournal);
+                    Report.Run(Report::"Bukti Pengeluaran KasBank", true, true, rec_genJournal);
+                end;
+            }
         }
         addafter("F&unctions")
         {
