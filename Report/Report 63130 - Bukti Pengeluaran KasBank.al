@@ -12,9 +12,15 @@ report 63130 "Bukti Pengeluaran KasBank"
     {
         dataitem("Gen. Journal Line2"; "Gen. Journal Line")
         {
+            column(BuktiPendukung; BuktiPendukung)
+            { }
             column(Line_No_Header; "Line No.") { }
             column(Journal_Batch_Name_Header; "Journal Batch Name") { }
             column(Document_No_Header; "Document No.") { }
+            column(Applies_to_Doc__No_2; "Applies-to Doc. No.")
+            {
+
+            }
             column(Posting_Date_HEader; "Posting Date") { }
             column(Journal_Template_Name_header; "Journal Template Name") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
@@ -23,6 +29,7 @@ report 63130 "Bukti Pengeluaran KasBank"
             column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
             column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
             column(External_Document_No_; "External Document No.") { }
+
             dataitem("Journal Line Document"; "Journal Line Document")
             {
                 DataItemLink = "Document No." = field("Document No.");
@@ -101,28 +108,16 @@ report 63130 "Bukti Pengeluaran KasBank"
 
                 end;
             }
-            dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
-            {
-                DataItemLink = "Document No." = field("Applies-to Doc. No.");
-                column(PIVDescription; Description)
-                {
 
-                }
-                column(PIVAmount_Including_VAT; "Amount Including VAT")
-                {
-
-                }
-                column(ShowAccountNo; ShowAccountNo)
-                {
-
-                }
-
-            }
             dataitem("Gen. Journal Line"; "Gen. Journal Line")
             {
                 DataItemLink = "Document No." = field("Document No."), "Journal Batch Name" = field("Journal Batch Name"),
                 "Journal Template Name" = field("Journal Template Name");
                 column(Line_No_; "Line No.") { }
+                column(GetBankAccount; GetBankAccount(format("Account Type"), "Account No."))
+                {
+
+                }
                 column(no_urut; no_urut) { }
                 column(Journal_Batch_Name; "Journal Batch Name") { }
                 column(Account_No_; "Account No.") { }
@@ -140,6 +135,12 @@ report 63130 "Bukti Pengeluaran KasBank"
                 column(Description; Description) { }
                 column(t_NameBank; t_NameBank) { }
                 column(i_rows; i_rows) { }
+                trigger OnPreDataItem()
+                begin
+                    SetRange("Applies-to Doc. No.", '');
+                    no_urut := LastNoPOInv;
+                end;
+
                 trigger OnAfterGetRecord()
                 begin
                     no_urut += 1;
@@ -155,7 +156,20 @@ report 63130 "Bukti Pengeluaran KasBank"
                 rec_PosPurchLine2: Record "Purch. Inv. Line";
                 rec_BankAccount2: Record "Bank Account";
                 rec_BankAccount: Record "Bank Account";
+                PuchInvLine: Record "Purch. Inv. Line";
+                IncDocAttachment: Record "Inc. Doc. Attachment Overview";
             begin
+
+                if "Incoming Document Entry No." <> 0 then
+                    BuktiPendukung := 'Terlampir'
+                else
+                    BuktiPendukung := 'Tidak Terlampir';
+                LastNoPOInv := 0;
+                PuchInvLine.Reset();
+                PuchInvLine.SetRange("Document No.", "Applies-to Doc. No.");
+                PuchInvLine.SetFilter(Type, '<> %1', PuchInvLine.Type::" ");
+                if PuchInvLine.FindFirst() then
+                    LastNoPOInv := PuchInvLine.Count;
 
                 // get name bank account
                 rec_BankAccount.SetRange("No.", "Bal. Account No.");
@@ -199,7 +213,45 @@ report 63130 "Bukti Pengeluaran KasBank"
                 end;
             end;
         }
+        dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
+        {
+
+            column(PIVDescription; Description)
+            {
+
+            }
+            column(DescAvaialable; DescAvaialable)
+            {
+
+            }
+            column(PIVAmount_Including_VAT; "Amount Including VAT")
+            {
+
+            }
+            column(ShowAccountNo; ShowAccountNo)
+            {
+
+            }
+
+            trigger OnPreDataItem()
+            begin
+                SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
+                // SetFilter("No.", '<> %1', '');
+            end;
+
+            trigger OnAfterGetRecord()
+            begin
+                if Description = '' then
+                    DescAvaialable := false
+                else
+                    DescAvaialable := true;
+            end;
+
+        }
+
     }
+
+
 
     trigger OnInitReport()
     var
@@ -214,6 +266,7 @@ report 63130 "Bukti Pengeluaran KasBank"
         // g1
         CompanyInformasi: record "Company Information";
         DocumentNo: Text;
+        DescAvaialable: Boolean;
         //g2
         t_NameCustomer: Text;
         t_AddressCustomer: Text;
@@ -237,4 +290,25 @@ report 63130 "Bukti Pengeluaran KasBank"
         dd: RecordId;
         no_urut: Integer;
         i_MaxNumSequence: Integer;
+        LastNoPOInv: Integer;
+        BuktiPendukung: Text;
+
+    local procedure GetBankAccount(AccountType: Text; BankCode: Text): Text
+    var
+        BankAccount: Record "Bank Account";
+        BankAccPostingGrp: Record "Bank Account Posting Group";
+        GlAccount: Text;
+    begin
+        GlAccount := '-';
+        if AccountType = 'Bank Account' then begin
+            BankAccount.Reset();
+            BankAccount.SetRange("No.", BankCode);
+            if BankAccount.FindFirst() then
+                BankAccPostingGrp.Reset();
+            BankAccPostingGrp.SetRange(Code, BankAccount."Bank Acc. Posting Group");
+            if BankAccPostingGrp.FindFirst() then
+                GlAccount := BankAccPostingGrp."G/L Account No.";
+        end;
+        exit(GlAccount);
+    end;
 }
