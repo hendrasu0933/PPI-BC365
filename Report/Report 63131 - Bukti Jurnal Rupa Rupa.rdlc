@@ -1860,7 +1860,7 @@
                                             <Style>None</Style>
                                           </TopBorder>
                                           <BottomBorder>
-                                            <Color>Black</Color>
+                                            <Style>None</Style>
                                           </BottomBorder>
                                           <LeftBorder>
                                             <Color>Black</Color>
@@ -1901,9 +1901,6 @@
                                           <Border>
                                             <Style>None</Style>
                                           </Border>
-                                          <BottomBorder>
-                                            <Style>Solid</Style>
-                                          </BottomBorder>
                                           <VerticalAlign>Bottom</VerticalAlign>
                                           <PaddingLeft>2pt</PaddingLeft>
                                           <PaddingRight>2pt</PaddingRight>
@@ -1939,7 +1936,7 @@
                                             <Style>None</Style>
                                           </TopBorder>
                                           <BottomBorder>
-                                            <Color>Black</Color>
+                                            <Style>None</Style>
                                           </BottomBorder>
                                           <LeftBorder>
                                             <Style>None</Style>
@@ -2111,6 +2108,11 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2738,7 +2740,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!no_urut.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -2789,7 +2791,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Description.Value</Value>
+                                  <Value>=Fields!GetAccountName.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3107,7 +3109,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PIVAmount_Including_VAT.Value)</Value>
+                                  <Value>=Sum(Fields!Debit_Amount.Value)</Value>
                                   <Style>
                                     <Format>n2</Format>
                                   </Style>
@@ -3210,7 +3212,7 @@
         <Height>16.14039cm</Height>
         <Style />
       </Body>
-      <Width>20.02251cm</Width>
+      <Width>20.02252cm</Width>
       <Page>
         <PageHeader>
           <Height>3.96406cm</Height>
@@ -3711,6 +3713,9 @@ End Function
         </Field>
         <Field Name="GetBankAccount">
           <DataField>GetBankAccount</DataField>
+        </Field>
+        <Field Name="GetAccountName">
+          <DataField>GetAccountName</DataField>
         </Field>
         <Field Name="no_urut">
           <DataField>no_urut</DataField>

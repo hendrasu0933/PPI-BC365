@@ -213,7 +213,7 @@ report 63132 "Bukti Penerima KasBank"
                 end;
             end;
         }
-        dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
+        dataitem("Sales Invoice Line"; "Sales Invoice Line")
         {
 
             column(PIVDescription; Description)

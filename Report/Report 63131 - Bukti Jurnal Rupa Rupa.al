@@ -24,9 +24,9 @@ report 63131 "Bukti Jurnal Rupa Rupa"
             column(Journal_Template_Name_header; "Journal Template Name") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(d_totalAmount; d_totalAmount) { }
-            column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
+            column(DescriptionUpperCase; text.UpperCase(Description)) { }
             column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
-            column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
+            column(t_NameCustomer; t_NameCustomer) { }
             column(External_Document_No_; "External Document No.") { }
 
             dataitem("Journal Line Document"; "Journal Line Document")
@@ -117,6 +117,8 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 {
 
                 }
+                column(GetAccountName; GetAccountName(GetBankAccount(format("Account Type"), "Account No.")))
+                { }
                 column(no_urut; no_urut) { }
                 column(Journal_Batch_Name; "Journal Batch Name") { }
                 column(Account_No_; "Account No.") { }
@@ -137,7 +139,7 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 trigger OnPreDataItem()
                 begin
                     SetRange("Applies-to Doc. No.", '');
-                    no_urut := LastNoPOInv;
+                    // no_urut := LastNoPOInv;
                 end;
 
                 trigger OnAfterGetRecord()
@@ -157,8 +159,10 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 rec_BankAccount: Record "Bank Account";
                 PuchInvLine: Record "Purch. Inv. Line";
                 IncDocAttachment: Record "Inc. Doc. Attachment Overview";
+                dimensionSetEntry: Record "Dimension Set Entry";
+                GLSetup: Record "General Ledger Setup";
             begin
-
+                GLSetup.Get();
                 if "Incoming Document Entry No." <> 0 then
                     BuktiPendukung := 'Terlampir'
                 else
@@ -169,7 +173,7 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 PuchInvLine.SetFilter(Type, '<> %1', PuchInvLine.Type::" ");
                 if PuchInvLine.FindFirst() then
                     LastNoPOInv := PuchInvLine.Count;
-
+                // t_NameCustomer := '1';
                 // get name bank account
                 rec_BankAccount.SetRange("No.", "Bal. Account No.");
                 if rec_BankAccount.FindFirst() then
@@ -192,6 +196,14 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                     t_AddressCustomer := rec_BankAccount.Address + rec_BankAccount."Address 2";
                 end;
 
+                // dimensionSetEntry.Reset();
+                dimensionSetEntry.SetRange("Dimension Set ID", "Gen. Journal Line2"."Dimension Set ID");
+                // dimensionSetEntry.SetFilter("Dimension Code", GLSetup."Shortcut Dimension 7 Code");
+                if dimensionSetEntry.FindFirst() then begin
+                    dimensionSetEntry.CalcFields("Dimension Value Name");
+                    t_NameCustomer := dimensionSetEntry."Dimension Value Name";
+                end;
+                // t_NameCustomer := GLSetup."Shortcut Dimension 7 Code";
                 // get terbilang words dalam bahasa indonesia
                 d_totalAmount := 0;
                 d_ifAmountMin := 0;
@@ -313,6 +325,20 @@ report 63131 "Bukti Jurnal Rupa Rupa"
         LastNoPOInv: Integer;
         BuktiPendukung: Text;
 
+    local procedure GetAccountName(AccountCode: Text): Text
+    var
+        GLAccount: Record "G/L Account";
+        ShowName: Text;
+    begin
+        ShowName := '';
+        GLAccount.Reset();
+        GLAccount.SetRange("No.", AccountCode);
+        if GLAccount.FindFirst() then
+            ShowName := GLAccount.Name;
+        exit(ShowName);
+
+    end;
+
     local procedure GetBankAccount(AccountType: Text; BankCode: Text): Text
     var
         BankAccount: Record "Bank Account";
@@ -320,6 +346,8 @@ report 63131 "Bukti Jurnal Rupa Rupa"
         GlAccount: Text;
     begin
         GlAccount := '-';
+        if AccountType = 'G/L Account' then
+            GlAccount := BankCode;
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
             BankAccount.SetRange("No.", BankCode);
