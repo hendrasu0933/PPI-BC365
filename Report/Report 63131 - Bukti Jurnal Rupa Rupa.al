@@ -1,12 +1,11 @@
-report 63130 "Bukti Pengeluaran KasBank"
+report 63131 "Bukti Jurnal Rupa Rupa"
 {
-    Caption = 'BKK Batch';
+    Caption = 'Bukti Jurnal Rupa Rupa';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-    RDLCLayout = './Report/Report 63130 - Bukti Pengeluaran KasBank.rdlc';
+    RDLCLayout = './Report/Report 63131 - Bukti Jurnal Rupa Rupa.rdlc';
     DefaultLayout = RDLC;
     PreviewMode = PrintLayout;
-
 
     dataset
     {

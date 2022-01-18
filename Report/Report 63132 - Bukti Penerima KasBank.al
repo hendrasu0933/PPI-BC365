@@ -1,9 +1,9 @@
-report 63130 "Bukti Pengeluaran KasBank"
+report 63132 "Bukti Penerima KasBank"
 {
-    Caption = 'BKK Batch';
+    // Caption = 'BKK Batch';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-    RDLCLayout = './Report/Report 63130 - Bukti Pengeluaran KasBank.rdlc';
+    RDLCLayout = './Report/Report 63132 - Bukti Penerima KasBank.rdlc';
     DefaultLayout = RDLC;
     PreviewMode = PrintLayout;
 
