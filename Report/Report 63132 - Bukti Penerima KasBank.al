@@ -118,6 +118,8 @@ report 63132 "Bukti Penerima KasBank"
                 {
 
                 }
+                column(GetAccountName; GetAccountName(GetBankAccount(format("Account Type"), "Account No.")))
+                { }
                 column(no_urut; no_urut) { }
                 column(Journal_Batch_Name; "Journal Batch Name") { }
                 column(Account_No_; "Account No.") { }
@@ -137,7 +139,7 @@ report 63132 "Bukti Penerima KasBank"
                 column(i_rows; i_rows) { }
                 trigger OnPreDataItem()
                 begin
-                    SetRange("Applies-to Doc. No.", '');
+                    // SetRange("Applies-to Doc. No.", '');
                     no_urut := LastNoPOInv;
                 end;
 
@@ -224,7 +226,7 @@ report 63132 "Bukti Penerima KasBank"
             {
 
             }
-            column(PIVAmount_Including_VAT; "Amount Including VAT")
+            column(PIVAmount_Including_VAT; AmountGenJnlLine)
             {
 
             }
@@ -232,15 +234,31 @@ report 63132 "Bukti Penerima KasBank"
             {
 
             }
+            column(NoUrut2; NoUrut2)
+            {
+
+            }
 
             trigger OnPreDataItem()
+            var
+                GenJrnlLine: Record "Gen. Journal Line";
             begin
+                NoUrut2 := 0;
                 SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
+                GenJrnlLine.Reset();
+                GenJrnlLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
+                GenJrnlLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
+                GenJrnlLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
+                if GenJrnlLine.FindFirst() then begin
+                    NoUrut2 := "Gen. Journal Line2".Count;
+                    AmountGenJnlLine := "Gen. Journal Line2".Amount;
+                end;
                 // SetFilter("No.", '<> %1', '');
             end;
 
             trigger OnAfterGetRecord()
             begin
+                NoUrut2 := NoUrut2 + 1;
                 if Description = '' then
                     DescAvaialable := false
                 else
@@ -285,9 +303,11 @@ report 63132 "Bukti Penerima KasBank"
 
     var
         // g1
+        NoUrut2: Integer;
         CompanyInformasi: record "Company Information";
         DocumentNo: Text;
         DescAvaialable: Boolean;
+        AmountGenJnlLine: Decimal;
         //g2
         t_NameCustomer: Text;
         t_AddressCustomer: Text;
@@ -313,6 +333,22 @@ report 63132 "Bukti Penerima KasBank"
         i_MaxNumSequence: Integer;
         LastNoPOInv: Integer;
         BuktiPendukung: Text;
+
+
+
+    local procedure GetAccountName(AccountCode: Text): Text
+    var
+        GLAccount: Record "G/L Account";
+        ShowName: Text;
+    begin
+        ShowName := '';
+        GLAccount.Reset();
+        GLAccount.SetRange("No.", AccountCode);
+        if GLAccount.FindFirst() then
+            ShowName := GLAccount.Name;
+        exit(ShowName);
+
+    end;
 
     local procedure GetBankAccount(AccountType: Text; BankCode: Text): Text
     var
