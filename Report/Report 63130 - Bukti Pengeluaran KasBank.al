@@ -14,6 +14,7 @@ report 63130 "Bukti Pengeluaran KasBank"
         {
             column(BuktiPendukung; BuktiPendukung)
             { }
+
             column(Line_No_Header; "Line No.") { }
             column(Journal_Batch_Name_Header; "Journal Batch Name") { }
             column(Document_No_Header; "Document No.") { }
@@ -25,7 +26,8 @@ report 63130 "Bukti Pengeluaran KasBank"
             column(Journal_Template_Name_header; "Journal Template Name") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(d_totalAmount; d_totalAmount) { }
-            column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
+            // column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
+            column(DescriptionUpperCase; text.UpperCase(Description)) { }
             column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
             column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
             column(External_Document_No_; "External Document No.") { }
@@ -215,7 +217,10 @@ report 63130 "Bukti Pengeluaran KasBank"
         }
         dataitem("Purch. Inv. Line"; "Purch. Inv. Line")
         {
+            column(ShowVendorName; ShowVendorName("Buy-from Vendor No."))
+            {
 
+            }
             column(PIVDescription; Description)
             {
 
@@ -232,10 +237,32 @@ report 63130 "Bukti Pengeluaran KasBank"
             {
 
             }
+            column(GLShortcut_Dimension_2_Code; GetShortcutDimension2formGL)
+            {
+
+            }
+            column(GetAccountNoformGL; GetAccountNoformGL)
+            { }
+            // column(Shortcut_Dimension_2_Code; "Shortcut Dimension 2 Code")
+            // {
+
+            // }
 
             trigger OnPreDataItem()
+            var
+                GenJrnlLine: Record "Gen. Journal Line";
             begin
+                GetShortcutDimension2formGL := '';
+                GetAccountNoformGL := '';
                 SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
+                GenJrnlLine.Reset();
+                GenJrnlLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
+                GenJrnlLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
+                GenJrnlLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
+                if GenJrnlLine.FindFirst() then begin
+                    GetShortcutDimension2formGL := GenJrnlLine."Shortcut Dimension 2 Code";
+                    GetAccountNoformGL := GenJrnlLine."Account No.";
+                end;
                 // SetFilter("No.", '<> %1', '');
             end;
 
@@ -273,6 +300,18 @@ report 63130 "Bukti Pengeluaran KasBank"
     }
 
 
+    local procedure ShowVendorName(VendCode: Text): Text
+    var
+        Vendornya: Record Vendor;
+    begin
+        Vendornya.Reset();
+        Vendornya.SetRange("No.", VendCode);
+        if Vendornya.FindFirst() then
+            exit(Vendornya.Name)
+        else
+            exit('');
+    end;
+
 
     trigger OnInitReport()
     var
@@ -287,6 +326,8 @@ report 63130 "Bukti Pengeluaran KasBank"
         // g1
         CompanyInformasi: record "Company Information";
         DocumentNo: Text;
+        GetShortcutDimension2formGL: Text;
+        GetAccountNoformGL: Text;
         DescAvaialable: Boolean;
         //g2
         t_NameCustomer: Text;

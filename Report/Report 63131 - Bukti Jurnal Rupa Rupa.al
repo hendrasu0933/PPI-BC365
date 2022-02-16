@@ -113,6 +113,10 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 DataItemLink = "Document No." = field("Document No."), "Journal Batch Name" = field("Journal Batch Name"),
                 "Journal Template Name" = field("Journal Template Name");
                 column(Line_No_; "Line No.") { }
+                column(Shortcut_Dimension_2_Code; "Shortcut Dimension 2 Code")
+                {
+
+                }
                 column(GetBankAccount; GetBankAccount(format("Account Type"), "Account No."))
                 {
 
@@ -121,7 +125,7 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 { }
                 column(no_urut; no_urut) { }
                 column(Journal_Batch_Name; "Journal Batch Name") { }
-                column(Account_No_; "Account No.") { }
+                column(Account_No_; Accountno2) { }
                 column(Journal_Template_Name; "Journal Template Name") { }
                 column(CompanyInformasi; CompanyInformasi.City) { }
                 column(Posting_Date; "Posting Date") { }
@@ -145,6 +149,10 @@ report 63131 "Bukti Jurnal Rupa Rupa"
                 trigger OnAfterGetRecord()
                 begin
                     no_urut += 1;
+                    if "Account Type" = "Account Type"::"G/L Account" then
+                        Accountno2 := ''
+                    else
+                        Accountno2 := "Account No.";
                 end;
             }
             trigger OnAfterGetRecord()
@@ -296,6 +304,7 @@ report 63131 "Bukti Jurnal Rupa Rupa"
 
     var
         // g1
+        Accountno2: Text;
         CompanyInformasi: record "Company Information";
         DocumentNo: Text;
         DescAvaialable: Boolean;
@@ -328,6 +337,11 @@ report 63131 "Bukti Jurnal Rupa Rupa"
     local procedure GetAccountName(AccountCode: Text): Text
     var
         GLAccount: Record "G/L Account";
+        BankAccount: Record "Bank Account";
+        VendorMaster: Record Vendor;
+        CustomerMaster: Record Customer;
+        EmployeeMaster: Record Employee;
+        AssetMaster: Record "Fixed Asset";
         ShowName: Text;
     begin
         ShowName := '';
@@ -343,6 +357,14 @@ report 63131 "Bukti Jurnal Rupa Rupa"
     var
         BankAccount: Record "Bank Account";
         BankAccPostingGrp: Record "Bank Account Posting Group";
+        VendorMaster: Record Vendor;
+        VendorPostingGrp: Record "Vendor Posting Group";
+        CustomerMaster: Record Customer;
+        CustomerPostingGrp: Record "Customer Posting Group";
+        EmployeeMaster: Record Employee;
+        EmployeePostingGrp: Record "Employee Posting Group";
+        AssetMaster: Record "Fixed Asset";
+        AssetPstGrp: Record "FA Posting Group";
         GlAccount: Text;
     begin
         GlAccount := '-';
@@ -351,12 +373,53 @@ report 63131 "Bukti Jurnal Rupa Rupa"
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
             BankAccount.SetRange("No.", BankCode);
-            if BankAccount.FindFirst() then
+            if BankAccount.FindFirst() then begin
                 BankAccPostingGrp.Reset();
-            BankAccPostingGrp.SetRange(Code, BankAccount."Bank Acc. Posting Group");
-            if BankAccPostingGrp.FindFirst() then
-                GlAccount := BankAccPostingGrp."G/L Account No.";
-        end;
+                BankAccPostingGrp.SetRange(Code, BankAccount."Bank Acc. Posting Group");
+                if BankAccPostingGrp.FindFirst() then
+                    GlAccount := BankAccPostingGrp."G/L Account No.";
+            end;
+        end else
+            if AccountType = 'Vendor' then begin
+                VendorMaster.Reset();
+                VendorMaster.SetRange("No.", BankCode);
+                if VendorMaster.FindFirst() then begin
+                    VendorPostingGrp.Reset();
+                    VendorPostingGrp.SetRange(Code, VendorMaster."Vendor Posting Group");
+                    if VendorPostingGrp.FindFirst() then
+                        GlAccount := VendorPostingGrp."Payables Account";
+                end;
+            end else
+                if AccountType = 'Customer' then begin
+                    CustomerMaster.Reset();
+                    CustomerMaster.SetRange("No.", BankCode);
+                    if CustomerMaster.FindFirst() then begin
+                        CustomerPostingGrp.Reset();
+                        CustomerPostingGrp.SetRange(Code, CustomerMaster."Customer Posting Group");
+                        if CustomerPostingGrp.FindFirst() then
+                            GlAccount := CustomerPostingGrp."Receivables Account";
+                    end;
+                end else
+                    if AccountType = 'Employee' then begin
+                        EmployeeMaster.Reset();
+                        EmployeeMaster.SetRange("No.", BankCode);
+                        if EmployeeMaster.FindFirst() then begin
+                            EmployeePostingGrp.Reset();
+                            EmployeePostingGrp.SetRange(Code, EmployeeMaster."Employee Posting Group");
+                            if EmployeePostingGrp.FindFirst() then
+                                GlAccount := EmployeePostingGrp."Payables Account";
+                        end;
+                    end else
+                        if AccountType = 'Fixed Asset' then begin
+                            AssetMaster.Reset();
+                            AssetMaster.SetRange("No.", BankCode);
+                            if AssetMaster.FindFirst() then begin
+                                AssetPstGrp.Reset();
+                                AssetPstGrp.SetRange(Code, AssetMaster."FA Posting Group");
+                                if AssetPstGrp.FindFirst() then
+                                    GlAccount := AssetPstGrp."Acquisition Cost Account";
+                            end;
+                        end;
         exit(GlAccount);
     end;
 }

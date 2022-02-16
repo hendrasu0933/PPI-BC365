@@ -2564,7 +2564,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>Nama Terang</Value>
+                                                <Value>=Fields!t_NameCustomer.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -3233,7 +3233,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>2.88201in</Top>
+            <Top>3.04451in</Top>
             <Left>0.00001in</Left>
             <Height>4.44457in</Height>
             <Width>7.8828in</Width>
@@ -3265,7 +3265,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.36122in</Height>
+                  <Height>0.37789in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -3499,8 +3499,9 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>2.28457in</Top>
-            <Height>0.36122in</Height>
+            <Top>2.43203in</Top>
+            <Left>0.00003in</Left>
+            <Height>0.37789in</Height>
             <Width>7.88278in</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -3530,7 +3531,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>1.0445cm</Height>
+                  <Height>1.4255cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -3585,7 +3586,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ShowAccountNo.Value</Value>
+                                  <Value>=Fields!ShowAccountNo.Value + " "+ Fields!GetAccountNoformGL.Value +" " + Fields!GLShortcut_Dimension_2_Code.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3595,6 +3596,15 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!PIVDescription.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3744,7 +3754,7 @@
             </Filters>
             <Top>4.75185cm</Top>
             <Left>0cm</Left>
-            <Height>1.0445cm</Height>
+            <Height>1.4255cm</Height>
             <Width>20.02223cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
@@ -3977,7 +3987,7 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>6.72031cm</Top>
+            <Top>7.13306cm</Top>
             <Left>0.00003cm</Left>
             <Height>0.6cm</Height>
             <Width>20.02228cm</Width>
@@ -3989,7 +3999,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>18.60952cm</Height>
+        <Height>19.02226cm</Height>
         <Style />
       </Body>
       <Width>20.02234cm</Width>
@@ -4086,7 +4096,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Posting_Date_HEader.Value</Value>
+                              <Value>=today</Value>
                               <Style>
                                 <Format>d MMMM, yyyy</Format>
                               </Style>
@@ -4557,6 +4567,9 @@ End Function
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
         </Field>
+        <Field Name="ShowVendorName">
+          <DataField>ShowVendorName</DataField>
+        </Field>
         <Field Name="PIVDescription">
           <DataField>PIVDescription</DataField>
         </Field>
@@ -4571,6 +4584,12 @@ End Function
         </Field>
         <Field Name="ShowAccountNo">
           <DataField>ShowAccountNo</DataField>
+        </Field>
+        <Field Name="GLShortcut_Dimension_2_Code">
+          <DataField>GLShortcut_Dimension_2_Code</DataField>
+        </Field>
+        <Field Name="GetAccountNoformGL">
+          <DataField>GetAccountNoformGL</DataField>
         </Field>
       </Fields>
       <Query>

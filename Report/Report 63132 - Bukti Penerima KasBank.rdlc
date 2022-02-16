@@ -101,7 +101,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>Pemagang Kas Harap membayar uang sebesar               : Rp. </Value>
+                                                <Value>Pemagang Kas Harap menerima uang sebesar               : Rp. </Value>
                                                 <Style />
                                               </TextRun>
                                               <TextRun>
@@ -693,7 +693,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Description.Value</Value>
+                                                <Value>=Fields!DescriptionUpperCase.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -2234,7 +2234,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Uang Telah Diterima Oleh :</Value>
+                                  <Value>Uang Telah Diterima dari:</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -2564,7 +2564,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>Nama Terang</Value>
+                                                <Value>=Fields!t_NameCustomer.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -3233,7 +3233,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>2.88201in</Top>
+            <Top>3.01951in</Top>
             <Left>0.00001in</Left>
             <Height>4.44457in</Height>
             <Width>7.8828in</Width>
@@ -3265,7 +3265,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.36122in</Height>
+                  <Height>0.49455in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -3316,7 +3316,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ShowAccountNo.Value</Value>
+                                  <Value>=Fields!ShowAccountNo.Value + " " + Fields!GetAccountNoformGL.Value + " " +Fields!ShortcutDim2GenJnlLine.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3504,7 +3504,7 @@
               </Filter>
             </Filters>
             <Top>2.28457in</Top>
-            <Height>0.36122in</Height>
+            <Height>0.49455in</Height>
             <Width>7.88278in</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -3979,7 +3979,7 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>6.72031cm</Top>
+            <Top>7.06956cm</Top>
             <Left>0.00003cm</Left>
             <Height>0.6cm</Height>
             <Width>20.02228cm</Width>
@@ -3991,7 +3991,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>18.60952cm</Height>
+        <Height>18.95876cm</Height>
         <Style />
       </Body>
       <Width>20.02234cm</Width>
@@ -4088,7 +4088,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Posting_Date_HEader.Value</Value>
+                              <Value>=Today</Value>
                               <Style>
                                 <Format>d MMMM, yyyy</Format>
                               </Style>
@@ -4496,6 +4496,9 @@ End Function
         <Field Name="GetBankAccount">
           <DataField>GetBankAccount</DataField>
         </Field>
+        <Field Name="Shortcut_Dimension_2_Code">
+          <DataField>Shortcut_Dimension_2_Code</DataField>
+        </Field>
         <Field Name="GetAccountName">
           <DataField>GetAccountName</DataField>
         </Field>
@@ -4576,6 +4579,12 @@ End Function
         </Field>
         <Field Name="ShowAccountNo">
           <DataField>ShowAccountNo</DataField>
+        </Field>
+        <Field Name="ShortcutDim2GenJnlLine">
+          <DataField>ShortcutDim2GenJnlLine</DataField>
+        </Field>
+        <Field Name="GetAccountNoformGL">
+          <DataField>GetAccountNoformGL</DataField>
         </Field>
         <Field Name="NoUrut2">
           <DataField>NoUrut2</DataField>

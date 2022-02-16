@@ -25,9 +25,9 @@ report 63132 "Bukti Penerima KasBank"
             column(Journal_Template_Name_header; "Journal Template Name") { }
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(d_totalAmount; d_totalAmount) { }
-            column(DescriptionUpperCase; text.UpperCase("Message to Recipient")) { }
+            column(DescriptionUpperCase; text.UpperCase(Description)) { }
             column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
-            column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
+            column(t_NameCustomer; text.UpperCase(ShowCustomerName("Bal. Account No."))) { }
             column(External_Document_No_; "External Document No.") { }
 
             dataitem("Journal Line Document"; "Journal Line Document")
@@ -118,11 +118,17 @@ report 63132 "Bukti Penerima KasBank"
                 {
 
                 }
-                column(GetAccountName; GetAccountName(GetBankAccount(format("Account Type"), "Account No.")))
+                column(Shortcut_Dimension_2_Code; "Shortcut Dimension 2 Code")
+                {
+
+                }
+                column(GetAccountName; GetAccountName(format("Account Type"), "Account No."))
                 { }
+                // column(GetAccountName; acc)
+                // { }
                 column(no_urut; no_urut) { }
                 column(Journal_Batch_Name; "Journal Batch Name") { }
-                column(Account_No_; "Account No.") { }
+                column(Account_No_; "Bal. Account No.") { }
                 column(Journal_Template_Name; "Journal Template Name") { }
                 column(CompanyInformasi; CompanyInformasi.City) { }
                 column(Posting_Date; "Posting Date") { }
@@ -146,6 +152,7 @@ report 63132 "Bukti Penerima KasBank"
                 trigger OnAfterGetRecord()
                 begin
                     no_urut += 1;
+
                 end;
             }
             trigger OnAfterGetRecord()
@@ -234,6 +241,15 @@ report 63132 "Bukti Penerima KasBank"
             {
 
             }
+
+            column(ShortcutDim2GenJnlLine; ShortcutDim2GenJnlLine)
+            {
+
+            }
+            column(GetAccountNoformGL; GetAccountNoformGL)
+            {
+
+            }
             column(NoUrut2; NoUrut2)
             {
 
@@ -244,6 +260,7 @@ report 63132 "Bukti Penerima KasBank"
                 GenJrnlLine: Record "Gen. Journal Line";
             begin
                 NoUrut2 := 0;
+                GetAccountNoformGL := '';
                 SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
                 GenJrnlLine.Reset();
                 GenJrnlLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
@@ -252,6 +269,8 @@ report 63132 "Bukti Penerima KasBank"
                 if GenJrnlLine.FindFirst() then begin
                     NoUrut2 := "Gen. Journal Line2".Count;
                     AmountGenJnlLine := "Gen. Journal Line2".Amount;
+                    ShortcutDim2GenJnlLine := "Gen. Journal Line2"."Shortcut Dimension 2 Code";
+                    GetAccountNoformGL := "Gen. Journal Line2"."Bal. Account No.";
                 end;
                 // SetFilter("No.", '<> %1', '');
             end;
@@ -290,6 +309,17 @@ report 63132 "Bukti Penerima KasBank"
         }
     }
 
+    local procedure ShowCustomerName(CustCode: Text): Text
+    var
+        Customernya: Record Customer;
+    begin
+        Customernya.Reset();
+        Customernya.SetRange("No.", CustCode);
+        if Customernya.FindFirst() then
+            exit(Customernya.Name)
+        else
+            exit('');
+    end;
 
 
     trigger OnInitReport()
@@ -305,9 +335,11 @@ report 63132 "Bukti Penerima KasBank"
         // g1
         NoUrut2: Integer;
         CompanyInformasi: record "Company Information";
+        GetAccountNoformGL: Text;
         DocumentNo: Text;
         DescAvaialable: Boolean;
         AmountGenJnlLine: Decimal;
+        ShortcutDim2GenJnlLine: Text;
         //g2
         t_NameCustomer: Text;
         t_AddressCustomer: Text;
@@ -336,16 +368,53 @@ report 63132 "Bukti Penerima KasBank"
 
 
 
-    local procedure GetAccountName(AccountCode: Text): Text
+    local procedure GetAccountName(AccountType: text; AccountCode: Text): Text
     var
         GLAccount: Record "G/L Account";
+        BankAccount: Record "Bank Account";
+        VendorMaster: Record Vendor;
+        CustomerMaster: Record Customer;
+        EmployeeMaster: Record Employee;
+        AssetMaster: Record "Fixed Asset";
         ShowName: Text;
     begin
         ShowName := '';
-        GLAccount.Reset();
-        GLAccount.SetRange("No.", AccountCode);
-        if GLAccount.FindFirst() then
-            ShowName := GLAccount.Name;
+        if AccountType = 'G/L Account' then begin
+            GLAccount.Reset();
+            GLAccount.SetRange("No.", AccountCode);
+            if GLAccount.FindFirst() then
+                ShowName := GLAccount.Name;
+        end else
+            if AccountType = 'Bank Account' then begin
+                BankAccount.Reset();
+                BankAccount.SetRange("No.", AccountCode);
+                if BankAccount.FindFirst() then
+                    ShowName := BankAccount.Name;
+            end else
+                if AccountType = 'Vendor' then begin
+                    VendorMaster.Reset();
+                    VendorMaster.SetRange("No.", AccountCode);
+                    if VendorMaster.FindFirst() then
+                        ShowName := VendorMaster.Name;
+                end else
+                    if AccountType = 'Customer' then begin
+                        CustomerMaster.Reset();
+                        CustomerMaster.SetRange("No.", AccountCode);
+                        if CustomerMaster.FindFirst() then
+                            ShowName := CustomerMaster.Name;
+                    end else
+                        if AccountType = 'Employee' then begin
+                            EmployeeMaster.Reset();
+                            EmployeeMaster.SetRange("No.", AccountCode);
+                            if EmployeeMaster.FindFirst() then
+                                ShowName := EmployeeMaster.FullName();
+                        end else
+                            if AccountType = 'Fixed Asset' then begin
+                                AssetMaster.Reset();
+                                AssetMaster.SetRange("No.", AccountCode);
+                                if AssetMaster.FindFirst() then
+                                    ShowName := AssetMaster.Description;
+                            end;
         exit(ShowName);
 
     end;

@@ -2780,7 +2780,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!GetBankAccount.Value</Value>
+                                  <Value>=Fields!GetBankAccount.Value + " " + Fields!Account_No_.Value + " " +Fields!Shortcut_Dimension_2_Code.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -2957,7 +2957,7 @@
                     <TablixMember />
                   </TablixMembers>
                   <Visibility>
-                    <Hidden>=Fields!Account_No_.Value = ""</Hidden>
+                    <Hidden>=Fields!GetBankAccount.Value = ""</Hidden>
                   </Visibility>
                 </TablixMember>
               </TablixMembers>
@@ -3306,7 +3306,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!Posting_Date_HEader.Value</Value>
+                              <Value>=today</Value>
                               <Style>
                                 <Format>d MMMM, yyyy</Format>
                               </Style>
@@ -3710,6 +3710,9 @@ End Function
         </Field>
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
+        </Field>
+        <Field Name="Shortcut_Dimension_2_Code">
+          <DataField>Shortcut_Dimension_2_Code</DataField>
         </Field>
         <Field Name="GetBankAccount">
           <DataField>GetBankAccount</DataField>
