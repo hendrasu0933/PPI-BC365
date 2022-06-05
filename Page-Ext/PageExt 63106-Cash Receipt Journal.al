@@ -31,6 +31,22 @@ pageextension 63106 "Cash Receipt Journal-Ext" extends "Cash Receipt Journal"
                     Report.Run(Report::"Cash Receipt", true, true, recTransfer);
                 end;
             }
+            action("Bukti Penerimaan KasBank")
+            {
+                Caption = 'Bukti Penerimaan Kas Bank';
+                Image = PrintForm;
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                ApplicationArea = all;
+                trigger OnAction()
+                var
+                    rec_genJournal: Record "Gen. Journal Line";
+                begin
+                    CurrPage.SetSelectionFilter(rec_genJournal);
+                    Report.Run(Report::"Bukti Penerima KasBank", true, true, rec_genJournal);
+                end;
+            }
         }
         addafter("F&unctions")
         {

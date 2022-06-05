@@ -6,13 +6,18 @@
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
+<<<<<<< HEAD
             "environmentName": "gcf",
+=======
+            // "environmentName": "ppi-uat",
+            "environmentName": "GCF",
+>>>>>>> db93589b2a5ffac5d5beaab33ab90c54ca86d315
             "tenant": "pelindoproperti.onmicrosoft.com",
             "startupObjectId": 22,
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,
-            "schemaUpdateMode": "ForceSync",
+            "schemaUpdateMode": "Synchronize",
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true
         }

@@ -183,14 +183,18 @@ report 63104 "BKK Min 200 Batch"
         }
     }
     trigger OnInitReport()
+    var
+        GLJournal: Record "Gen. Journal Line";
     begin
         CompanyInformasi.get;
-        CompanyInformasi.CalcFields(Picture)
+        CompanyInformasi.CalcFields(Picture);
+
     end;
 
     var
         // g1
         CompanyInformasi: record "Company Information";
+        DocumentNo: Text;
         //g2
         t_NameCustomer: Text;
         t_AddressCustomer: Text;
