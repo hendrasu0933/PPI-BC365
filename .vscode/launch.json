@@ -6,7 +6,7 @@
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "gcf",
+            "environmentName": "ppi-uat",
             "tenant": "pelindoproperti.onmicrosoft.com",
             "startupObjectId": 22,
             "startupObjectType": "Page",
