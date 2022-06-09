@@ -57,7 +57,7 @@ codeunit 63147 "Saying Indonesia"
         ExponentText: array[5] of Text[30];
         NumberText: array[2] of Text[250];
 
-    procedure FormatNoText(var NoText: array[2] of Text[250]; No: Decimal; CurrencyCode: Code[10]);
+    procedure FormatNoText(var NoText: array[2] of Text; No: Decimal; CurrencyCode: Code[10]);
     var
         PrintExponent: Boolean;
         Ones: Integer;
