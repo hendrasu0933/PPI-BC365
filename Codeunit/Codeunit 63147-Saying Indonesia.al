@@ -57,7 +57,7 @@ codeunit 63147 "Saying Indonesia"
         ExponentText: array[5] of Text[30];
         NumberText: array[2] of Text[250];
 
-    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[10]);
+    procedure FormatNoText(var NoText: array[2] of Text[250]; No: Decimal; CurrencyCode: Code[10]);
     var
         PrintExponent: Boolean;
         Ones: Integer;
@@ -115,7 +115,7 @@ codeunit 63147 "Saying Indonesia"
             AddToNoText(NoText, NoTextIndex, PrintExponent, CurrencyCode);
     end;
 
-    procedure AddToNoText(var NoText: array[2] of Text[80]; var NoTextIndex: Integer; var PrintExponent: Boolean; AddText: Text[30]);
+    procedure AddToNoText(var NoText: array[2] of Text[250]; var NoTextIndex: Integer; var PrintExponent: Boolean; AddText: Text[30]);
     begin
         PrintExponent := TRUE;
 
@@ -197,10 +197,10 @@ codeunit 63147 "Saying Indonesia"
         END;
     end;
 
-    procedure FormatNoTextWithFraction(var BilanganDgnPecahan: Text[250]; Bilangan: array[2] of Text[80]; Amount: Decimal; CurrencyCode: Code[10]);
+    procedure FormatNoTextWithFraction(var BilanganDgnPecahan: Text[250]; Bilangan: array[2] of Text[250]; Amount: Decimal; CurrencyCode: Code[10]);
     var
         Pecahan: Decimal;
-        BilanganPecahan: array[2] of Text[80];
+        BilanganPecahan: array[2] of Text[250];
     begin
         IF Amount = 0 THEN
             ERROR('Amount tidak boleh bernilai 0');
