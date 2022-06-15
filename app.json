@@ -1,8 +1,13 @@
 {
   "id": "1a251b3c-bb88-4e77-8a86-06d15b17aad0",
   "name": "PPI-Fin",
+<<<<<<< HEAD
   "publisher": "WCS",
   "version": "1.0.0.7",
+=======
+  "publisher": "MSI",
+  "version": "1.0.0.6",
+>>>>>>> 6cdefae6db0c65b187ce8610ce1e32e863aa841c
   "brief": "",
   "description": "Add-On for PPI",
   "privacyStatement": "",
