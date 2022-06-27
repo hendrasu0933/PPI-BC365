@@ -12,6 +12,8 @@ report 63133 "Bukti Pengeluaran KasBank2"
     {
         dataitem("Gen. Journal Line2"; "G/L Entry")
         {
+            column(DirekturUtama; DirekturUtama)
+            { }
             column(BuktiPendukung; BuktiPendukung)
             { }
 
@@ -90,19 +92,19 @@ report 63133 "Bukti Pengeluaran KasBank2"
                             rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
                             rec_ApproveEntry.SetRange("Entry No.", awalApproveEntry, rec_ApproveEntryLast."Entry No.");
                             if rec_ApproveEntry.FindFirst() then begin
-                                repeat
-                                    i += 1;
-                                    if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
-                                        t_approve[i] := rec_ApproveEntry."Approver ID";
-                                        d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
-                                        t_ApproveText[i] := 'APPROVED';
-                                        rec_User.SetRange("User Name", t_approve[i]);
-                                        if rec_User.FindFirst() then
-                                            t_ApproveName[i] := rec_User."Full Name";
-                                    end else begin
-                                        t_ApproveText[i] := '';
-                                    end;
-                                until rec_ApproveEntry.Next() = 0;
+                                                                     repeat
+                                                                         i += 1;
+                                                                         if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
+                                                                             t_approve[i] := rec_ApproveEntry."Approver ID";
+                                                                             d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                                                                             t_ApproveText[i] := 'APPROVED';
+                                                                             rec_User.SetRange("User Name", t_approve[i]);
+                                                                             if rec_User.FindFirst() then
+                                                                                 t_ApproveName[i] := rec_User."Full Name";
+                                                                         end else begin
+                                                                             t_ApproveText[i] := '';
+                                                                         end;
+                                                                     until rec_ApproveEntry.Next() = 0;
                             end;
 
                         end;
@@ -153,8 +155,10 @@ report 63133 "Bukti Pengeluaran KasBank2"
                 PuchInvLine: Record "Purch. Inv. Line";
                 IncDocAttachment: Record "Inc. Doc. Attachment Overview";
                 No_urut2: Integer;
+                GLSetup: Record "General Ledger Setup";
             begin
-
+                GLSetup.Get();
+                DirekturUtama := GLSetup."Direktur Utama";
                 IncDocAttachment.Reset();
                 IncDocAttachment.SetRange("Document No.", "Document No.");
                 IncDocAttachment.SetRange("Posting Date", "Posting Date");
@@ -210,16 +214,16 @@ report 63133 "Bukti Pengeluaran KasBank2"
                 rec_GenJournalLine.SetRange("Journal Batch Name", "Journal Batch Name");
                 rec_GenJournalLine.SetRange("Document No.", "Document No.");
                 if rec_GenJournalLine.FindFirst() then begin
-                    repeat
-                        if rec_GenJournalLine.Amount < 0 then begin
-                            d_ifAmountMin := 0;
-                        end else begin
-                            d_ifAmountMin := rec_GenJournalLine.Amount;
-                        end;
-                        d_totalAmount += d_ifAmountMin;
-                        RepCheck.FormatNoText(arrray, d_totalAmount, '');
-                        AmountInWords := arrray[1] + ' Rupiah';
-                    until rec_GenJournalLine.Next = 0;
+                                                           repeat
+                                                               if rec_GenJournalLine.Amount < 0 then begin
+                                                                   d_ifAmountMin := 0;
+                                                               end else begin
+                                                                   d_ifAmountMin := rec_GenJournalLine.Amount;
+                                                               end;
+                                                               d_totalAmount += d_ifAmountMin;
+                                                               RepCheck.FormatNoText(arrray, d_totalAmount, '');
+                                                               AmountInWords := arrray[1] + ' Rupiah';
+                                                           until rec_GenJournalLine.Next = 0;
                 end;
             end;
         }
@@ -352,7 +356,7 @@ report 63133 "Bukti Pengeluaran KasBank2"
 
     var
         // g1
-
+        DirekturUtama: Text;
         LastNo_urut: Integer;
         CompanyInformasi: record "Company Information";
         DocumentNo: Text;
