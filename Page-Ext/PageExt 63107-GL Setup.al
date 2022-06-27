@@ -9,7 +9,7 @@ pageextension 63107 "GL Setup-Ext" extends "General Ledger Setup"
             {
                 ApplicationArea = all;
             }
-            field("Direktur Utama"; "Direktur Utama")
+            field("Direktur Utama"; Rec."Direktur Utama")
             {
                 ApplicationArea = all;
             }

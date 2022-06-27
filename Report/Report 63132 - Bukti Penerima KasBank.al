@@ -147,7 +147,7 @@ report 63132 "Bukti Penerima KasBank"
                 column(i_rows; i_rows) { }
                 trigger OnPreDataItem()
                 begin
-                    // SetRange("Applies-to Doc. No.", '');
+                    SetRange("Applies-to Doc. No.", '');
                     no_urut := LastNoPOInv;
                 end;
 
