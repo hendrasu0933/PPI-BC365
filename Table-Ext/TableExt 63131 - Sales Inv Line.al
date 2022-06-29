@@ -18,7 +18,7 @@ tableextension 63131 TblExtSalesInvLine extends "Sales Invoice Line"
         GeneralPostingSetup.SetRange("Gen. Bus. Posting Group", Rec."Gen. Bus. Posting Group");
         GeneralPostingSetup.SetRange("Gen. Prod. Posting Group", Rec."Gen. Prod. Posting Group");
         if GeneralPostingSetup.FindFirst() then
-            Show := GeneralPostingSetup."Purch. Account";
+            Show := GeneralPostingSetup."Sales Account";
 
         if rec.Type = Rec.Type::"G/L Account" then
             Show := Rec."No.";

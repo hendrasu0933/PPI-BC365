@@ -12,6 +12,8 @@ report 63132 "Bukti Penerima KasBank"
     {
         dataitem("Gen. Journal Line2"; "Gen. Journal Line")
         {
+            column(GetCustomerCode; GetCustomerCode("Document No."))
+            { }
             column(DirekturUtama; DirekturUtama)
             { }
             column(BuktiPendukung; BuktiPendukung)
@@ -28,9 +30,11 @@ report 63132 "Bukti Penerima KasBank"
             column(AmountInWords; text.UpperCase(AmountInWords)) { }
             column(d_totalAmount; d_totalAmount) { }
             column(DescriptionUpperCase; text.UpperCase(Description)) { }
-            column(t_AddressCustomer; text.UpperCase(t_AddressCustomer)) { }
-            column(t_NameCustomer; text.UpperCase(ShowCustomerName("Bal. Account No."))) { }
+            column(t_AddressCustomer; text.UpperCase(ShowCustomerAddress(GetCustomerCode("Document No.")))) { }
+            column(t_NameCustomer; text.UpperCase(ShowCustomerName(GetCustomerCode("Document No.")))) { }
+            // column(t_NameCustomer; text.UpperCase(t_NameCustomer)) { }
             column(External_Document_No_; "External Document No.") { }
+
 
             dataitem("Journal Line Document"; "Journal Line Document")
             {
@@ -116,6 +120,10 @@ report 63132 "Bukti Penerima KasBank"
                 DataItemLink = "Document No." = field("Document No."), "Journal Batch Name" = field("Journal Batch Name"),
                 "Journal Template Name" = field("Journal Template Name");
                 column(Line_No_; "Line No.") { }
+                column(PusatBiaya1; PusatBiaya("Dimension Set ID"))
+                {
+
+                }
                 column(GetBankAccount; GetBankAccount(format("Account Type"), "Account No."))
                 {
 
@@ -147,7 +155,7 @@ report 63132 "Bukti Penerima KasBank"
                 column(i_rows; i_rows) { }
                 trigger OnPreDataItem()
                 begin
-                    SetRange("Applies-to Doc. No.", '');
+                    // SetRange("Applies-to Doc. No.", '');
                     no_urut := LastNoPOInv;
                 end;
 
@@ -185,7 +193,7 @@ report 63132 "Bukti Penerima KasBank"
                     LastNoPOInv := PuchInvLine.Count;
 
                 // get name bank account
-                rec_BankAccount.SetRange("No.", "Bal. Account No.");
+                rec_BankAccount.SetRange("No.", "Account No.");
                 if rec_BankAccount.FindFirst() then
                     t_NameBank := rec_BankAccount.Name;
 
@@ -226,69 +234,74 @@ report 63132 "Bukti Penerima KasBank"
                 end;
             end;
         }
-        dataitem("Sales Invoice Line"; "Sales Invoice Line")
-        {
+        // dataitem("Sales Invoice Line"; "Sales Invoice Line")
+        // {
 
-            column(PIVDescription; Description)
-            {
+        //     column(PIVDescription; Description)
+        //     {
 
-            }
-            column(DescAvaialable; DescAvaialable)
-            {
+        //     }
+        //     column(PusatBiaya2; PusatBiaya2)
+        //     {
 
-            }
-            column(PIVAmount_Including_VAT; AmountGenJnlLine)
-            {
+        //     }
+        //     column(DescAvaialable; DescAvaialable)
+        //     {
 
-            }
-            column(ShowAccountNo; ShowAccountNo)
-            {
+        //     }
+        //     column(PIVAmount_Including_VAT; AmountGenJnlLine)
+        //     {
 
-            }
+        //     }
+        //     column(ShowAccountNo; ShowAccountNo)
+        //     {
 
-            column(ShortcutDim2GenJnlLine; ShortcutDim2GenJnlLine)
-            {
+        //     }
 
-            }
-            column(GetAccountNoformGL; GetAccountNoformGL)
-            {
+        //     column(ShortcutDim2GenJnlLine; ShortcutDim2GenJnlLine)
+        //     {
 
-            }
-            column(NoUrut2; NoUrut2)
-            {
+        //     }
+        //     column(GetAccountNoformGL; GetAccountNoformGL)
+        //     {
 
-            }
+        //     }
+        //     column(NoUrut2; NoUrut2)
+        //     {
 
-            trigger OnPreDataItem()
-            var
-                GenJrnlLine: Record "Gen. Journal Line";
-            begin
-                NoUrut2 := 0;
-                GetAccountNoformGL := '';
-                SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
-                GenJrnlLine.Reset();
-                GenJrnlLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
-                GenJrnlLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
-                GenJrnlLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
-                if GenJrnlLine.FindFirst() then begin
-                    NoUrut2 := "Gen. Journal Line2".Count;
-                    AmountGenJnlLine := "Gen. Journal Line2".Amount;
-                    ShortcutDim2GenJnlLine := "Gen. Journal Line2"."Shortcut Dimension 2 Code";
-                    GetAccountNoformGL := "Gen. Journal Line2"."Bal. Account No.";
-                end;
-                // SetFilter("No.", '<> %1', '');
-            end;
+        //     }
 
-            trigger OnAfterGetRecord()
-            begin
-                NoUrut2 := NoUrut2 + 1;
-                if Description = '' then
-                    DescAvaialable := false
-                else
-                    DescAvaialable := true;
-            end;
+        //     trigger OnPreDataItem()
+        //     var
+        //         GenJrnlLine: Record "Gen. Journal Line";
+        //     begin
+        //         NoUrut2 := 0;
+        //         GetAccountNoformGL := '';
+        //         SetRange("Document No.", "Gen. Journal Line2"."Applies-to Doc. No.");
+        //         GenJrnlLine.Reset();
+        //         GenJrnlLine.SetRange("Journal Batch Name", "Gen. Journal Line2"."Journal Batch Name");
+        //         GenJrnlLine.SetRange("Journal Template Name", "Gen. Journal Line2"."Journal Template Name");
+        //         GenJrnlLine.SetRange("Document No.", "Gen. Journal Line2"."Document No.");
+        //         if GenJrnlLine.FindFirst() then begin
+        //             NoUrut2 := "Gen. Journal Line2".Count;
+        //             AmountGenJnlLine := "Gen. Journal Line2".Amount;
+        //             ShortcutDim2GenJnlLine := "Gen. Journal Line2"."Shortcut Dimension 2 Code";
+        //             GetAccountNoformGL := "Gen. Journal Line2"."Bal. Account No.";
+        //             PusatBiaya2 := PusatBiaya("Gen. Journal Line2"."Dimension Set ID");
+        //         end;
+        //         // SetFilter("No.", '<> %1', '');
+        //     end;
 
-        }
+        //     trigger OnAfterGetRecord()
+        //     begin
+        //         NoUrut2 := NoUrut2 + 1;
+        //         if Description = '' then
+        //             DescAvaialable := false
+        //         else
+        //             DescAvaialable := true;
+        //     end;
+
+        // }
 
     }
 
@@ -312,6 +325,30 @@ report 63132 "Bukti Penerima KasBank"
             }
         }
     }
+    local procedure GetCustomerCode(DocumentNo: Text): Text
+    var
+        GenJrnLine: Record "Gen. Journal Line";
+    begin
+        GenJrnLine.Reset();
+        GenJrnLine.SetRange("Document No.", DocumentNo);
+        GenJrnLine.SetRange("Account Type", GenJrnLine."Account Type"::Customer);
+        if GenJrnLine.FindFirst() then
+            exit(GenJrnLine."Account No.")
+        else
+            exit('');
+    end;
+
+    local procedure ShowCustomerAddress(CustCode: Text): Text
+    var
+        Customernya: Record Customer;
+    begin
+        Customernya.Reset();
+        Customernya.SetRange("No.", CustCode);
+        if Customernya.FindFirst() then
+            exit(Customernya.Address + Customernya."Address 2")
+        else
+            exit('');
+    end;
 
     local procedure ShowCustomerName(CustCode: Text): Text
     var
@@ -337,6 +374,7 @@ report 63132 "Bukti Penerima KasBank"
 
     var
         // g1
+        PusatBiaya2: Text;
         DirekturUtama: Text;
         NoUrut2: Integer;
         CompanyInformasi: record "Company Information";
@@ -372,6 +410,22 @@ report 63132 "Bukti Penerima KasBank"
         BuktiPendukung: Text;
 
 
+
+
+    local procedure PusatBiaya(DimensionSetID: Integer): Text
+    var
+        DimensionSetEntry: Record "Dimension Set Entry";
+        GLSetup: Record "General Ledger Setup";
+    begin
+        GLSetup.Get();
+        DimensionSetEntry.Reset();
+        DimensionSetEntry.setrange("Dimension Set ID", DimensionSetID);
+        DimensionSetEntry.SetRange("Dimension Code", GLSetup."Shortcut Dimension 6 Code");
+        if DimensionSetEntry.FindFirst() then
+            exit(DimensionSetEntry."Dimension Value Code")
+        else
+            exit('');
+    end;
 
     local procedure GetAccountName(AccountType: text; AccountCode: Text): Text
     var
@@ -424,22 +478,67 @@ report 63132 "Bukti Penerima KasBank"
 
     end;
 
-    local procedure GetBankAccount(AccountType: Text; BankCode: Text): Text
+    local procedure GetBankAccount(AccountType: Text; AccountCode: Text): Text
     var
+        GLAccount: Record "G/L Account";
         BankAccount: Record "Bank Account";
+        VendorMaster: Record Vendor;
+        CustomerMaster: Record Customer;
+        EmployeeMaster: Record Employee;
+        AssetMaster: Record "Fixed Asset";
         BankAccPostingGrp: Record "Bank Account Posting Group";
-        GlAccount: Text;
+        VendorAccPostingGrp: Record "Vendor Posting Group";
+        CustomerAccPostingGrp: Record "Customer Posting Group";
+        EmployeeAccPostingGrp: Record "Employee Posting Group";
+        FAPostingGrp: Record "FA Posting Group";
+        GlAccountNo: Text;
     begin
-        GlAccount := '-';
+        GlAccountNo := '-';
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
-            BankAccount.SetRange("No.", BankCode);
+            BankAccount.SetRange("No.", AccountCode);
             if BankAccount.FindFirst() then
                 BankAccPostingGrp.Reset();
             BankAccPostingGrp.SetRange(Code, BankAccount."Bank Acc. Posting Group");
             if BankAccPostingGrp.FindFirst() then
-                GlAccount := BankAccPostingGrp."G/L Account No.";
-        end;
-        exit(GlAccount);
+                GlAccountNo := BankAccPostingGrp."G/L Account No.";
+        end else
+            if AccountType = 'Vendor' then begin
+                VendorMaster.Reset();
+                VendorMaster.SetRange("No.", AccountCode);
+                if VendorMaster.FindFirst() then
+                    VendorAccPostingGrp.Reset();
+                VendorAccPostingGrp.SetRange(Code, VendorMaster."Vendor Posting Group");
+                if VendorAccPostingGrp.FindFirst() then
+                    GlAccountNo := VendorAccPostingGrp."Payables Account";
+            end else
+                if AccountType = 'Customer' then begin
+                    CustomerMaster.Reset();
+                    CustomerMaster.SetRange("No.", AccountCode);
+                    if CustomerMaster.FindFirst() then
+                        CustomerAccPostingGrp.Reset();
+                    CustomerAccPostingGrp.SetRange(Code, CustomerMaster."Customer Posting Group");
+                    if CustomerAccPostingGrp.FindFirst() then
+                        GlAccountNo := CustomerAccPostingGrp."Receivables Account";
+                end else
+                    if AccountType = 'Employee' then begin
+                        EmployeeMaster.Reset();
+                        EmployeeMaster.SetRange("No.", AccountCode);
+                        if EmployeeMaster.FindFirst() then
+                            EmployeeAccPostingGrp.Reset();
+                        EmployeeAccPostingGrp.SetRange(Code, EmployeeMaster."Employee Posting Group");
+                        if EmployeeAccPostingGrp.FindFirst() then
+                            GlAccountNo := EmployeeAccPostingGrp."Payables Account";
+                    end else
+                        if AccountType = 'Fixed Asset' then begin
+                            AssetMaster.Reset();
+                            AssetMaster.SetRange("No.", AccountCode);
+                            if AssetMaster.FindFirst() then
+                                FAPostingGrp.Reset();
+                            FAPostingGrp.SetRange(Code, AssetMaster."FA Posting Group");
+                            if FAPostingGrp.FindFirst() then
+                                GlAccountNo := FAPostingGrp."Acquisition Cost Account";
+                        end;
+        exit(GlAccountNo);
     end;
 }
