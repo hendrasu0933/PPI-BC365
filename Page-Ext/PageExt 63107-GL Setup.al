@@ -9,11 +9,11 @@ pageextension 63107 "GL Setup-Ext" extends "General Ledger Setup"
             {
                 ApplicationArea = all;
             }
-<<<<<<< HEAD
             field("Activate Checking Budget"; rec."Activate Checking Budget")
-=======
+            {
+                ApplicationArea = all;
+            }
             field("Direktur Utama"; Rec."Direktur Utama")
->>>>>>> e1f06421d0d31a64ea026f3ea9d73d3880a07017
             {
                 ApplicationArea = all;
             }
