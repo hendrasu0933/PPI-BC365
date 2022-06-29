@@ -1,1 +1,1 @@
-﻿{"Added":[],"Modified":[],"Removed":[]}
+﻿{"Added":[],"Modified":[{"Id":63104,"Kind":11,"Name":"Budget Function","PackagePath":"/src/Codeunit/Codeunit%2063104-Budget%20Function.al"},{"Id":63105,"Kind":17,"Name":"Gen Ledger Setup-Ext","PackagePath":"/src/Table-Ext/TableExt%2063105-Gen%20Led%20Setup.al"},{"Id":63107,"Kind":16,"Name":"GL Setup-Ext","PackagePath":"/src/Page-Ext/PageExt%2063107-GL%20Setup.al"}],"Removed":[]}

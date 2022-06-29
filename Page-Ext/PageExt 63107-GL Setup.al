@@ -9,6 +9,10 @@ pageextension 63107 "GL Setup-Ext" extends "General Ledger Setup"
             {
                 ApplicationArea = all;
             }
+            field("Activate Checking Budget"; rec."Activate Checking Budget")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 

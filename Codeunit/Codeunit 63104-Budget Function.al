@@ -10,15 +10,21 @@ codeunit 63104 "Budget Function"
     var
         GLBudgetName: Record "G/L Budget Name";
     begin
-        GLBudgetName.Get(GLBudgetEntry."Budget Name");
-        GLBudgetName.TestField(Status, GLBudgetName.Status::Open);
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            GLBudgetName.Get(GLBudgetEntry."Budget Name");
+            GLBudgetName.TestField(Status, GLBudgetName.Status::Open);
+        end;
     end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnBeforePostUpdateOrderLine', '', true, true)]
     local procedure UpdateBudget1(PurchHeader: Record "Purchase Header"; PurchSetup: Record "Purchases & Payables Setup"; var TempPurchLineGlobal: Record "Purchase Line"; CommitIsSuppressed: Boolean)
     begin
-        if PurchHeader.Invoice then
-            KurangiBudget(PurchHeader, TempPurchLineGlobal, TempPurchLineGlobal."Qty. to Invoice");
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            if PurchHeader.Invoice then
+                KurangiBudget(PurchHeader, TempPurchLineGlobal, TempPurchLineGlobal."Qty. to Invoice");
+        end;
     end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnPostUpdateInvoiceLineOnAfterPurchOrderLineModify', '', true, true)]
@@ -26,8 +32,11 @@ codeunit 63104 "Budget Function"
     var
         PurchHeader: Record "Purchase Header";
     begin
-        PurchHeader.get(PurchaseLine."Document No.");
-        KurangiBudget(PurchHeader, PurchaseLine, TempPurchaseLine."Qty. to Invoice");
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            PurchHeader.get(PurchaseLine."Document No.");
+            KurangiBudget(PurchHeader, PurchaseLine, TempPurchaseLine."Qty. to Invoice");
+        end;
     end;
 
     procedure KurangiBudget(PurchHeader: Record "Purchase Header"; PurchaseLine: Record "Purchase Line"; Qty: Decimal)
@@ -36,33 +45,42 @@ codeunit 63104 "Budget Function"
         CommBudget: Record "G/L Budget Name";
         CurFact: Decimal;
     begin
-        CommBudget.SetRange("Committed Budget", true);
-        CommBudget.FindFirst();
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            CommBudget.SetRange("Committed Budget", true);
+            CommBudget.FindFirst();
 
-        if PurchHeader."Currency Factor" = 0 then
-            CurFact := 1
-        else
-            CurFact := PurchHeader."Currency Factor";
-        if PurchaseLine.Type = PurchaseLine.Type::"G/L Account" then
-            CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."No.",
-            PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
-        else
-            CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."G/L Acc. No.",
-            PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+            if PurchHeader."Currency Factor" = 0 then
+                CurFact := 1
+            else
+                CurFact := PurchHeader."Currency Factor";
+            if PurchaseLine.Type = PurchaseLine.Type::"G/L Account" then
+                CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."No.",
+                PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+            else
+                CreateCommitBudget(PurchHeader."Posting Date", CommBudget.Name, PurchaseLine."Document No." + ';' + Format(PurchaseLine."Line No."), PurchaseLine."G/L Acc. No.",
+                PurchaseLine."Shortcut Dimension 1 Code", '', -(Qty * PurchaseLine.Amount) / (CurFact * PurchaseLine.Quantity))
+        end;
     end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Purch.-Post", 'OnBeforePurchLineDeleteAll', '', true, true)]
     local procedure DeleteBudget(var PurchaseLine: Record "Purchase Line"; CommitIsSupressed: Boolean)
     begin
-        if PurchaseLine."Document Type" = PurchaseLine."Document Type"::Order then
-            DeleteCommitBudget(PurchaseLine."Document No.", 0);
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            if PurchaseLine."Document Type" = PurchaseLine."Document Type"::Order then
+                DeleteCommitBudget(PurchaseLine."Document No.", 0);
+        end;
     end;
 
     [EventSubscriber(objectType::table, database::"Purchase Line", 'OnAfterDeleteEvent', '', true, true)]
     local procedure DeleteLineBudget(var Rec: Record "Purchase Line"; RunTrigger: Boolean)
     begin
-        if Rec."Document Type" = Rec."Document Type"::Order then
-            DeleteCommitBudget(Rec."Document No.", Rec."Line No.");
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            if Rec."Document Type" = Rec."Document Type"::Order then
+                DeleteCommitBudget(Rec."Document No.", Rec."Line No.");
+        end;
     end;
 
     [EventSubscriber(objectType::table, database::"Purchase Line", 'OnAfterValidateEvent', 'Quantity', true, true)]
@@ -108,58 +126,61 @@ codeunit 63104 "Budget Function"
         CommBudget: Record "G/L Budget Name";
         CurFact: Decimal;
     begin
-        if (PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Order) or (PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Invoice) then
-            if PurchaseHeader.Status = PurchaseHeader.Status::Open then begin
-                PurchLine.SetRange("Document Type", PurchaseHeader."Document Type");
-                PurchLine.SetRange("Document No.", PurchaseHeader."No.");
-                PurchLine.SetFilter("Line Amount", '<>0');
-                //    Message('2');
-                if PurchaseHeader."Currency Factor" = 0 then
-                    CurFact := 1
-                else
-                    CurFact := PurchaseHeader."Currency Factor";
-                if PurchLine.FindSet() then
-                    repeat
-                        if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
-                            if BankAccStat.Get(PurchLine."No.", PurchLine."Shortcut Dimension 1 Code") then begin
-                                BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
-                                BankAccStat.Modify();
-                            end else begin
-                                BankAccStat."Bank Account No." := PurchLine."No.";
-                                BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
-                                BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
-                                BankAccStat.Insert();
-                            end;
-                        end else
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            if (PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Order) or (PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Invoice) then
+                if PurchaseHeader.Status = PurchaseHeader.Status::Open then begin
+                    PurchLine.SetRange("Document Type", PurchaseHeader."Document Type");
+                    PurchLine.SetRange("Document No.", PurchaseHeader."No.");
+                    PurchLine.SetFilter("Line Amount", '<>0');
+                    //    Message('2');
+                    if PurchaseHeader."Currency Factor" = 0 then
+                        CurFact := 1
+                    else
+                        CurFact := PurchaseHeader."Currency Factor";
+                    if PurchLine.FindSet() then
+                            repeat
+                                if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
+                                    if BankAccStat.Get(PurchLine."No.", PurchLine."Shortcut Dimension 1 Code") then begin
+                                        BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
+                                        BankAccStat.Modify();
+                                    end else begin
+                                        BankAccStat."Bank Account No." := PurchLine."No.";
+                                        BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
+                                        BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                                        BankAccStat.Insert();
+                                    end;
+                                end else
 
-                            if BankAccStat.Get(PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code") then begin
-                                BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
-                                BankAccStat.Modify();
-                            end else begin
-                                BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
-                                BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
-                                BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
-                                BankAccStat.Insert();
-                            end;
-                    until PurchLine.Next() = 0;
-                CommBudget.SetRange("Committed Budget", true);
-                CommBudget.FindFirst();
-                DefBudget.SetRange("Default Budget", true);
-                DefBudget.FindFirst();
-                if BankAccStat.FindSet() then begin
-                    repeat
-                        CheckOverBudget(BankAccStat."Bank Account No.", BankAccStat."Statement No.", '', DefBudget.Name, CommBudget.Name, CalcDate('-CY', PurchaseHeader."Posting Date"), CalcDate('CY', PurchaseHeader."Posting Date"), BankAccStat."Balance Last Statement");
-                    until BankAccStat.Next() = 0;
+                                    if BankAccStat.Get(PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code") then begin
+                                        BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
+                                        BankAccStat.Modify();
+                                    end else begin
+                                        BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
+                                        BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
+                                        BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                                        BankAccStat.Insert();
+                                    end;
+                            until PurchLine.Next() = 0;
+                    CommBudget.SetRange("Committed Budget", true);
+                    CommBudget.FindFirst();
+                    DefBudget.SetRange("Default Budget", true);
+                    DefBudget.FindFirst();
+                    if BankAccStat.FindSet() then
+                        repeat
+                                CheckOverBudget(BankAccStat."Bank Account No.", BankAccStat."Statement No.", '', DefBudget.Name, CommBudget.Name, CalcDate('-CY', PurchaseHeader."Posting Date"), CalcDate('CY', PurchaseHeader."Posting Date"), BankAccStat."Balance Last Statement");
+                        until BankAccStat.Next() = 0;
+
+                    if PurchLine.Find('-') then
+                            repeat
+                                if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
+                                    CreateCommitBudget(PurchaseHeader."Posting Date", CommBudget.Name, format(PurchaseHeader."No.") + ';' + format(PurchLine."Line No."), PurchLine."No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
+                                end else begin
+                                    CreateCommitBudget(PurchaseHeader."Posting Date", CommBudget.Name, format(PurchaseHeader."No.") + ';' + format(PurchLine."Line No."), PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
+                                end;
+                            until PurchLine.Next() = 0;
                 end;
-                if PurchLine.Find('-') then
-                    repeat
-                        if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
-                            CreateCommitBudget(PurchaseHeader."Posting Date", CommBudget.Name, format(PurchaseHeader."No.") + ';' + format(PurchLine."Line No."), PurchLine."No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
-                        end else begin
-                            CreateCommitBudget(PurchaseHeader."Posting Date", CommBudget.Name, format(PurchaseHeader."No.") + ';' + format(PurchLine."Line No."), PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
-                        end;
-                    until PurchLine.Next() = 0;
-            end;
+        end;
     end;
 
     [EventSubscriber(objectType::table, database::"Purchase Header", 'OnAfterValidateEvent', 'Status', true, true)]
@@ -173,72 +194,79 @@ codeunit 63104 "Budget Function"
         CurFact: Decimal;
         DateFilter: Text;
     begin
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            if ((xRec.Status = xRec.Status::Open) and (Rec.Status = Rec.Status::"Pending Approval")) then begin
+                PurchLine.SetRange("Document Type", Rec."Document Type");
+                PurchLine.SetRange("Document No.", Rec."No.");
+                PurchLine.SetFilter("Line Amount", '<>0');
 
-        if ((xRec.Status = xRec.Status::Open) and (Rec.Status = Rec.Status::"Pending Approval")) then begin
-            PurchLine.SetRange("Document Type", Rec."Document Type");
-            PurchLine.SetRange("Document No.", Rec."No.");
-            PurchLine.SetFilter("Line Amount", '<>0');
+                if Rec."Currency Factor" = 0 then
+                    CurFact := 1
+                else
+                    CurFact := Rec."Currency Factor";
+                if PurchLine.FindSet() then
+                    repeat
+                            if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
+                                if BankAccStat.Get(PurchLine."No.", PurchLine."Shortcut Dimension 1 Code") then begin
+                                    BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
+                                    BankAccStat.Modify();
+                                end else begin
+                                    BankAccStat."Bank Account No." := PurchLine."No.";
+                                    BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
+                                    BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                                    BankAccStat.Insert();
+                                end;
+                            end else
 
-            if Rec."Currency Factor" = 0 then
-                CurFact := 1
-            else
-                CurFact := Rec."Currency Factor";
-            if PurchLine.FindSet() then
-                repeat
-                    if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
-                        if BankAccStat.Get(PurchLine."No.", PurchLine."Shortcut Dimension 1 Code") then begin
-                            BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
-                            BankAccStat.Modify();
-                        end else begin
-                            BankAccStat."Bank Account No." := PurchLine."No.";
-                            BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
-                            BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
-                            BankAccStat.Insert();
-                        end;
-                    end else
-
-                        if BankAccStat.Get(PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code") then begin
-                            BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
-                            BankAccStat.Modify();
-                        end else begin
-                            BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
-                            BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
-                            BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
-                            BankAccStat.Insert();
-                        end;
-                until PurchLine.Next() = 0;
-            CommBudget.SetRange("Committed Budget", true);
-            CommBudget.FindFirst();
-            DefBudget.SetRange("Default Budget", true);
-            DefBudget.FindFirst();
-            if BankAccStat.FindSet() then begin
-                repeat
-                    CheckOverBudget(BankAccStat."Bank Account No.", BankAccStat."Statement No.", '', DefBudget.Name, CommBudget.Name, CalcDate('-CY', Rec."Posting Date"), CalcDate('CY', Rec."Posting Date"), BankAccStat."Balance Last Statement");
-                until BankAccStat.Next() = 0;
-            end;
-            if PurchLine.Find('-') then
-                repeat
-                    if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
-                        CreateCommitBudget(Rec."Posting Date", CommBudget.Name, format(Rec."No.") + ';' + format(PurchLine."Line No."), PurchLine."No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
-                    end else
-                        if PurchLine.Type <> PurchLine.Type::" " then begin
-                            CreateCommitBudget(Rec."Posting Date", CommBudget.Name, format(Rec."No.") + ';' + format(PurchLine."Line No."), PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
-                        end;
-                until PurchLine.Next() = 0;
-        end
+                                if BankAccStat.Get(PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code") then begin
+                                    BankAccStat."Balance Last Statement" := BankAccStat."Balance Last Statement" + PurchLine.Amount / CurFact;
+                                    BankAccStat.Modify();
+                                end else begin
+                                    BankAccStat."Bank Account No." := PurchLine."G/L Acc. No.";
+                                    BankAccStat."Statement No." := PurchLine."Shortcut Dimension 1 Code";
+                                    BankAccStat."Balance Last Statement" := PurchLine.Amount / CurFact;
+                                    BankAccStat.Insert();
+                                end;
+                    until PurchLine.Next() = 0;
+                CommBudget.SetRange("Committed Budget", true);
+                CommBudget.FindFirst();
+                DefBudget.SetRange("Default Budget", true);
+                DefBudget.FindFirst();
+                if BankAccStat.FindSet() then
+                        repeat
+                            CheckOverBudget(BankAccStat."Bank Account No.", BankAccStat."Statement No.", '', DefBudget.Name, CommBudget.Name, CalcDate('-CY', Rec."Posting Date"), CalcDate('CY', Rec."Posting Date"), BankAccStat."Balance Last Statement");
+                        until BankAccStat.Next() = 0;
+                if PurchLine.Find('-') then
+                    repeat
+                            if PurchLine.Type = PurchLine.Type::"G/L Account" then begin
+                                CreateCommitBudget(Rec."Posting Date", CommBudget.Name, format(Rec."No.") + ';' + format(PurchLine."Line No."), PurchLine."No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
+                            end else
+                                if PurchLine.Type <> PurchLine.Type::" " then begin
+                                    CreateCommitBudget(Rec."Posting Date", CommBudget.Name, format(Rec."No.") + ';' + format(PurchLine."Line No."), PurchLine."G/L Acc. No.", PurchLine."Shortcut Dimension 1 Code", '', PurchLine.Amount / CurFact);
+                                end;
+                    until PurchLine.Next() = 0;
+            end
+        end;
     end;
 
     [EventSubscriber(objectType::Codeunit, codeunit::"Release Purchase Document", 'OnAfterReopenPurchaseDoc', '', true, true)]
     local procedure ReopenPurc(var PurchaseHeader: Record "Purchase Header"; PreviewMode: Boolean)
     begin
         //    Message('reopen');
-        DeleteCommitBudget(PurchaseHeader."No.", 0);
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            DeleteCommitBudget(PurchaseHeader."No.", 0);
+        end;
     end;
 
     [EventSubscriber(objectType::Page, page::"G/L Budget Names", 'OnOpenPageEvent', '', true, true)]
     local procedure OpenPage(var Rec: Record "G/L Budget Name")
     begin
-        rec.SetRange("Committed Budget", false);
+        GLSetup.Get();
+        if GLSetup."Activate Checking Budget" then begin
+            rec.SetRange("Committed Budget", false);
+        end;
     end;
 
     procedure CreateCommitBudget(Tgl: date; BudgetName: Code[10]; Description: text[100]; GLAccNo: Code[20]; GlobalDim1: Code[20]; GlobalDim2: Code[20]; Amount: Decimal)
@@ -329,4 +357,5 @@ codeunit 63104 "Budget Function"
 
     var
         myInt: Integer;
+        GLSetup: Record "General Ledger Setup";
 }

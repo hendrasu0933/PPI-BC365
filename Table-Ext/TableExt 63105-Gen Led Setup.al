@@ -7,6 +7,8 @@ tableextension 63105 "Gen Ledger Setup-Ext" extends "General Ledger Setup"
         {
             OptionMembers = " ",Batch,Line;
         }
+        field(63102; "Activate Checking Budget"; Boolean)
+        { }
     }
 
     var

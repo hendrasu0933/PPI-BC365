@@ -3,6 +3,13 @@ pageextension 63150 PageExtGeneralJournal extends "General Journal"
     layout
     {
         // Add changes to page layout here
+        addafter("Amount (LCY)")
+        {
+            field(Status; CashFunc.CekStatusGenJnl(Rec))
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     actions
@@ -27,8 +34,80 @@ pageextension 63150 PageExtGeneralJournal extends "General Journal"
             }
         }
         // Add changes to page actions here
+        addafter("F&unctions")
+        {
+            group("Request Approval Ext")
+            {
+                Caption = 'Request Approval Custom';
+                Image = SendApprovalRequest;
+                //Visible = CashBankFunc.MunculkanTombol();
+                action(SendApprovalRequestExt)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Send A&pproval Request';
+                    //    Enabled = NOT OpenApprovalEntriesExist AND CanRequestApprovalForFlow;
+                    Image = SendApprovalRequest;
+                    Promoted = true;
+                    PromotedCategory = Category9;
+                    PromotedIsBig = true;
+                    ToolTip = 'Request approval of the document.';
+
+                    trigger OnAction()
+                    var
+                        JnlLineDoc: Record "Journal Line Document";
+                        ApprovalsMgmt: Codeunit Workflow;
+                        CashBankFunc: Codeunit "Cash Bank Function";
+                    begin
+
+                        CashBankFunc.ModifyAmount1(Rec);
+                        Commit();
+                        if JnlLineDoc.Get(Rec."Journal Template Name", Rec."Journal Batch Name", Rec."Document No.") then
+                            if ApprovalsMgmt.CheckJournalLineDocApprovalPossible(JnlLineDoc) then
+                                ApprovalsMgmt.OnSendJournalLineDocForApproval(JnlLineDoc);
+                    end;
+                }
+                action(CancelApprovalRequestExt)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Cancel Approval Re&quest';
+                    //    Enabled = CanCancelApprovalForRecord OR CanCancelApprovalForFlow;
+                    Image = CancelApprovalRequest;
+                    Promoted = true;
+                    PromotedCategory = Category9;
+                    ToolTip = 'Cancel the approval request.';
+
+                    trigger OnAction()
+                    var
+                        ApprovalsMgmt: Codeunit Workflow;
+                        WorkflowWebhookMgt: Codeunit "Workflow Webhook Management";
+                        JnlLineDoc: Record "Journal Line Document";
+                    begin
+                        if JnlLineDoc.Get(Rec."Journal Template Name", Rec."Journal Batch Name", Rec."Document No.") then begin
+                            ApprovalsMgmt.OnCancelJournalLineDocForApproval(JnlLineDoc);
+                            WorkflowWebhookMgt.FindAndCancel(JnlLineDoc.RecordId);
+                        end;
+                    end;
+                }
+                action(Reopen)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Reopen';
+
+                    Promoted = true;
+                    PromotedCategory = Category9;
+
+                    trigger OnAction()
+                    var
+                        CashBankFunc: Codeunit "Cash Bank Function";
+                    begin
+                        CashBankFunc.ReopenStatusGenJnl(Rec);
+                    end;
+                }
+            }
+        }
     }
 
     var
+        CashFunc: Codeunit "Cash Bank Function";
         myInt: Integer;
 }
