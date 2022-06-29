@@ -1895,7 +1895,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>EDWARD DANNER P.N</Value>
+                                                <Value>=Fields!DirekturUtama.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -3233,280 +3233,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>3.01951in</Top>
+            <Top>2.53201in</Top>
             <Left>0.00001in</Left>
             <Height>4.44457in</Height>
             <Width>7.8828in</Width>
             <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Tablix>
-          <Tablix Name="Tablix17">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>0.35744in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>3.16585in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.3097in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.85302in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>2.19677in</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.49455in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="no_urut6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!NoUrut2.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>no_urut</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Description6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ShowAccountNo.Value + " " + Fields!GetAccountNoformGL.Value + " " +Fields!ShortcutDim2GenJnlLine.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PIVDescription.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Description1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Style>None</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox16">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Rp.</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Debit_Amount6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>0,00</Value>
-                                  <Style>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Debit_Amount</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Credit_Amount6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PIVAmount_Including_VAT.Value</Value>
-                                  <Style>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Credit_Amount</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="Details6" />
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!Line_No_.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
-                  <TablixMembers>
-                    <TablixMember />
-                  </TablixMembers>
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <DataSetName>DataSet_Result</DataSetName>
-            <Filters>
-              <Filter>
-                <FilterExpression>=Fields!DescAvaialable.Value</FilterExpression>
-                <Operator>Equal</Operator>
-                <FilterValues>
-                  <FilterValue DataType="Boolean">true</FilterValue>
-                </FilterValues>
-              </Filter>
-            </Filters>
-            <Top>2.28457in</Top>
-            <Height>0.49455in</Height>
-            <Width>7.88278in</Width>
-            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3592,6 +3323,22 @@
                                   <Value>=Fields!GetBankAccount.Value</Value>
                                   <Style />
                                 </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!GetCustomerCode.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!PusatBiaya1.Value</Value>
+                                  <Style />
+                                </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
@@ -3599,6 +3346,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!GetAccountName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!t_NameCustomer.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3738,7 +3493,7 @@
                 <TablixMember>
                   <Group Name="Details" />
                   <Visibility>
-                    <Hidden>=Fields!Account_No_.Value = ""</Hidden>
+                    <Hidden>=Fields!GetBankAccount.Value =""</Hidden>
                   </Visibility>
                 </TablixMember>
               </TablixMembers>
@@ -3748,7 +3503,7 @@
             <Left>0cm</Left>
             <Height>1.0445cm</Height>
             <Width>20.02223cm</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3979,11 +3734,11 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>7.06956cm</Top>
+            <Top>5.79956cm</Top>
             <Left>0.00003cm</Left>
             <Height>0.6cm</Height>
             <Width>20.02228cm</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3991,7 +3746,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>18.95876cm</Height>
+        <Height>17.72051cm</Height>
         <Style />
       </Body>
       <Width>20.02234cm</Width>
@@ -4088,7 +3843,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=Today</Value>
+                              <Value>=Fields!Posting_Date_HEader.Value</Value>
                               <Style>
                                 <Format>d MMMM, yyyy</Format>
                               </Style>
@@ -4409,6 +4164,12 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
+        <Field Name="GetCustomerCode">
+          <DataField>GetCustomerCode</DataField>
+        </Field>
+        <Field Name="DirekturUtama">
+          <DataField>DirekturUtama</DataField>
+        </Field>
         <Field Name="BuktiPendukung">
           <DataField>BuktiPendukung</DataField>
         </Field>
@@ -4493,6 +4254,9 @@ End Function
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
         </Field>
+        <Field Name="PusatBiaya1">
+          <DataField>PusatBiaya1</DataField>
+        </Field>
         <Field Name="GetBankAccount">
           <DataField>GetBankAccount</DataField>
         </Field>
@@ -4564,30 +4328,6 @@ End Function
         </Field>
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
-        </Field>
-        <Field Name="PIVDescription">
-          <DataField>PIVDescription</DataField>
-        </Field>
-        <Field Name="DescAvaialable">
-          <DataField>DescAvaialable</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VAT">
-          <DataField>PIVAmount_Including_VAT</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VATFormat">
-          <DataField>PIVAmount_Including_VATFormat</DataField>
-        </Field>
-        <Field Name="ShowAccountNo">
-          <DataField>ShowAccountNo</DataField>
-        </Field>
-        <Field Name="ShortcutDim2GenJnlLine">
-          <DataField>ShortcutDim2GenJnlLine</DataField>
-        </Field>
-        <Field Name="GetAccountNoformGL">
-          <DataField>GetAccountNoformGL</DataField>
-        </Field>
-        <Field Name="NoUrut2">
-          <DataField>NoUrut2</DataField>
         </Field>
       </Fields>
       <Query>

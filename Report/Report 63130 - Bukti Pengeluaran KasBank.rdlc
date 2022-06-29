@@ -1895,7 +1895,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>EDWARD DANNER P.N</Value>
+                                                <Value>=Fields!DirekturUtama.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -4417,6 +4417,9 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
+        <Field Name="DirekturUtama">
+          <DataField>DirekturUtama</DataField>
+        </Field>
         <Field Name="BuktiPendukung">
           <DataField>BuktiPendukung</DataField>
         </Field>
