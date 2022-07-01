@@ -120,6 +120,10 @@ report 63130 "Bukti Pengeluaran KasBank"
                 DataItemLink = "Document No." = field("Document No."), "Journal Batch Name" = field("Journal Batch Name"),
                 "Journal Template Name" = field("Journal Template Name");
                 column(Line_No_; "Line No.") { }
+                column(PusatBiaya; PusatBiaya("Dimension Set ID"))
+                {
+
+                }
                 column(GetBankAccount; GetBankAccount(format("Account Type"), "Account No."))
                 {
 
@@ -386,6 +390,72 @@ report 63130 "Bukti Pengeluaran KasBank"
         LastNoPOInv: Integer;
         BuktiPendukung: Text;
 
+    local procedure PusatBiaya(DimensionSetID: Integer): Text
+    var
+        DimensionSetEntry: Record "Dimension Set Entry";
+        GLSetup: Record "General Ledger Setup";
+    begin
+        GLSetup.Get();
+        DimensionSetEntry.Reset();
+        DimensionSetEntry.setrange("Dimension Set ID", DimensionSetID);
+        DimensionSetEntry.SetRange("Dimension Code", GLSetup."Shortcut Dimension 6 Code");
+        if DimensionSetEntry.FindFirst() then
+            exit(DimensionSetEntry."Dimension Value Code")
+        else
+            exit('');
+    end;
+
+    local procedure GetAccountName(AccountType: text; AccountCode: Text): Text
+    var
+        GLAccount: Record "G/L Account";
+        BankAccount: Record "Bank Account";
+        VendorMaster: Record Vendor;
+        CustomerMaster: Record Customer;
+        EmployeeMaster: Record Employee;
+        AssetMaster: Record "Fixed Asset";
+        ShowName: Text;
+    begin
+        ShowName := '';
+        if AccountType = 'G/L Account' then begin
+            GLAccount.Reset();
+            GLAccount.SetRange("No.", AccountCode);
+            if GLAccount.FindFirst() then
+                ShowName := GLAccount.Name;
+        end else
+            if AccountType = 'Bank Account' then begin
+                BankAccount.Reset();
+                BankAccount.SetRange("No.", AccountCode);
+                if BankAccount.FindFirst() then
+                    ShowName := BankAccount.Name;
+            end else
+                if AccountType = 'Vendor' then begin
+                    VendorMaster.Reset();
+                    VendorMaster.SetRange("No.", AccountCode);
+                    if VendorMaster.FindFirst() then
+                        ShowName := VendorMaster.Name;
+                end else
+                    if AccountType = 'Customer' then begin
+                        CustomerMaster.Reset();
+                        CustomerMaster.SetRange("No.", AccountCode);
+                        if CustomerMaster.FindFirst() then
+                            ShowName := CustomerMaster.Name;
+                    end else
+                        if AccountType = 'Employee' then begin
+                            EmployeeMaster.Reset();
+                            EmployeeMaster.SetRange("No.", AccountCode);
+                            if EmployeeMaster.FindFirst() then
+                                ShowName := EmployeeMaster.FullName();
+                        end else
+                            if AccountType = 'Fixed Asset' then begin
+                                AssetMaster.Reset();
+                                AssetMaster.SetRange("No.", AccountCode);
+                                if AssetMaster.FindFirst() then
+                                    ShowName := AssetMaster.Description;
+                            end;
+        exit(ShowName);
+
+    end;
+
     local procedure GetBankAccount(AccountType: Text; AccountCode: Text): Text
     var
         GLAccount: Record "G/L Account";
@@ -401,7 +471,7 @@ report 63130 "Bukti Pengeluaran KasBank"
         FAPostingGrp: Record "FA Posting Group";
         GlAccountNo: Text;
     begin
-        GlAccountNo := '-';
+        // GlAccountNo := '-';
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
             BankAccount.SetRange("No.", AccountCode);
