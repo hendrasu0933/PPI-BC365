@@ -3233,7 +3233,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>3.06951in</Top>
+            <Top>2.50701in</Top>
             <Left>0.00001in</Left>
             <Height>4.44457in</Height>
             <Width>7.8828in</Width>
@@ -3328,6 +3328,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Description.Value</Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>, </Value>
+                                  <Style />
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!t_NameCustomer.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -3499,264 +3507,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>2.43203in</Top>
+            <Top>1.86953in</Top>
             <Left>0.00003in</Left>
             <Height>0.36956in</Height>
             <Width>7.88278in</Width>
             <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Tablix>
-          <Tablix Name="Tablix2">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>0.90787cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>8.04127cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.78662cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>4.70667cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>5.5798cm</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>1.4255cm</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Rownumber(Nothing)</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Style>None</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ShowAccountNo">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ShowAccountNo.Value + " "+ Fields!GetAccountNoformGL.Value +" " + Fields!GLShortcut_Dimension_2_Code.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PIVDescription.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ShowAccountNo</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Rp.</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox6</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="PIVAmount_Including_VAT">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PIVAmount_Including_VAT.Value</Value>
-                                  <Style>
-                                    <Format>n2</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>PIVAmount_Including_VAT</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>0,00</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="Details" />
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <DataSetName>DataSet_Result</DataSetName>
-            <Filters>
-              <Filter>
-                <FilterExpression>=Fields!DescAvaialable.Value</FilterExpression>
-                <Operator>Equal</Operator>
-                <FilterValues>
-                  <FilterValue DataType="Boolean">true</FilterValue>
-                </FilterValues>
-              </Filter>
-            </Filters>
-            <Top>4.75185cm</Top>
-            <Left>0cm</Left>
-            <Height>1.4255cm</Height>
-            <Width>20.02223cm</Width>
-            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3899,7 +3654,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PIVAmount_Including_VAT.Value)</Value>
+                                  <Value>=Sum(Fields!Debit_Amount.Value)</Value>
                                   <Style>
                                     <Format>n2</Format>
                                   </Style>
@@ -3987,11 +3742,11 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>7.11603cm</Top>
+            <Top>5.68728cm</Top>
             <Left>0.00003cm</Left>
             <Height>0.68053cm</Height>
             <Width>20.02228cm</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3999,7 +3754,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>19.08576cm</Height>
+        <Height>17.65701cm</Height>
         <Style />
       </Body>
       <Width>20.02234cm</Width>
@@ -4096,7 +3851,7 @@
                               <Style />
                             </TextRun>
                             <TextRun>
-                              <Value>=today</Value>
+                              <Value>=Fields!Posting_Date_HEader.Value</Value>
                               <Style>
                                 <Format>d MMMM, yyyy</Format>
                               </Style>
@@ -4417,6 +4172,9 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
+        <Field Name="GetVendorCode">
+          <DataField>GetVendorCode</DataField>
+        </Field>
         <Field Name="DirekturUtama">
           <DataField>DirekturUtama</DataField>
         </Field>
@@ -4569,30 +4327,6 @@ End Function
         </Field>
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
-        </Field>
-        <Field Name="ShowVendorName">
-          <DataField>ShowVendorName</DataField>
-        </Field>
-        <Field Name="PIVDescription">
-          <DataField>PIVDescription</DataField>
-        </Field>
-        <Field Name="DescAvaialable">
-          <DataField>DescAvaialable</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VAT">
-          <DataField>PIVAmount_Including_VAT</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VATFormat">
-          <DataField>PIVAmount_Including_VATFormat</DataField>
-        </Field>
-        <Field Name="ShowAccountNo">
-          <DataField>ShowAccountNo</DataField>
-        </Field>
-        <Field Name="GLShortcut_Dimension_2_Code">
-          <DataField>GLShortcut_Dimension_2_Code</DataField>
-        </Field>
-        <Field Name="GetAccountNoformGL">
-          <DataField>GetAccountNoformGL</DataField>
         </Field>
       </Fields>
       <Query>
