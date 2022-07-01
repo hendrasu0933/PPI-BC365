@@ -493,7 +493,7 @@ report 63132 "Bukti Penerima KasBank"
         FAPostingGrp: Record "FA Posting Group";
         GlAccountNo: Text;
     begin
-        // GlAccountNo := '-';
+        GlAccountNo := AccountCode;
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
             BankAccount.SetRange("No.", AccountCode);
