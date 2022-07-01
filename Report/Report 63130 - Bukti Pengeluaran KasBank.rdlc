@@ -4181,23 +4181,14 @@ End Function
         <Field Name="BuktiPendukung">
           <DataField>BuktiPendukung</DataField>
         </Field>
-        <Field Name="Line_No_Header">
-          <DataField>Line_No_Header</DataField>
-        </Field>
         <Field Name="Journal_Batch_Name_Header">
           <DataField>Journal_Batch_Name_Header</DataField>
         </Field>
         <Field Name="Document_No_Header">
           <DataField>Document_No_Header</DataField>
         </Field>
-        <Field Name="Applies_to_Doc__No_2">
-          <DataField>Applies_to_Doc__No_2</DataField>
-        </Field>
         <Field Name="Posting_Date_HEader">
           <DataField>Posting_Date_HEader</DataField>
-        </Field>
-        <Field Name="Journal_Template_Name_header">
-          <DataField>Journal_Template_Name_header</DataField>
         </Field>
         <Field Name="AmountInWords">
           <DataField>AmountInWords</DataField>
@@ -4220,6 +4211,62 @@ End Function
         <Field Name="External_Document_No_">
           <DataField>External_Document_No_</DataField>
         </Field>
+        <Field Name="GetBankAccount">
+          <DataField>GetBankAccount</DataField>
+        </Field>
+        <Field Name="no_urut">
+          <DataField>no_urut</DataField>
+        </Field>
+        <Field Name="Journal_Batch_Name">
+          <DataField>Journal_Batch_Name</DataField>
+        </Field>
+        <Field Name="Account_No_">
+          <DataField>Account_No_</DataField>
+        </Field>
+        <Field Name="CompanyInformasi">
+          <DataField>CompanyInformasi</DataField>
+        </Field>
+        <Field Name="Posting_Date">
+          <DataField>Posting_Date</DataField>
+        </Field>
+        <Field Name="Credit_Amount">
+          <DataField>Credit_Amount</DataField>
+        </Field>
+        <Field Name="Credit_AmountFormat">
+          <DataField>Credit_AmountFormat</DataField>
+        </Field>
+        <Field Name="Debit_Amount">
+          <DataField>Debit_Amount</DataField>
+        </Field>
+        <Field Name="Debit_AmountFormat">
+          <DataField>Debit_AmountFormat</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+        <Field Name="Bal__Account_Type">
+          <DataField>Bal__Account_Type</DataField>
+        </Field>
+        <Field Name="Bal__Account_No_">
+          <DataField>Bal__Account_No_</DataField>
+        </Field>
+        <Field Name="Document_No_">
+          <DataField>Document_No_</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="t_NameBank">
+          <DataField>t_NameBank</DataField>
+        </Field>
+        <Field Name="i_rows">
+          <DataField>i_rows</DataField>
+        </Field>
+<<<<<<< HEAD
+=======
         <Field Name="dd">
           <DataField>dd</DataField>
         </Field>
@@ -4259,75 +4306,31 @@ End Function
         <Field Name="Document_No_LineDoc">
           <DataField>Document_No_LineDoc</DataField>
         </Field>
-        <Field Name="Line_No_">
-          <DataField>Line_No_</DataField>
+        <Field Name="ShowVendorName">
+          <DataField>ShowVendorName</DataField>
         </Field>
-        <Field Name="GetBankAccount">
-          <DataField>GetBankAccount</DataField>
+        <Field Name="PIVDescription">
+          <DataField>PIVDescription</DataField>
         </Field>
-        <Field Name="no_urut">
-          <DataField>no_urut</DataField>
+        <Field Name="DescAvaialable">
+          <DataField>DescAvaialable</DataField>
         </Field>
-        <Field Name="Journal_Batch_Name">
-          <DataField>Journal_Batch_Name</DataField>
+        <Field Name="PIVAmount_Including_VAT">
+          <DataField>PIVAmount_Including_VAT</DataField>
         </Field>
-        <Field Name="Account_No_">
-          <DataField>Account_No_</DataField>
+        <Field Name="PIVAmount_Including_VATFormat">
+          <DataField>PIVAmount_Including_VATFormat</DataField>
         </Field>
-        <Field Name="Journal_Template_Name">
-          <DataField>Journal_Template_Name</DataField>
+        <Field Name="ShowAccountNo">
+          <DataField>ShowAccountNo</DataField>
         </Field>
-        <Field Name="CompanyInformasi">
-          <DataField>CompanyInformasi</DataField>
+        <Field Name="GLShortcut_Dimension_2_Code">
+          <DataField>GLShortcut_Dimension_2_Code</DataField>
         </Field>
-        <Field Name="Posting_Date">
-          <DataField>Posting_Date</DataField>
+        <Field Name="GetAccountNoformGL">
+          <DataField>GetAccountNoformGL</DataField>
         </Field>
-        <Field Name="Credit_Amount">
-          <DataField>Credit_Amount</DataField>
-        </Field>
-        <Field Name="Credit_AmountFormat">
-          <DataField>Credit_AmountFormat</DataField>
-        </Field>
-        <Field Name="Debit_Amount">
-          <DataField>Debit_Amount</DataField>
-        </Field>
-        <Field Name="Debit_AmountFormat">
-          <DataField>Debit_AmountFormat</DataField>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-        </Field>
-        <Field Name="AmountFormat">
-          <DataField>AmountFormat</DataField>
-        </Field>
-        <Field Name="Amount__LCY_">
-          <DataField>Amount__LCY_</DataField>
-        </Field>
-        <Field Name="Amount__LCY_Format">
-          <DataField>Amount__LCY_Format</DataField>
-        </Field>
-        <Field Name="Bal__Account_Type">
-          <DataField>Bal__Account_Type</DataField>
-        </Field>
-        <Field Name="Bal__Account_No_">
-          <DataField>Bal__Account_No_</DataField>
-        </Field>
-        <Field Name="Applies_to_Doc__No_">
-          <DataField>Applies_to_Doc__No_</DataField>
-        </Field>
-        <Field Name="Document_No_">
-          <DataField>Document_No_</DataField>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-        </Field>
-        <Field Name="t_NameBank">
-          <DataField>t_NameBank</DataField>
-        </Field>
-        <Field Name="i_rows">
-          <DataField>i_rows</DataField>
-        </Field>
+>>>>>>> 2feaf7c1a5cc8a5998ff4848976911bac9871403
       </Fields>
       <Query>
         <DataSourceName>DataSource</DataSourceName>
