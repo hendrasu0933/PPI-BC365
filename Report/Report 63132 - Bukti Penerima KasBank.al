@@ -76,19 +76,19 @@ report 63132 "Bukti Penerima KasBank"
                             rec_ApproveEntry.SetRange("Record ID to Approve", "Journal Line Document".RecordId);
                             rec_ApproveEntry.SetRange("Entry No.", awalApproveEntry, rec_ApproveEntryLast."Entry No.");
                             if rec_ApproveEntry.FindFirst() then begin
-                                                                     repeat
-                                                                         i += 1;
-                                                                         if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
-                                                                             t_approve[i] := rec_ApproveEntry."Approver ID";
-                                                                             d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
-                                                                             t_ApproveText[i] := 'APPROVED';
-                                                                             rec_User.SetRange("User Name", t_approve[i]);
-                                                                             if rec_User.FindFirst() then
-                                                                                 t_ApproveName[i] := rec_User."Full Name";
-                                                                         end else begin
-                                                                             t_ApproveText[i] := '';
-                                                                         end;
-                                                                     until rec_ApproveEntry.Next() = 0;
+                                repeat
+                                    i += 1;
+                                    if rec_ApproveEntry.Status = rec_ApproveEntry.Status::Approved then begin
+                                        t_approve[i] := rec_ApproveEntry."Approver ID";
+                                        d_ApproveDate[i] := rec_ApproveEntry."Last Date-Time Modified";
+                                        t_ApproveText[i] := 'APPROVED';
+                                        rec_User.SetRange("User Name", t_approve[i]);
+                                        if rec_User.FindFirst() then
+                                            t_ApproveName[i] := rec_User."Full Name";
+                                    end else begin
+                                        t_ApproveText[i] := '';
+                                    end;
+                                until rec_ApproveEntry.Next() = 0;
                             end;
 
                         end;
@@ -221,16 +221,16 @@ report 63132 "Bukti Penerima KasBank"
                 rec_GenJournalLine.SetRange("Journal Batch Name", "Journal Batch Name");
                 rec_GenJournalLine.SetRange("Document No.", "Document No.");
                 if rec_GenJournalLine.FindFirst() then begin
-                                                           repeat
-                                                               if rec_GenJournalLine."Amount (LCY)" < 0 then begin
-                                                                   d_ifAmountMin := 0;
-                                                               end else begin
-                                                                   d_ifAmountMin := rec_GenJournalLine."Amount (LCY)";
-                                                               end;
-                                                               d_totalAmount += d_ifAmountMin;
-                                                               RepCheck.FormatNoText(arrray, d_totalAmount, '');
-                                                               AmountInWords := arrray[1] + ' Rupiah';
-                                                           until rec_GenJournalLine.Next = 0;
+                    repeat
+                        if rec_GenJournalLine."Amount (LCY)" < 0 then begin
+                            d_ifAmountMin := 0;
+                        end else begin
+                            d_ifAmountMin := rec_GenJournalLine."Amount (LCY)";
+                        end;
+                        d_totalAmount += d_ifAmountMin;
+                        RepCheck.FormatNoText(arrray, d_totalAmount, '');
+                        AmountInWords := arrray[1] + ' Rupiah';
+                    until rec_GenJournalLine.Next = 0;
                 end;
             end;
         }
@@ -493,7 +493,7 @@ report 63132 "Bukti Penerima KasBank"
         FAPostingGrp: Record "FA Posting Group";
         GlAccountNo: Text;
     begin
-        GlAccountNo := '-';
+        GlAccountNo := AccountCode;
         if AccountType = 'Bank Account' then begin
             BankAccount.Reset();
             BankAccount.SetRange("No.", AccountCode);
