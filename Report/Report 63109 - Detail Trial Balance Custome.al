@@ -104,10 +104,10 @@ report 63109 "Detail Trial Balance Custome"
                     column(CreditAmount_GLEntry; "Credit Amount")
                     {
                     }
-                    column(Shortcut_Dimension_7_Code; "Shortcut Dimension 7 Code")
+                    column(Customer_Code; "Shortcut Dimension 7 Code")
                     {
                     }
-                    column(Shortcut_Dimension_8_Code; "Shortcut Dimension 8 Code")
+                    column(Vendor_Code; "Shortcut Dimension 8 Code")
                     {
                     }
                     column(PostingDate_GLEntry; Format("Posting Date"))

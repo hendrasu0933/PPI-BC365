@@ -10,133 +10,6 @@
       <rd:DataSourceID>48c3a1ab-1e95-4db8-95f3-c597b39fa4f3</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="PeriodGLDtFilter">
-          <DataField>PeriodGLDtFilter</DataField>
-        </Field>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-        </Field>
-        <Field Name="ExcludeBalanceOnly">
-          <DataField>ExcludeBalanceOnly</DataField>
-        </Field>
-        <Field Name="PrintReversedEntries">
-          <DataField>PrintReversedEntries</DataField>
-        </Field>
-        <Field Name="PageGroupNo">
-          <DataField>PageGroupNo</DataField>
-        </Field>
-        <Field Name="PrintOnlyOnePerPage">
-          <DataField>PrintOnlyOnePerPage</DataField>
-        </Field>
-        <Field Name="PrintClosingEntries">
-          <DataField>PrintClosingEntries</DataField>
-        </Field>
-        <Field Name="PrintOnlyCorrections">
-          <DataField>PrintOnlyCorrections</DataField>
-        </Field>
-        <Field Name="GLAccTableCaption">
-          <DataField>GLAccTableCaption</DataField>
-        </Field>
-        <Field Name="GLFilter">
-          <DataField>GLFilter</DataField>
-        </Field>
-        <Field Name="EmptyString">
-          <DataField>EmptyString</DataField>
-        </Field>
-        <Field Name="No_GLAcc">
-          <DataField>No_GLAcc</DataField>
-        </Field>
-        <Field Name="DetailTrialBalCaption">
-          <DataField>DetailTrialBalCaption</DataField>
-        </Field>
-        <Field Name="PageCaption">
-          <DataField>PageCaption</DataField>
-        </Field>
-        <Field Name="BalanceCaption">
-          <DataField>BalanceCaption</DataField>
-        </Field>
-        <Field Name="PeriodCaption">
-          <DataField>PeriodCaption</DataField>
-        </Field>
-        <Field Name="OnlyCorrectionsCaption">
-          <DataField>OnlyCorrectionsCaption</DataField>
-        </Field>
-        <Field Name="NetChangeCaption">
-          <DataField>NetChangeCaption</DataField>
-        </Field>
-        <Field Name="GLEntryDebitAmtCaption">
-          <DataField>GLEntryDebitAmtCaption</DataField>
-        </Field>
-        <Field Name="GLEntryCreditAmtCaption">
-          <DataField>GLEntryCreditAmtCaption</DataField>
-        </Field>
-        <Field Name="GLBalCaption">
-          <DataField>GLBalCaption</DataField>
-        </Field>
-        <Field Name="Name_GLAcc">
-          <DataField>Name_GLAcc</DataField>
-        </Field>
-        <Field Name="StartBalance">
-          <DataField>StartBalance</DataField>
-        </Field>
-        <Field Name="StartBalanceFormat">
-          <DataField>StartBalanceFormat</DataField>
-        </Field>
-        <Field Name="VATAmount_GLEntry">
-          <DataField>VATAmount_GLEntry</DataField>
-        </Field>
-        <Field Name="VATAmount_GLEntryFormat">
-          <DataField>VATAmount_GLEntryFormat</DataField>
-        </Field>
-        <Field Name="DebitAmount_GLEntry">
-          <DataField>DebitAmount_GLEntry</DataField>
-        </Field>
-        <Field Name="DebitAmount_GLEntryFormat">
-          <DataField>DebitAmount_GLEntryFormat</DataField>
-        </Field>
-        <Field Name="CreditAmount_GLEntry">
-          <DataField>CreditAmount_GLEntry</DataField>
-        </Field>
-        <Field Name="CreditAmount_GLEntryFormat">
-          <DataField>CreditAmount_GLEntryFormat</DataField>
-        </Field>
-        <Field Name="PostingDate_GLEntry">
-          <DataField>PostingDate_GLEntry</DataField>
-        </Field>
-        <Field Name="DocumentNo_GLEntry">
-          <DataField>DocumentNo_GLEntry</DataField>
-        </Field>
-        <Field Name="ExtDocNo_GLEntry">
-          <DataField>ExtDocNo_GLEntry</DataField>
-        </Field>
-        <Field Name="Description_GLEntry">
-          <DataField>Description_GLEntry</DataField>
-        </Field>
-        <Field Name="GLBalance">
-          <DataField>GLBalance</DataField>
-        </Field>
-        <Field Name="GLBalanceFormat">
-          <DataField>GLBalanceFormat</DataField>
-        </Field>
-        <Field Name="EntryNo_GLEntry">
-          <DataField>EntryNo_GLEntry</DataField>
-        </Field>
-        <Field Name="ClosingEntry">
-          <DataField>ClosingEntry</DataField>
-        </Field>
-        <Field Name="Reversed_GLEntry">
-          <DataField>Reversed_GLEntry</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -3068,7 +2941,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Vendor</Value>
+                                  <Value>Customer</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI Semibold</FontFamily>
@@ -3119,7 +2992,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer</Value>
+                                  <Value>Vendor</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI Semibold</FontFamily>
@@ -5292,14 +5165,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox66">
+                        <Textbox Name="Customer_Code">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Customer_Code.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -5312,7 +5185,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox66</rd:DefaultName>
+                          <rd:DefaultName>Customer_Code</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -5342,14 +5215,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox98">
+                        <Textbox Name="Vendor_Code">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Vendor_Code.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -5362,7 +5235,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox98</rd:DefaultName>
+                          <rd:DefaultName>Vendor_Code</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -6079,8 +5952,9 @@ Fields!EntryNo_GLEntry.Value&lt;=0 or
             </TablixRowHierarchy>
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
+            <DataSetName>DataSet_Result</DataSetName>
             <Height>6.8cm</Height>
-            <Width>27.70001cm</Width>
+            <Width>27.70004cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -6091,7 +5965,7 @@ Fields!EntryNo_GLEntry.Value&lt;=0 or
         <Height>6.8cm</Height>
         <Style />
       </Body>
-      <Width>27.70001cm</Width>
+      <Width>27.70004cm</Width>
       <Page>
         <PageHeader>
           <Height>2.5cm</Height>
@@ -6477,4 +6351,137 @@ End Function</Code>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>f315acfc-f20c-4f13-97b8-0d74fe732f9a</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="PeriodGLDtFilter">
+          <DataField>PeriodGLDtFilter</DataField>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="ExcludeBalanceOnly">
+          <DataField>ExcludeBalanceOnly</DataField>
+        </Field>
+        <Field Name="PrintReversedEntries">
+          <DataField>PrintReversedEntries</DataField>
+        </Field>
+        <Field Name="PageGroupNo">
+          <DataField>PageGroupNo</DataField>
+        </Field>
+        <Field Name="PrintOnlyOnePerPage">
+          <DataField>PrintOnlyOnePerPage</DataField>
+        </Field>
+        <Field Name="PrintClosingEntries">
+          <DataField>PrintClosingEntries</DataField>
+        </Field>
+        <Field Name="PrintOnlyCorrections">
+          <DataField>PrintOnlyCorrections</DataField>
+        </Field>
+        <Field Name="GLAccTableCaption">
+          <DataField>GLAccTableCaption</DataField>
+        </Field>
+        <Field Name="GLFilter">
+          <DataField>GLFilter</DataField>
+        </Field>
+        <Field Name="EmptyString">
+          <DataField>EmptyString</DataField>
+        </Field>
+        <Field Name="No_GLAcc">
+          <DataField>No_GLAcc</DataField>
+        </Field>
+        <Field Name="DetailTrialBalCaption">
+          <DataField>DetailTrialBalCaption</DataField>
+        </Field>
+        <Field Name="PageCaption">
+          <DataField>PageCaption</DataField>
+        </Field>
+        <Field Name="BalanceCaption">
+          <DataField>BalanceCaption</DataField>
+        </Field>
+        <Field Name="PeriodCaption">
+          <DataField>PeriodCaption</DataField>
+        </Field>
+        <Field Name="OnlyCorrectionsCaption">
+          <DataField>OnlyCorrectionsCaption</DataField>
+        </Field>
+        <Field Name="NetChangeCaption">
+          <DataField>NetChangeCaption</DataField>
+        </Field>
+        <Field Name="GLEntryDebitAmtCaption">
+          <DataField>GLEntryDebitAmtCaption</DataField>
+        </Field>
+        <Field Name="GLEntryCreditAmtCaption">
+          <DataField>GLEntryCreditAmtCaption</DataField>
+        </Field>
+        <Field Name="GLBalCaption">
+          <DataField>GLBalCaption</DataField>
+        </Field>
+        <Field Name="Name_GLAcc">
+          <DataField>Name_GLAcc</DataField>
+        </Field>
+        <Field Name="StartBalance">
+          <DataField>StartBalance</DataField>
+        </Field>
+        <Field Name="StartBalanceFormat">
+          <DataField>StartBalanceFormat</DataField>
+        </Field>
+        <Field Name="VATAmount_GLEntry">
+          <DataField>VATAmount_GLEntry</DataField>
+        </Field>
+        <Field Name="VATAmount_GLEntryFormat">
+          <DataField>VATAmount_GLEntryFormat</DataField>
+        </Field>
+        <Field Name="DebitAmount_GLEntry">
+          <DataField>DebitAmount_GLEntry</DataField>
+        </Field>
+        <Field Name="DebitAmount_GLEntryFormat">
+          <DataField>DebitAmount_GLEntryFormat</DataField>
+        </Field>
+        <Field Name="CreditAmount_GLEntry">
+          <DataField>CreditAmount_GLEntry</DataField>
+        </Field>
+        <Field Name="CreditAmount_GLEntryFormat">
+          <DataField>CreditAmount_GLEntryFormat</DataField>
+        </Field>
+        <Field Name="Customer_Code">
+          <DataField>Customer_Code</DataField>
+        </Field>
+        <Field Name="Vendor_Code">
+          <DataField>Vendor_Code</DataField>
+        </Field>
+        <Field Name="PostingDate_GLEntry">
+          <DataField>PostingDate_GLEntry</DataField>
+        </Field>
+        <Field Name="DocumentNo_GLEntry">
+          <DataField>DocumentNo_GLEntry</DataField>
+        </Field>
+        <Field Name="ExtDocNo_GLEntry">
+          <DataField>ExtDocNo_GLEntry</DataField>
+        </Field>
+        <Field Name="Description_GLEntry">
+          <DataField>Description_GLEntry</DataField>
+        </Field>
+        <Field Name="GLBalance">
+          <DataField>GLBalance</DataField>
+        </Field>
+        <Field Name="GLBalanceFormat">
+          <DataField>GLBalanceFormat</DataField>
+        </Field>
+        <Field Name="EntryNo_GLEntry">
+          <DataField>EntryNo_GLEntry</DataField>
+        </Field>
+        <Field Name="ClosingEntry">
+          <DataField>ClosingEntry</DataField>
+        </Field>
+        <Field Name="Reversed_GLEntry">
+          <DataField>Reversed_GLEntry</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
