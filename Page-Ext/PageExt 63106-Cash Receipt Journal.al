@@ -117,10 +117,52 @@ pageextension 63106 "Cash Receipt Journal-Ext" extends "Cash Receipt Journal"
                         CashBankFunc.ReopenStatusGenJnl(Rec);
                     end;
                 }
+                action("Approvals Custom")
+                {
+                    AccessByPermission = TableData "Approval Entry" = R;
+                    ApplicationArea = Suite;
+                    Caption = 'Approvals';
+                    Image = Approvals;
+                    Promoted = true;
+                    PromotedCategory = Category10;
+                    ToolTip = 'View a list of the records that are waiting to be approved. For example, you can see who requested the record to be approved, when it was sent, and when it is due to be approved.';
+
+                    trigger OnAction()
+                    var
+                        JnlLineDoc: Record "Journal Line Document";
+                        ApprovalEntry: Record "Approval Entry";
+                    begin
+
+                        if JnlLineDoc.Get(Rec."Journal Template Name", Rec."Journal Batch Name", Rec."Document No.") then begin
+                            ApprovalEntry.Reset();
+                            ApprovalEntry.SetRange("Record ID to Approve", JnlLineDoc.RecordId);
+                            PAGE.RunModal(PAGE::"Approval Request Entries", ApprovalEntry);
+                        end;
+                    end;
+                }
+                action("Approval Comments")
+                {
+                    ApplicationArea = Suite;
+                    trigger OnAction()
+                    var
+                        AppComment: Record "Approval Comment Line";
+                        JnlLineDoc: Record "Journal Line Document";
+                        PageAppComment: Page "Approval Comments";
+                    begin
+                        if JnlLineDoc.Get(Rec."Journal Template Name", Rec."Journal Batch Name", Rec."Document No.") then begin
+                            AppComment.FilterGroup(2);
+                            AppComment.SetRange(AppComment."Record ID to Approve", JnlLineDoc.RecordId);
+                            AppComment.FilterGroup(0);
+                            Clear(PageAppComment);
+                            PageAppComment.Editable(false);
+                            PageAppComment.SetTableView(AppComment);
+                            PageAppComment.RunModal();
+                        end;
+                    end;
+                }
             }
+
         }
-
-
     }
 
     var

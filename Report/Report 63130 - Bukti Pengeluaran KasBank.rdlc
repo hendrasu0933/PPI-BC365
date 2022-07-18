@@ -4278,12 +4278,9 @@ End Function
         <Field Name="Line_No_">
           <DataField>Line_No_</DataField>
         </Field>
-<<<<<<< HEAD
-=======
         <Field Name="PusatBiaya">
           <DataField>PusatBiaya</DataField>
         </Field>
->>>>>>> 8ddf7d4bfb319805b4c0e57b4fc037b8c0b2190c
         <Field Name="GetBankAccount">
           <DataField>GetBankAccount</DataField>
         </Field>
@@ -4350,33 +4347,6 @@ End Function
         <Field Name="i_rows">
           <DataField>i_rows</DataField>
         </Field>
-<<<<<<< HEAD
-        <Field Name="ShowVendorName">
-          <DataField>ShowVendorName</DataField>
-        </Field>
-        <Field Name="PIVDescription">
-          <DataField>PIVDescription</DataField>
-        </Field>
-        <Field Name="DescAvaialable">
-          <DataField>DescAvaialable</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VAT">
-          <DataField>PIVAmount_Including_VAT</DataField>
-        </Field>
-        <Field Name="PIVAmount_Including_VATFormat">
-          <DataField>PIVAmount_Including_VATFormat</DataField>
-        </Field>
-        <Field Name="ShowAccountNo">
-          <DataField>ShowAccountNo</DataField>
-        </Field>
-        <Field Name="GLShortcut_Dimension_2_Code">
-          <DataField>GLShortcut_Dimension_2_Code</DataField>
-        </Field>
-        <Field Name="GetAccountNoformGL">
-          <DataField>GetAccountNoformGL</DataField>
-        </Field>
-=======
->>>>>>> 8ddf7d4bfb319805b4c0e57b4fc037b8c0b2190c
       </Fields>
       <Query>
         <DataSourceName>DataSource</DataSourceName>

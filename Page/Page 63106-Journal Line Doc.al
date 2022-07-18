@@ -58,10 +58,23 @@ page 63106 "Journal Line Document"
                 trigger OnAction()
                 var
                     GenJnlBatch: Record "Gen. Journal Batch";
-                    GenJnlMgt: Codeunit GenJnlManagement;
+                    GenJnlLine: Record "Gen. Journal Line";
+                    GenJnlTemplate: Record "Gen. Journal Template";
                 begin
                     GenJnlBatch.Get(Rec."Journal Template", Rec."Journal Batch");
-                    GenJnlMgt.TemplateSelectionFromBatch(GenJnlBatch);
+
+                    GenJnlTemplate.Get(GenJnlBatch."Journal Template Name");
+                    GenJnlTemplate.TestField("Page ID");
+                    GenJnlBatch.TestField(Name);
+
+                    GenJnlLine.FilterGroup := 2;
+                    GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate.Name);
+                    GenJnlLine.SetRange("Document No.", Rec."Document No.");
+                    GenJnlLine.FilterGroup := 0;
+
+                    GenJnlLine."Journal Template Name" := '';
+                    GenJnlLine."Journal Batch Name" := GenJnlBatch.Name;
+                    PAGE.Run(GenJnlTemplate."Page ID", GenJnlLine);
                 end;
             }
 
