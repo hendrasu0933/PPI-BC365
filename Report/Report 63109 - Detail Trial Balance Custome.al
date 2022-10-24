@@ -94,6 +94,8 @@ report 63109 "Detail Trial Balance Custome"
                     DataItemLink = "G/L Account No." = FIELD("No."), "Posting Date" = FIELD("Date Filter"), "Global Dimension 1 Code" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Code" = FIELD("Global Dimension 2 Filter"), "Business Unit Code" = FIELD("Business Unit Filter");
                     DataItemLinkReference = "G/L Account";
                     DataItemTableView = SORTING("G/L Account No.", "Posting Date");
+                    RequestFilterFields = "Shortcut Dimension 7 Code", "Shortcut Dimension 8 Code";
+                    RequestFilterHeading = 'Customer Code, Vendor Code';
                     column(VATAmount_GLEntry; "VAT Amount")
                     {
                         IncludeCaption = true;
@@ -218,6 +220,16 @@ report 63109 "Detail Trial Balance Custome"
                 group(Options)
                 {
                     Caption = 'Options';
+                    // field("Filter Vendor"; FilterVendor)
+                    // {
+                    //     ApplicationArea = Basic, Suite;
+                    //     TableRelation = "Dimension Set Entry"."Dimension Value Code" where("Global Dimension No." = const(8));
+                    // }
+                    // field("Customer Filter"; FilterCustomer)
+                    // {
+                    //     ApplicationArea = Basic, Suite;
+                    //     TableRelation = "Dimension Set Entry"."Dimension Value Code" where("Global Dimension No." = const(8));
+                    // }
                     field(NewPageperGLAcc; PrintOnlyOnePerPage)
                     {
                         ApplicationArea = Basic, Suite;
@@ -284,6 +296,8 @@ report 63109 "Detail Trial Balance Custome"
     end;
 
     var
+        FilterVendor: code[20];
+        FilterCustomer: code[20];
         Text000: Label 'Period: %1';
         GLDateFilter: Text;
         GLFilter: Text;
