@@ -203,6 +203,33 @@ codeunit 63103 "Workflow"
         end;
     end;
 
+    [EventSubscriber(objectType::Codeunit, codeunit::"Approvals Mgmt.", 'OnPopulateApprovalEntryArgument', '', true, true)]
+    local procedure ChangeArgument(var ApprovalEntryArgument: Record "Approval Entry"; var RecRef: RecordRef; WorkflowStepInstance: Record "Workflow Step Instance")
+    var
+        JournalLineDoc: Record "Journal Line Document";
+        GenJnlLine: Record "Gen. Journal Line";
+    begin
+        case RecRef.Number of
+            DATABASE::"Journal Line Document":
+                begin
+                    RecRef.SetTable(JournalLineDoc);
+                    GenJnlLine.SetRange("Document No.", JournalLineDoc."Document No.");
+                    GenJnlLine.SetRange("Journal Batch Name", JournalLineDoc."Journal Batch");
+                    GenJnlLine.SetRange("Journal Template Name", JournalLineDoc."Journal Template");
+                    if GenJnlLine.FindFirst() and (GenJnlLine."First User Id" <> '') then
+                        ApprovalEntryArgument."First User Id" := GenJnlLine."First User Id";
+                    //ApprovalEntryArgument."First User Id"
+                end;
+        end;
+    end;
+
+    [EventSubscriber(objectType::Codeunit, codeunit::"Approvals Mgmt.", 'OnBeforeApprovalEntryInsert', '', true, true)]
+    local procedure ChangeArgumentInsert(ApprovalEntryArgument: Record "Approval Entry"; var ApprovalEntry: Record "Approval Entry"; WorkflowStepArgument: Record "Workflow Step Argument"; ApproverId: Code[50]; var IsHandled: Boolean)
+    begin
+        if ApprovalEntryArgument."First User Id" <> '' then
+            ApprovalEntry."Sender ID" := ApprovalEntryArgument."First User Id";
+    end;
+
     procedure RunWorkflowOnSendBudgetDocForApprovalCode(): Code[128]
     begin
         EXIT(UPPERCASE('RunWorkflowOnSendBudgetDocForApproval'));

@@ -9,6 +9,10 @@ pageextension 63105 "Payment Journal-Ext" extends "Payment Journal"
             {
                 ApplicationArea = all;
             }
+            field("First User Id"; rec."First User Id")
+            {
+                ApplicationArea = all;
+            }
         }
     }
     actions

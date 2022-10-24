@@ -9,6 +9,10 @@ pageextension 63150 PageExtGeneralJournal extends "General Journal"
             {
                 ApplicationArea = all;
             }
+            field("First User Id"; rec."First User Id")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 

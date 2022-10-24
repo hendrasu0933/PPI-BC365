@@ -9,6 +9,10 @@ pageextension 63106 "Cash Receipt Journal-Ext" extends "Cash Receipt Journal"
             {
                 ApplicationArea = all;
             }
+            field("First User Id"; rec."First User Id")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 
